@@ -1,8 +1,5 @@
-
-import actionsTypes from "../constants/constants";
-import { editAddress, findService } from "../../utils/filter.js";
-
-
+import actionsTypes from '../constants/constants';
+import { editAddress, findService } from '../../utils/filter.js';
 
 const initialState = {
   services: {
