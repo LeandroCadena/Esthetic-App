@@ -376,6 +376,34 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
+//DETELE USER RESERVATIOBS
+
+case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
+  return {
+    ...state,
+    userReservations: { ...state.userReservations, loading: true },
+  };
+case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
+  return {
+    ...state, /////VER
+    userAddresses: {
+      loading: false,
+      data: state.userAddresses.data.filter(
+        (a) => a._id !== action.payload
+      ),
+    },
+  };
+case actionsTypes.DELETE_USER_ADDRESS_FAIL:
+  return {
+    ...state,
+    userAddresses: { loading: false, error: action.payload },
+  };
+
+
+
+
+
+
     default:
       return state;
   }

@@ -95,9 +95,8 @@ export const getEventsByRole: RequestHandler = async (req, res) => {
                     await event.save();
                 }
             }
-            console.log('holaaaa')
-
-            const eventData = {
+            
+             const eventData = {
                 _id: event._id,
                 condition: event.condition,
                 isActive: event.isActive,
@@ -119,7 +118,7 @@ export const getEventsByRole: RequestHandler = async (req, res) => {
                     price: event.service.price,
                     description: event.service.description,
                 },
-                user: {
+                 user: {
                     firstName: eventUser?.firstName,
                     lastName: eventUser?.lastName,
                     gender: eventUser?.gender,
@@ -130,13 +129,14 @@ export const getEventsByRole: RequestHandler = async (req, res) => {
                     lastName: eventProvider?.lastName,
                     gender: eventProvider?.gender,
                     phone: eventProvider?.phone,
-                }
+                } 
             }
-            console.log(eventData)
-            events.push(eventData);
+           
+            events.push(eventData); 
         }
-
+        
         res.status(200).json(events);
+        
     } catch (error) {
         res.send(error);
     }

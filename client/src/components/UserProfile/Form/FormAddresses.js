@@ -83,7 +83,7 @@ function FormAddresses({ showModal, setShowModal }) {
         <div className="wrapper" ref={modalRef} onClick={closeModal}>
           <div className="form-container">
             <form>
-              <div className="form-element">
+              <div className="form-element-a">
                 <label>Referencia: </label>
                 <input
                   className={errors.name && "danger"}
