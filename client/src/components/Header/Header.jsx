@@ -101,7 +101,7 @@ export default function PrimarySearchAppBar() {
   const [ID, setID] = useState("");
   console.log(ID);
   const [user, setUser] = useState("");
-
+  
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
@@ -116,13 +116,14 @@ export default function PrimarySearchAppBar() {
       }
     }
   }, []);
-
+console.log(user)
   const open = Boolean(anchorEl);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedSpatifyApp");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
+      console.log(user)
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);
