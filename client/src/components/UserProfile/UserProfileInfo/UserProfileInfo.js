@@ -16,6 +16,7 @@ function UserProfileInfo() {
   const [showModal, setShowModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
   const [userID, setUserID] = useState("");
+  const [change, setChange] = useState(false);
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData.data);
@@ -71,6 +72,7 @@ function UserProfileInfo() {
             <h1>MIS DIRECCIONES</h1>
 
             <FormAddresses
+              setChange={() => { setChange(!change) }}
               showModal={addressModal}
               setShowModal={setAddressModal}
               newAddressInfo={newAddressInfo}
@@ -88,7 +90,7 @@ function UserProfileInfo() {
           <hr />
           <hr />
           <div className="acordion-container">
-            <AccordionPrueba />
+            <AccordionPrueba setChange={() => { setChange(!change) }} change={change} />
           </div>
         </div>
       </div>

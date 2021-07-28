@@ -72,9 +72,9 @@ export const createAddress: RequestHandler = async (req, res) => {
           ...req.body,
           user: user
         });
-        newAddress.save();
+        await newAddress.save();
         user.addresses.push(newAddress);
-        user.save();
+        await user.save();
         return res.status(201).send({
           data: newAddress,
           message: `Nuevo domicilio ${newAddress.name} guardado con éxito.`,

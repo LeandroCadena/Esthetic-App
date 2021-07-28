@@ -145,28 +145,6 @@ export const getUserAddresses = (userId) => async (dispatch) => {
 };
 //POST USER DATA ->>> UPDATE PROFILE
 
-//POST ADDRESS
-
-export const postUserAddresses = (payload) => async (dispatch) => {
-  dispatch({ type: actionsTypes.ADD_USER_ADDRESS_REQUEST });
-
-  try {
-    const { data } = await axios.post(
-      `${GET_USERS}/${payload.ID}/addresses`,
-      payload.input
-    );
-    dispatch({
-      type: actionsTypes.ADD_USER_ADDRESS_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: actionsTypes.ADD_USER_ADDRESS_FAIL,
-      payload: error.message,
-    });
-  }
-};
-
 //DELETE  //"/:id/addresses/:idAd"
 
 export const deleteUserAddresses = (payload) => async (dispatch) => {

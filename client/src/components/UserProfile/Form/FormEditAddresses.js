@@ -1,20 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { editUserAddresses } from "../../../Redux/actions/user.actions";
+import { validateAddress } from "../../../utils/validate-addresses";
 import { GET_USERS } from "../../../utils/constants";
 import "./FormEditAdresses.css";
 import { toast } from 'react-toastify';
 
-function FormEditAddresses({ editAddressModal, setEditAddressModal, addressId, data, change }) {
+function FormEditAddresses({ editAddressModal, setEditAddressModal, addressId, data, setChange }) {
   const [ID, setID] = useState("");
   const dispatch = useDispatch();
   const modalRef = useRef();
-  const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    phone: false,
-  });
+  const [errors, setErrors] = useState({});
 
   const [input, setInput] = useState({
     name: data.name,
@@ -49,16 +45,22 @@ function FormEditAddresses({ editAddressModal, setEditAddressModal, addressId, d
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (ID !== '') {
-      try {
-        const { data } = await axios.put(
-          `${GET_USERS}/${ID}/addresses/${addressId}`, input
-        );
-        change()
-        toast.success('Dirección editada correctamente', {
-          position: toast.POSITION.TOP_CENTER
-        })
-      } catch (error) {
-        toast.error('Ocurrió un error al editar la dirección', {
+      if (!Object.keys(errors).length) {
+        try {
+          const { data } = await axios.put(
+            `${GET_USERS}/${ID}/addresses/${addressId}`, input
+          );
+          setChange()
+          toast.success('Dirección editada correctamente', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        } catch (error) {
+          toast.error('Ocurrió un error al editar la dirección', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+      } else {
+        toast.error('Complete los datos para realizar la modificación', {
           position: toast.POSITION.TOP_CENTER
         })
       }
@@ -78,6 +80,10 @@ function FormEditAddresses({ editAddressModal, setEditAddressModal, addressId, d
       is_main: e.target.checked,
     });
   };
+
+  useEffect(() => {
+    setErrors(validateAddress(input))
+  }, [input]);
 
   return (
     <>

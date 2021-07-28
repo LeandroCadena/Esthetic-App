@@ -11,13 +11,13 @@ import "./AccordionPrueba.css";
 import { BsTrash } from "react-icons/bs";
 import useReactRouter from "use-react-router";
 import FormEditAddresses from "../Form/FormEditAddresses";
+import { toast } from "react-toastify";
 
-function AccordionPrueba() {
+function AccordionPrueba({ change, setChange }) {
   const [editAddressModal, setEditAddressModal] = useState({});
   const [addresses, setAddresses] = useState([]);
   const [userID, setUserID] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [change, setChange] = useState(false);
   const dispatch = useDispatch();
   const userAddresses = useSelector((state) => state.userAddresses.data);
 
@@ -44,6 +44,9 @@ function AccordionPrueba() {
 
   const deleteAddress = (addressId) => {
     dispatch(deleteUserAddresses({ userID, addressId }));
+    toast.success('Dirección eliminada correctamente', {
+      position: toast.POSITION.TOP_CENTER
+    })
   };
 
   const editAddress = (id) => {
@@ -96,7 +99,7 @@ function AccordionPrueba() {
                   <HiOutlinePencilAlt />
                 </i>
               </div>
-              <FormEditAddresses change={() => { setChange(!change) }} addressId={a._id} data={a} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
+              <FormEditAddresses setChange={() => setChange()} addressId={a._id} data={a} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
             </div>
           </div>
         ))}

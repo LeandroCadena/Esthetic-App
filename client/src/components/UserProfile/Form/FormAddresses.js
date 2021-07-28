@@ -1,23 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
   postUserAddresses,
   putUserData,
 } from "../../../Redux/actions/user.actions";
 import { GET_USERS } from "../../../utils/constants";
-import { validate } from "../../../utils/validate-user-profile";
+import { validateAddress } from "../../../utils/validate-addresses";
 import "./Form.css";
 
-function FormAddresses({ showModal, setShowModal }) {
+function FormAddresses({ showModal, setShowModal, setChange }) {
   const [ID, setID] = useState("");
   const dispatch = useDispatch();
   const modalRef = useRef();
-  const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    phone: false,
-  });
+  const [errors, setErrors] = useState({});
+  const [first, setFirst] = useState(false);
 
   useEffect(() => {
     if (window.localStorage.getItem("loggedSpatifyApp")) {
@@ -51,7 +49,32 @@ function FormAddresses({ showModal, setShowModal }) {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     if (ID !== '') {
-      dispatch(postUserAddresses({ ID, input }));
+      if (!first) {
+        setFirst(true);
+      }
+      if (!Object.keys(validateAddress(input)).length) {
+        try {
+          const { data } = await axios.post(
+            `${GET_USERS}/${ID}/addresses`,
+            input
+          );
+          setChange()
+          toast.success('Dirección agregada correctamente', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        } catch (error) {
+          toast.error('Ocurrió un error al añadir la dirección, intente de nuevo', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+        setShowModal(false)
+      } else {
+        setErrors(validateAddress(input))
+        toast.error('Complete los datos para la dirección', {
+          position: toast.POSITION.TOP_CENTER
+        })
+      }
+
     }
   };
 
@@ -69,6 +92,12 @@ function FormAddresses({ showModal, setShowModal }) {
     });
   };
 
+  useEffect(() => {
+    if (first) {
+      setErrors(validateAddress(input))
+    }
+  }, [input]);
+
   return (
     <>
       {showModal && (
@@ -81,6 +110,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.name && "danger"}
                 name="name"
                 type="text"
+                value={input.name}
                 placeholder="Nombre para la dirección"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -92,6 +122,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.country && "danger"}
                 name="country"
                 type="text"
+                value={input.country}
                 placeholder="Ingrese el País"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -104,6 +135,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.state && "danger"}
                 name="state"
                 type="text"
+                value={input.state}
                 placeholder="Ingrese la Provincia"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -116,6 +148,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.city && "danger"}
                 name="city"
                 type="text"
+                value={input.city}
                 placeholder="Ingrese la Ciudad"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -127,6 +160,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.address_1 && "danger"}
                 name="address_1"
                 type="text"
+                value={input.address_1}
                 placeholder="Ingrese la Calle"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -141,6 +175,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.address_details && "danger"}
                 name="address_details"
                 type="text"
+                value={input.address_details}
                 placeholder="Ingrese los detalles"
                 onChange={(e) => handleInputChange(e.target)}
               />
@@ -155,6 +190,7 @@ function FormAddresses({ showModal, setShowModal }) {
                 className={errors.zip_code && "danger"}
                 name="zip_code"
                 type="text"
+                value={input.zip_code}
                 placeholder="Ingrese el código postal"
                 onChange={(e) => handleInputChange(e.target)}
               />
