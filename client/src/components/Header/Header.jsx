@@ -172,6 +172,7 @@ export default function PrimarySearchAppBar() {
       <Button style={{ fontSize: "16px" }} color="inherit">REGISTRARSE </Button>
     </Link>,
   ];
+
   let loginProvider = [
     <Avatar
       onClick={handleClick}
@@ -281,21 +282,6 @@ export default function PrimarySearchAppBar() {
 
           <b>{render === "" ? loginAndRegister : loginProfile}</b>
 
-
-          <Link
-            to={"/search"}
-            style={{
-              textDecoration: "none",
-            }} /* onClick={(e)=>{handleSetSearchBar(e)} */
-          >
-            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
-          </Link>
-
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}></div>
-          <div style={{ display: "flex", marginRight: "2rem" }}></div>
-
-          <b>{render === "" ? loginAndRegister : loginProfile}</b>
         </Toolbar>
       </AppBar>
     </div>
