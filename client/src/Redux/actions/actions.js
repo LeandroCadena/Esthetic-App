@@ -77,20 +77,17 @@ export const getProviderServices = (providerId) => async (dispatch) => {
 };
 
 
-export const handleSearchBar = (data) => (dispatch) => { 
-  console.log("entre aqui")
-  console.log(data)
-  dispatch({ type: actionsTypes.RENDER_SEARCHBAR ,  payload: data})
-} 
+export const handleSearchBar = (data) => (dispatch) => {
+  dispatch({ type: actionsTypes.RENDER_SEARCHBAR, payload: data })
+}
 
-export const handleSetSearchBar = (data) => (dispatch) => { 
-  console.log("entre aqui")
-  console.log(data)
-  dispatch({ type: actionsTypes.SET_SEARCHBAR ,  payload: data})
-} 
+export const handleSetSearchBar = (data) => (dispatch) => {
+  dispatch({ type: actionsTypes.SET_SEARCHBAR, payload: data })
+}
+
 export const getProviderRating = (providerId) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${HOST}/providers/${providerId}/rating`);
+    const { data } = await axios.get(`${HOST}/providers/rating/${providerId}/`);
     dispatch({
       type: actionsTypes.GET_ALL_RATING_BY_PROVIDER,
       payload: data,
@@ -134,18 +131,18 @@ export const getProvidersbyServiceName = (serviceName) => async (dispatch) => {
 };
 
 export const updateProvider = (providerId, providerData) => async (dispatch) => {
-    try {
-      const { data } = await axios.put(
-        `${GET_PROVIDERS}/${providerId}`,
-        providerData
-      );
-      const success = 'Datos de perfil actualizados correctamente';
-      dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: success });
-    } catch (error) {
-      const err = 'Ocurrió un error al actualizar los datos de tu perfil';
-      dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: err });
-    }
-  };
+  try {
+    const { data } = await axios.put(
+      `${GET_PROVIDERS}/${providerId}`,
+      providerData
+    );
+    const success = 'Datos de perfil actualizados correctamente';
+    dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: success });
+  } catch (error) {
+    const err = 'Ocurrió un error al actualizar los datos de tu perfil';
+    dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: err });
+  }
+};
 
 export const getAllProvidersAddresses = (providerId) => async (dispatch) => {
   try {

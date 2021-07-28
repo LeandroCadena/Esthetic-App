@@ -1,11 +1,11 @@
 .danger {
   border: red 1px solid;
 }
-.form {
+/* .form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
+} */
 
 .icon {
   position: relative;
@@ -32,9 +32,18 @@
   height: 450px;
   border-radius: 2rem;
   background-color: #ffffff;
-  padding: 15px;
   color: black;
+  display: flex;
+  justify-content: center;
   align-items: center;
+}
+.form-element-1 {
+  margin: 15px;
+  margin: 15px;
+}
+
+.input-form{
+  height: 25px;
 }
 .button {
   justify-content: center;
@@ -42,8 +51,7 @@
   padding: 1rem 4rem;
   background-color: #343a41;
   color: white;
-  border-radius: 0.25rem;
-  margin-top: 10rem;
+  border-radius: 0.25rem; 
   cursor: pointer;
 }
 

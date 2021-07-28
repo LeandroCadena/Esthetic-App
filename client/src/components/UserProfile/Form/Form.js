@@ -88,10 +88,11 @@ function Form({ showModal, setShowModal }) {
         <div className="wrapper" ref={modalRef} onClick={closeModal}>
           <div className="form-container">
             <form>
-              <div className="form-element">
-                <label>Nombre</label>
+              <div className="form-element-1">
+                <label>Nombre  </label>
                 <input
                   className={`${errors.firstName && "danger"}`}
+                  className="input-form"
                   name="firstName"
                   value={input.firstName}
                   placeholder="Ingresa su nombre"
@@ -100,10 +101,11 @@ function Form({ showModal, setShowModal }) {
                 {errors.name && <p className="danger">{errors.lastName}</p>}
               </div>
 
-              <div className="form-element">
-                <label>Apellido</label>
+              <div className="form-element-1">
+                <label>Apellido  </label>
                 <input
                   className={errors.lastName && "danger"}
+                  className="input-form"
                   name="lastName"
                   type="text"
                   value={input.lastName}
@@ -112,10 +114,11 @@ function Form({ showModal, setShowModal }) {
                 />
                 {errors.lastName && <p className="danger">{errors.lastName}</p>}
               </div>
-              <div className="form-element">
-                <label>Telefono</label>
+              <div className="form-element-1">
+                <label>Telefono  </label>
                 <input
                   className={errors.phone && "danger"}
+                  className="input-form"
                   name="number"
                   type="number"
                   placeholder="Ingrese su numero de telefono"

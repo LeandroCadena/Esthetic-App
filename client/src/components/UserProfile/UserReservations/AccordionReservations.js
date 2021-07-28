@@ -4,41 +4,49 @@ import {
   deleteUserAddresses,
   editUserAddresses,
   getUserAddresses,
+  getUserReservations,
 } from "../../../Redux/actions/user.actions";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { HiOutlinePencilAlt } from "react-icons/hi";
-import "./AccordionPrueba.css";
+import "./AccordionReservations.css";
 import { BsTrash } from "react-icons/bs";
 import useReactRouter from "use-react-router";
 import FormEditAddresses from "../Form/FormEditAddresses";
 
-const ID = window.localStorage.getItem("loggedSpatifyApp")
-  ? JSON.parse(window.localStorage.getItem("loggedSpatifyApp"))
-  : null;
-
-function AccordionPrueba() {
-  const [editAddressModal, setEditAddressModal] = useState(false);
+function AccordionReservations() {
+  const [ID, setID] = useState("");
   const dispatch = useDispatch();
-  const userAddresses = useSelector((state) => state.userAddresses.data);
-
-  let addresses = [];
-  if (userAddresses && userAddresses.length) {
-    addresses = userAddresses;
-  }
 
   useEffect(() => {
-    dispatch(getUserAddresses(ID.userFound._id));
+    if (localStorage.getItem("loggedSpatifyApp")) {
+      const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
+      if (storageData.userFound.roles[0].name === "user") {
+        setID(storageData.userFound._id);
+      }
+    }
   }, []);
 
-  const deleteAddress = (addressId) => {
-    const userId = ID.userFound._id;
-    dispatch(deleteUserAddresses({ userId, addressId }));
-  };
+  useEffect(() => {
+    if (ID) {
+      dispatch(getUserReservations(ID));
+    }
+  }, [ID]);
 
-  const editAddress = () => {
-      setEditAddressModal(prev => !prev)
+  const data = useSelector((state) => state.userReservations.data);
+  
+  let reservations = [];
+  if (data && data.length) {
+    reservations = data;
   }
 
+  /* const deleteAddress = (addressId) => {
+    const userId = ID.userFound._id;
+    dispatch(deleteUserAddresses({ userId, addressId }));
+  }; */
+
+  /* const editAddress = () => {
+      setEditAddressModal(prev => !prev)
+  } */
   const toggle = (i) => {
     if (selected === i) {
       return setSelected(null);
@@ -50,11 +58,11 @@ function AccordionPrueba() {
   return (
     <div className="accordion-wrapper">
       <div className="accordion">
-        {addresses.map((a, i) => (
+        {reservations.map((r, i) => (
           <div className="accordion-item" onClick={() => toggle(i)}>
             <div className="accordion-title">
               <p>
-                <b>Referencia:</b> {a.name}
+                <b>Servicio Contratado:</b> {r.service.name}
               </p>
               <span>
                 {selected == i ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -67,26 +75,22 @@ function AccordionPrueba() {
                   : `accordion-description`
               }
             >
-              {a && (
+              {r && (
                 <div>
-                  <p className="p">Pais: {a.country}</p>
-                  <p className="p">Provincia: {a.state}</p>
-                  <p className="p">Ciudad: {a.city}</p>
-                  <p className="p">Direccion: {a.address_1}</p>
-                  <p className="p">Aclaracion: {a.address_details}</p>
-                  <p className="p">Codigo Postal: {a.zip_code}</p>
-                  <p className="p">Direccion Principal: {a.is_main}</p>
+                  <p className="p">Dia: {r.date}</p>
+                  <p className="p">Hora: {r.hour} Hs.</p>
+                  <p className="p">Precio: ${r.service.price}</p>
+                  <p className="p">
+                    Prestador: {r.provider.firstName} {r.provider.lastName}
+                  </p>
                 </div>
               )}
-              <div className="accordion-item-options">
+              {/*  <div className="accordion-item-options">
                 <i className="trash-icon" onClick={() => deleteAddress(a._id)}>
                   <BsTrash />
                 </i>
-                <i className="edit-icon" onClick={() => editAddress(a._id)}>
-                  <HiOutlinePencilAlt />
-                </i>
-              </div>
-              <FormEditAddresses addressId={a._id} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
+               
+              </div> */}
             </div>
           </div>
         ))}
@@ -95,4 +99,4 @@ function AccordionPrueba() {
   );
 }
 
-export default AccordionPrueba;
+export default AccordionReservations;

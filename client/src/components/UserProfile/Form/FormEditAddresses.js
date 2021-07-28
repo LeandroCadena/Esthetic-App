@@ -63,7 +63,8 @@ const handleInputChange = function (e) {
   setInput({
     ...input,
     [e.name]: e.value,
-  });
+  })
+  console.log("Esto es el input de Edit", input);
 
   /*  var objError = validate({
     ...input,
@@ -165,8 +166,7 @@ return (
             </div>
             <div>
               <label>Direccion Principal: </label>
-              <input
-                className={errors.zip_code && "danger"}
+              <input                
                 name="is_main"
                 type="checkbox"
                 onChange={(e) => handleInputChange(e.target)}
