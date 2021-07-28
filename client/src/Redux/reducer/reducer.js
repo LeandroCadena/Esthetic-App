@@ -23,7 +23,7 @@ const initialState = {
   servicesByProvider: [],
   providerEventsHours: {},
   providersAddresses: [],
-  providersRating: {},
+  providerRating: {},
   provider_address_status: {},
   provider_address_update_status: {},
   provider_update_status: {},
@@ -175,12 +175,12 @@ const appReducer = (state = initialState, action) => {
     case actionsTypes.GET_ALL_RATING_BY_PROVIDER:
       return {
         ...state,
-        providersRating: action.payload,
+        providerRating: action.payload,
       };
     // case actionsTypes.SET_RATING_BY_USER:
     //   return {
     //     ...state,
-    //     providersRating: action.payload,
+    //     providerRating: action.payload,
     //   };
 
     //GET PROVIDERS ADDRESSES

@@ -39,8 +39,8 @@ router.delete("/:id", deleteProvider);
 router.put("/:id", updateProvider);
 
 // <<Routes to providers' ratings>>
-router.get("/rating/:id", getAllRating);
-router.get("/rating/:id/:idrt", getOneRating);
+router.get("/review/:id", getAllRating);
+// router.get("/rating/:id/:idrt", getOneRating);
 
 //Calendar Routes to provider Route
 router.post("/calendar", CreateCalendar);

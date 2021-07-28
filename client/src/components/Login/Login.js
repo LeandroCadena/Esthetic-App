@@ -5,7 +5,7 @@ import { LoginUser } from "../../Redux/actions/user.actions";
 import { useInput } from "../../hooks/customHooks";
 import { log, success, error } from "../../utils/logs";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 //materialUI
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-toast.configure()
+toast.configure();
 export default function SignIn() {
   const notify = () => toast("Wow so easy !");
   const dispatch = useDispatch();
@@ -68,25 +68,23 @@ export default function SignIn() {
   const [valid, setValid] = useState(true);
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const loginData = useSelector((state) => state.LoginData);
-  console.log("---x---", loginData);
 
   const email = useInput("email");
   const password = useInput("password");
 
- 
-///Validaciones
+  ///Validaciones
   const validate = () => {
     let isValid = true;
 
     if (!password.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, passwordError: "Por favor ingrese contraseña" });
+      setError({ ...error, passwordError: "Por favor ingresa tu contraseña" });
     }
     if (!email.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, emailError: "Por favor ingrese email" });
+      setError({ ...error, emailError: "Por favor ingresa tu email" });
     }
 
     if (typeof email !== "undefined") {
@@ -97,7 +95,7 @@ export default function SignIn() {
       if (!pattern.test(email.value)) {
         setValid(false);
         isValid = false;
-        setError({ ...error, emailError: "Ingrese un email valido" });
+        setError({ ...error, emailError: "Por favor ingresa un email válido" });
       }
     }
     return isValid;
@@ -123,23 +121,31 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          
           if (user.providerFound?.roles) {
-            toast.success(`👍 Bienvenido ${email.value} , un gran día te espera`,{
-              position: toast.POSITION.TOP_CENTER
-            })
+            toast.success(
+              `👍 Bienvenid@ ${email.value} , un gran día te espera!`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
             history.push("/user/provider");
           }
           if (user.userFound?.roles[0].name === "user") {
-            toast.success(`👍 Bienvenido ${email.value} , un gran día te espera `,{
-              position: toast.POSITION.TOP_CENTER
-            })
+            toast.success(
+              `👍 Bienvenid@ ${email.value} , un gran día te espera!`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
             history.push("/"); // pendiente colocar path user
           }
         } else {
-          toast.error(`Usuario o Constraseña invalida, intente de nuevo `, {
-            position: toast.POSITION.TOP_CENTER
-          })
+          toast.error(
+            `Usuario o constraseña inválidos, por favor intenta de nuevo`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
         }
       });
     }

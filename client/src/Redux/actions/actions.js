@@ -78,8 +78,8 @@ export const handleSetSearchBar = (data) => (dispatch) => {
 };
 export const getProviderRating = (providerId) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${HOST}/providers/rating/${providerId}`);
-    console.log("DATA ES: ", data);
+    const { data } = await axios.get(`${HOST}/providers/review/${providerId}/`);
+    console.log("DATAAAA ", data);
     dispatch({
       type: actionsTypes.GET_ALL_RATING_BY_PROVIDER,
       payload: data,
@@ -88,21 +88,6 @@ export const getProviderRating = (providerId) => async (dispatch) => {
     console.log(error);
   }
 };
-// export const postProviderRating =
-//   ({ id, providerId }) =>
-//   async (dispatch) => {
-//     try {
-//       const { data } = await axios.post(
-//         `${HOST}/users/${id}/rating/${providerId}`
-//       );
-//       dispatch({
-//         type: actionsTypes.SET_RATING_BY_USER,
-//         payload: data,
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
 
 export const getProvidersbyServiceName = (serviceName) => async (dispatch) => {
   dispatch({ type: actionsTypes.GET_PROVIDERS_BY_SERVICE_REQUEST });
@@ -122,8 +107,7 @@ export const getProvidersbyServiceName = (serviceName) => async (dispatch) => {
   }
 };
 
-export const updateProvider =
-  (providerId, providerData) => async (dispatch) => {
+export const updateProvider = (providerId, providerData) => async (dispatch) => {
     try {
       const { data } = await axios.put(
         `${GET_PROVIDERS}/${providerId}`,
@@ -149,8 +133,7 @@ export const getAllProvidersAddresses = (providerId) => async (dispatch) => {
   }
 };
 
-export const createProviderAddress =
-  (providerId, addressData) => async (dispatch) => {
+export const createProviderAddress = (providerId, addressData) => async (dispatch) => {
     try {
       const { data } = await axios.post(
         `${GET_PROVIDERS}/${providerId}/addresses`,
@@ -164,8 +147,7 @@ export const createProviderAddress =
     }
   };
 
-export const updateProviderAddress =
-  (providerId, addressId, addressData) => async (dispatch) => {
+export const updateProviderAddress = (providerId, addressId, addressData) => async (dispatch) => {
     try {
       const { data } = await axios.put(
         `${GET_PROVIDERS}/${providerId}/addresses/${addressId}`,
@@ -264,8 +246,7 @@ export const getEventsHoursProvider = (providerId) => async (dispatch) => {
   }
 };
 
-export const updateEventsHoursProvider =
-  (providerId, updateData) => async () => {
+export const updateEventsHoursProvider = (providerId, updateData) => async () => {
     try {
       const data = {
         eventsHours: updateData.eventsHours,

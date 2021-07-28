@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import defaultImg from "../../../../img/spa_default_1.jpg";
 import "./Provider.scss";
+import { getProviderRating } from "../../../../Redux/actions/actions";
 
 function Provider({ provider, service }) {
   const dispatch = useDispatch();
   const providerRating = useSelector((state) => state.providerRating);
+
+  useEffect(() => {
+    dispatch(getProviderRating(provider._id));
+  }, [dispatch]);
+
+  console.log("RATIIIIIING: ", providerRating?.data);
 
   return (
     <div className="provider-container">
@@ -31,7 +38,7 @@ function Provider({ provider, service }) {
             )}
             <div className="card-title">
               <h2 className="">{`${provider.firstName} ${provider.lastName}`}</h2>
-              <h4>{`Calificación: ${provider.rating}`}</h4>
+              <h4>{`Calificación: ${provider.rating}`}⭐</h4>
             </div>
           </div>
           <div className="card-options">
@@ -57,7 +64,7 @@ function Provider({ provider, service }) {
             </NavLink>
             <NavLink
               className="navLink card-button"
-              to={`/providers/rating/${provider._id}`}
+              to={`/providers/review/${provider._id}`}
             >
               Ver Reseñas
             </NavLink>
