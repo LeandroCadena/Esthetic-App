@@ -91,15 +91,15 @@ export const getUserReservations = (userId) => async (dispatch) => {
 //DELETE USER RESERVATIONS
 
 
-export const deleteUserReservation = (userId) => async (dispatch) => {
+export const deleteUserReservation = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_RESERVATIONS_REQUEST});
     try {
-    const { data } = await axios.delete(
-      `${GET_USERS}/${RESERVATIONS}/${userId}/delete`
+    const { data } = await axios.post(
+      `${HOST}${EVENTS}/cancel${USER}`
     );
     dispatch({
       type: actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS,
-      payload: userId,
+      payload: payload.eventId,
     });
   } catch (error) {
     dispatch({
@@ -108,6 +108,29 @@ export const deleteUserReservation = (userId) => async (dispatch) => {
     });
   }
 };
+///POST REVIEW 
+
+export const postUserReview = (payload) => async (dispatch) => {
+  dispatch({ type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST});
+    try {
+    const { data } = await axios.post(
+      `${HOST}${EVENTS}/review`,payload.input
+      );
+      
+      console.log("Esto es data del postUserReview", data)
+    dispatch({
+      type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
+      payload: data ,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
+      payload: error.message,
+    });
+  }
+};
+
+
 
 
 
