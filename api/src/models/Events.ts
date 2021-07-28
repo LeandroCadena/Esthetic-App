@@ -4,7 +4,7 @@ const EventSchema = new Schema(
   {
     condition: {
       type: String,
-      enum: ["calcelled", "finalized", "pending"],
+      enum: ["cancelled", "finalized", "pending"],
       default: "pending",
     },
     date: {
