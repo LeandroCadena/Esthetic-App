@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Purchase() {
+function Event({p}) {
     return (
-        <div>
+        <div><div></div>
             
         </div>
     )
 }
 
-export default Purchase
+export default Event

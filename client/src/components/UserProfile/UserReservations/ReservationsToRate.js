@@ -78,6 +78,7 @@ function ReservationsToRate() {
                 </div>
                 <div
                   className={
+                    
                     selected == i
                       ? `accordion-description-show`
                       : `accordion-description`

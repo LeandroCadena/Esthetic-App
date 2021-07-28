@@ -3,7 +3,7 @@ import Section from './Section/Section'
 import Sidebar from './Sidebar/Sidebar'
 
 
-function PurchaseHistory() {
+function EventsHistory() {
 
     
     return (
@@ -14,4 +14,4 @@ function PurchaseHistory() {
     )   
 }
 
-export default PurchaseHistory
+export default EventsHistory
