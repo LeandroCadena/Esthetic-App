@@ -10,6 +10,7 @@
 }
 
 .accordion-item {
+  background: #ffffff;
   margin-bottom: 5px;
   padding: 10px 20px;
   cursor: pointer;
@@ -42,19 +43,16 @@
   position: absolute;
   bottom: 2px;
   right: 2px;
-  margin: 15px;
   
 }
-
-.cancel-button{
+.review-button{
   margin-top: 15px;
   margin-left: 55px;
   height: 30px
+  
+}
+.review-icon{
+margin: 0 5px;
+
 }
 
-
-.cancel-icon{
-    color: red;
-    margin: 0 5px;
-    font-weight: 600;
-}

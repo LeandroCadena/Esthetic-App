@@ -18,6 +18,7 @@ import ProviderRating from "../components/Section/ProviderRating/ProviderRating"
 import CovidProtocol from '../components/CovidProtocol/CovidProtocol';
 import Footer from '../components/Footer/Footer';
 import About from '../components/About/About';
+import EventsHistory from '../components/UserProfile/EventsHistory/EventsHistory';
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
       <Route path="/profile/:id" component={UserProfile} />
       <Route path="/search" component={Providers} />
       <Route path="/covid" component={CovidProtocol} />
+      <Route path="/perfil/historial" component={EventsHistory}/>
       <Route path="/" component={Footer} />
       <Route path='/about' component={About} />
     </React.Fragment>
