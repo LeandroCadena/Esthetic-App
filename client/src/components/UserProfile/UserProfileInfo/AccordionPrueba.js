@@ -36,8 +36,8 @@ function AccordionPrueba() {
   };
 
   const editAddress = () => {
-      setEditAddressModal(prev => !prev)
-  }
+    setEditAddressModal((prev) => !prev);
+  };
 
   const toggle = (i) => {
     if (selected === i) {
@@ -71,7 +71,7 @@ function AccordionPrueba() {
                 <div>
                   <p className="p">Pais: {a.country}</p>
                   <p className="p">Provincia: {a.state}</p>
-                  <p className="p">Ciudad: {a.city}</p>
+                  <p className="p">Ciudad: {a.c}</p>
                   <p className="p">Direccion: {a.address_1}</p>
                   <p className="p">Aclaracion: {a.address_details}</p>
                   <p className="p">Codigo Postal: {a.zip_code}</p>
@@ -86,7 +86,11 @@ function AccordionPrueba() {
                   <HiOutlinePencilAlt />
                 </i>
               </div>
-              <FormEditAddresses addressId={a._id} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
+              <FormEditAddresses
+                addressId={a._id}
+                editAddressModal={editAddressModal}
+                setEditAddressModal={setEditAddressModal}
+              />
             </div>
           </div>
         ))}

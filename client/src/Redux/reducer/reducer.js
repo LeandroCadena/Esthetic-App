@@ -376,7 +376,7 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
-//DETELE USER RESERVATIOBS
+//DETELE USER RESERVATIOBS  ------>> /////VER
 
 case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
   return {
@@ -385,19 +385,41 @@ case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
   };
 case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
   return {
-    ...state, /////VER
-    userAddresses: {
+    ...state, 
+    userReservations: {
       loading: false,
-      data: state.userAddresses.data.filter(
-        (a) => a._id !== action.payload
+      data: state.userReservations.data.filter(
+        (r) => r._id !== action.payload
       ),
     },
   };
-case actionsTypes.DELETE_USER_ADDRESS_FAIL:
+case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
   return {
     ...state,
-    userAddresses: { loading: false, error: action.payload },
+    userReservations: { loading: false, error: action.payload },
   };
+
+//POST USER REVIEW
+
+case actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST:
+      return {
+        ...state,
+        userReservations: { ...state.userReservations, loading: true },
+      };
+    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
+      return {
+        ...state,
+        userReservations: {
+          loading: false,
+          data: [...state.userReservations.data, action.payload.data],
+        },
+      };
+    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
+      return {
+        ...state,
+        userReservations: { loading: false, error: action.payload },
+      };
+
 
 
 

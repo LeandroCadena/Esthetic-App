@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUserAddresses,
-  deleteUserReservation,
   editUserAddresses,
   getUserAddresses,
   getUserReservations,
@@ -10,11 +9,16 @@ import {
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import "./AccordionReservations.css";
-import { GiCancel } from "react-icons/gi";
+import { MdRateReview } from "react-icons/md";
+import useReactRouter from "use-react-router";
+import FormReview from "../Form/FormReview";
+import "./ReservationsToRate.css";
 
-function AccordionReservations() {
+function ReservationsToRate() {
   const [ID, setID] = useState("");
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+
 
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
@@ -32,15 +36,16 @@ function AccordionReservations() {
   }, [ID]);
 
   const data = useSelector((state) => state.userReservations.data);
+
   let reservations = [];
   if (data && data.length) {
     reservations = data;
   }
 
-  const deleteReservation = (reservationId) => {
-    alert("El turno ha sido borrado con exito");
-    dispatch(deleteUserReservation({ reservationId }));
-  };
+  /* const deleteAddress = (addressId) => {
+    const userId = ID.userFound._id;
+    dispatch(deleteUserAddresses({ userId, addressId }));
+  }; */
 
   /* const editAddress = () => {
       setEditAddressModal(prev => !prev)
@@ -57,10 +62,12 @@ function AccordionReservations() {
   return (
     <div className="accordion-wrapper">
       <div className="accordion">
+        {console.log(reservations)}
         {reservations.map((r, i) => (
           <>
-            {r.isActive === true && (
+            {r.isActive === false && r.ratingAlert === true && (
               <div className="accordion-item" onClick={() => toggle(i)}>
+                {console.log()}
                 <div className="accordion-title">
                   <p>
                     <b>Servicio Contratado:</b> {r.service.name}
@@ -83,16 +90,23 @@ function AccordionReservations() {
                       <p className="p">Precio: ${r.service.price}</p>
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
-                        <button className="cancel-button">
-                          Cancelar Turno
-                          <i
-                            className="cancel-icon"
-                            onClick={() => deleteReservation(r._id)}
-                          >
-                            <GiCancel />
-                          </i>
-                        </button>
                       </p>
+
+                      <button className="review-button" onClick={setShowModal}>
+                        Calificar al Prestador
+                        <i className="review-icon">
+                          <MdRateReview />
+                        </i>
+                      </button>
+
+                      <FormReview
+                      eventId={r._id}
+                        showModal={showModal}
+                        setShowModal={setShowModal}
+
+                      />
+
+                      {/* /* onClick={() => deleteAddress(a._id)} */}
                     </div>
                   )}
                 </div>
@@ -105,4 +119,4 @@ function AccordionReservations() {
   );
 }
 
-export default AccordionReservations;
+export default ReservationsToRate;
