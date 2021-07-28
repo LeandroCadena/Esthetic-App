@@ -237,6 +237,9 @@ export default function SignUp() {
           toast.success(`🎉 Felicidades ${a.data.firstName},cuenta creada con exito`, {
             position: toast.POSITION.TOP_CENTER,
           });
+          toast.warning(`🙌🏽 Debes verificar tu email antes de ingresar`, {
+            position: toast.POSITION.TOP_CENTER,
+          });
         })
         .catch((error) => {
           console.log(error);
