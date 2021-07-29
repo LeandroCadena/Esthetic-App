@@ -25,7 +25,6 @@ const initialState = {
   provider_address_update_status: {},
   provider_update_status: {},
   reservation_status: {},
-
   setStateSearch: "",
   renderSearchBar: "",
   userActive: "",
@@ -265,27 +264,6 @@ const appReducer = (state = initialState, action) => {
         userAddresses: { loading: false, error: action.payload },
       };
 
-    //CREATE USER ADDRESS
-
-    case actionsTypes.ADD_USER_ADDRESS_REQUEST:
-      return {
-        ...state,
-        userAddresses: { ...state.userAddresses, loading: true },
-      };
-    case actionsTypes.ADD_USER_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        userAddresses: {
-          loading: false,
-          data: [...state.userAddresses.data, action.payload.data],
-        },
-      };
-    case actionsTypes.ADD_USER_ADDRESS_FAIL:
-      return {
-        ...state,
-        userAddresses: { loading: false, error: action.payload },
-      };
-
     //DETELE USER ADDRESS
 
     case actionsTypes.DELETE_USER_ADDRESS_REQUEST:
@@ -304,31 +282,6 @@ const appReducer = (state = initialState, action) => {
         },
       };
     case actionsTypes.DELETE_USER_ADDRESS_FAIL:
-      return {
-        ...state,
-        userAddresses: { loading: false, error: action.payload },
-      };
-
-    //EDIT USER ADDRESS
-
-    case actionsTypes.EDIT_USER_ADDRESS_REQUEST:
-      return {
-        ...state,
-        userAddresses: { ...state.userAddresses, loading: true },
-      };
-    case actionsTypes.EDIT_USER_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        userAddresses: {
-          loading: false,
-          data: editAddress(
-            state.userAddresses.data,
-            action.payload.addressId,
-            action.payload.data.data
-          ),
-        },
-      };
-    case actionsTypes.EDIT_USER_ADDRESS_FAIL:
       return {
         ...state,
         userAddresses: { loading: false, error: action.payload },
@@ -357,8 +310,8 @@ const appReducer = (state = initialState, action) => {
         ...state,
         allProviders: { loading: false, data: action.payload },
       };
+    ///RENDER SEARCHBAR 
 
-    ///RENDER SEARCHBAR
     case actionsTypes.RENDER_SEARCHBAR:
       return {
         ...state,
