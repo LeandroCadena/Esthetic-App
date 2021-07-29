@@ -37,20 +37,33 @@ export default function Reservation({ handleActive, date, hour, provider, servic
                 .then(allAddresses => {
                     const addressesData = allAddresses.data;
                     setAddresses(addressesData);
-                    addressesData.forEach(ad => {
-                        if (ad.is_main === true) {
-                            setData({
-                                ...data,
-                                address: ad.name
-                            })
-                        }
-                    })
                 })
                 .catch(err => {
                     console.log(err)
                 })
         }
     }, [data.user])
+
+    useEffect(() => {
+        if (addresses.length) {
+            let check = true;
+            addresses.forEach(ad => {
+                if (ad.is_main === true) {
+                    check = false;
+                    setData({
+                        ...data,
+                        address: ad.name
+                    })
+                }
+            })
+            if (check) {
+                setData({
+                    ...data,
+                    address: addresses[0].name
+                })
+            }
+        }
+    }, [addresses])
 
     const handleChange = (e) => {
         setData({
@@ -109,9 +122,8 @@ export default function Reservation({ handleActive, date, hour, provider, servic
                                                 {
                                                     addresses.map((el, index) => (
                                                         <option key={index} value={el.name}>{el.name}</option>
-                                                        ))
-                                                    }
-                                                    <option value={'el.name'}>{'el.name'}</option>
+                                                    ))
+                                                }
                                             </select>
                                         ) : (
                                             <button className='address-button'>Agregar</button>

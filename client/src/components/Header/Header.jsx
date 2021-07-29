@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Menu from "@material-ui/core/Menu";
 import Avatar from "@material-ui/core/Avatar";
 import Fade from "@material-ui/core/Fade";
-import { logout} from "../../Redux/actions/user.actions";
+import { logout } from "../../Redux/actions/user.actions";
 import "./Header.scss";
 import handleSetSearchBar from '../../Redux/actions/actions'
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    font:16
+    font: 16
   },
   title: {
     display: "none",
@@ -96,11 +96,10 @@ export default function PrimarySearchAppBar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const setStateSearch = useSelector((state) => state.setStateSearch);
-  console.log(setStateSearch)
   const loginData = useSelector((state) => state.loginData);
   const userActive = useSelector((state) => state.userActive);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
   const [render, setRender] = React.useState("");
   const [ID, setID] = useState('');
   const [user, setUser] = useState('');
@@ -111,7 +110,6 @@ export default function PrimarySearchAppBar() {
       if (storageData.userFound) {
         if (storageData.userFound.roles[0].name === "user") {
           setUser('user');
-          console.log(storageData.userFound._id)
           setID(storageData.userFound._id);
         } else {
           setUser('provider');
@@ -122,7 +120,6 @@ export default function PrimarySearchAppBar() {
   }, [])
 
   const open = Boolean(anchorEl);
- 
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedSpatifyApp");
@@ -166,14 +163,14 @@ export default function PrimarySearchAppBar() {
       to={"/login"}
       style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
     >
-      <Button style={{fontSize:"16px"}} color="inherit">INGRESAR</Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">INGRESAR</Button>
     </Link>,
     "|",
     <Link
       to={"/userRegister"}
-      style={{ color: "rgb(121, 47, 111)", textDecoration: "none",font:"16px" }}
+      style={{ color: "rgb(121, 47, 111)", textDecoration: "none", font: "16px" }}
     >
-      <Button style={{fontSize:"16px"}} color="inherit">REGISTRARSE </Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">REGISTRARSE </Button>
     </Link>,
   ];
   let loginProvider = [
@@ -206,7 +203,7 @@ export default function PrimarySearchAppBar() {
     </Menu>,
   ];
 
-  let loginProfile = loginData.userFound
+  let loginProfile = user === 'user'
     ? [
       <Avatar
         onClick={handleClick}
@@ -268,19 +265,19 @@ export default function PrimarySearchAppBar() {
               />
             </Link>
           </Typography>
-          <Link to={"/search"} style={{textDecoration:"none"}}  /* onClick={(e)=>{handleSetSearchBar(e)} */>
-            <div  style={{marginLeft: "4rem"}}>BUSQUEDA AVANZADA</div>
+          <Link to={"/search"} style={{ textDecoration: "none" }}  /* onClick={(e)=>{handleSetSearchBar(e)} */>
+            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
           </Link>
 
-          
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}></div>
           <div style={{ display: "flex", marginRight: "2rem" }}>
-              
-            </div>
-    
+
+          </div>
+
           <b>{render === "" ? loginAndRegister : loginProfile}</b>
-         
+
 
           <Link
             to={"/cart"}

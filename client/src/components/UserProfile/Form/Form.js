@@ -21,18 +21,7 @@ function Form({ showModal, setShowModal }) {
     firstName: "",
     lastName: "",
     phone: null,
-   /*  addresses: {
-      name: "",
-      country: "",
-      state: "",
-      city: "",
-      address_1: "",
-      address_details: "",
-      zip_code: "",
-      is_main: false,
-      provider: "",
-      user: ID.userFound._id, 
-    },*/
+   
   });
 
   const [userId, setUserId] = useState("");

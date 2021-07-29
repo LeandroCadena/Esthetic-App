@@ -11,32 +11,46 @@ import "./AccordionPrueba.css";
 import { BsTrash } from "react-icons/bs";
 import useReactRouter from "use-react-router";
 import FormEditAddresses from "../Form/FormEditAddresses";
+import { toast } from "react-toastify";
 
-const ID = window.localStorage.getItem("loggedSpatifyApp")
-  ? JSON.parse(window.localStorage.getItem("loggedSpatifyApp"))
-  : null;
-
-function AccordionPrueba() {
-  const [editAddressModal, setEditAddressModal] = useState(false);
+function AccordionPrueba({ change, setChange }) {
+  const [editAddressModal, setEditAddressModal] = useState({});
+  const [addresses, setAddresses] = useState([]);
+  const [userID, setUserID] = useState([]);
+  const [selected, setSelected] = useState(null);
   const dispatch = useDispatch();
   const userAddresses = useSelector((state) => state.userAddresses.data);
 
-  let addresses = [];
-  if (userAddresses && userAddresses.length) {
-    addresses = userAddresses;
-  }
-
   useEffect(() => {
-    dispatch(getUserAddresses(ID.userFound._id));
+    if (window.localStorage.getItem("loggedSpatifyApp")) {
+      const userData = JSON.parse(
+        window.localStorage.getItem("loggedSpatifyApp")
+      );
+      if (userData.userFound.roles[0].name === "user") {
+        setUserID(userData.userFound._id);
+      }
+    }
   }, []);
 
+  useEffect(() => {
+    if (userID !== '') {
+      dispatch(getUserAddresses(userID));
+    }
+  }, [userID, change]);
+
+  useEffect(() => {
+    setAddresses(userAddresses);
+  }, [userAddresses]);
+
   const deleteAddress = (addressId) => {
-    const userId = ID.userFound._id;
-    dispatch(deleteUserAddresses({ userId, addressId }));
+    dispatch(deleteUserAddresses({ userID, addressId }));
+    toast.success('Dirección eliminada correctamente', {
+      position: toast.POSITION.TOP_CENTER
+    })
   };
 
-  const editAddress = () => {
-      setEditAddressModal(prev => !prev)
+  const editAddress = (id) => {
+    setEditAddressModal({ [id]: true })
   }
 
   const toggle = (i) => {
@@ -46,17 +60,16 @@ function AccordionPrueba() {
     setSelected(i);
   };
 
-  const [selected, setSelected] = useState(null);
   return (
     <div className="accordion-wrapper">
       <div className="accordion">
-        {addresses.map((a, i) => (
-          <div className="accordion-item" onClick={() => toggle(i)}>
+        {addresses && addresses.length && addresses.map((a, i) => (
+          <div key={i} className={a.is_main ? "accordion-item isMain" : "accordion-item"}>
             <div className="accordion-title">
               <p>
                 <b>Referencia:</b> {a.name}
               </p>
-              <span>
+              <span onClick={() => toggle(i)}>
                 {selected == i ? <IoIosArrowUp /> : <IoIosArrowDown />}
               </span>
             </div>
@@ -71,11 +84,11 @@ function AccordionPrueba() {
                 <div>
                   <p className="p">Pais: {a.country}</p>
                   <p className="p">Provincia: {a.state}</p>
-                  <p className="p">Ciudad: {a.city}</p>
+                  <p className="p">Ciudad: {a.c}</p>
                   <p className="p">Direccion: {a.address_1}</p>
                   <p className="p">Aclaracion: {a.address_details}</p>
                   <p className="p">Codigo Postal: {a.zip_code}</p>
-                  <p className="p">Direccion Principal: {a.is_main}</p>
+                  <p className="p">Direccion Principal: {a.is_main ? "Si" : "No"}</p>
                 </div>
               )}
               <div className="accordion-item-options">
@@ -86,7 +99,7 @@ function AccordionPrueba() {
                   <HiOutlinePencilAlt />
                 </i>
               </div>
-              <FormEditAddresses addressId={a._id} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
+              <FormEditAddresses setChange={() => setChange()} addressId={a._id} data={a} editAddressModal={editAddressModal} setEditAddressModal={setEditAddressModal} />
             </div>
           </div>
         ))}
