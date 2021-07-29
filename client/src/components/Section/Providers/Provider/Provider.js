@@ -36,9 +36,9 @@ function Provider({ provider, service }) {
                     })
                   : avgAssessment
               }⭐`}</h4>
-              <h5>{`De ${
+              <h4>{`* ${
                 provider.rating?.length ? provider.rating.length : 0
-              } reseñas`}</h5>
+              } reseñas`}</h4>
             </div>
           </div>
           <div className="card-options">
