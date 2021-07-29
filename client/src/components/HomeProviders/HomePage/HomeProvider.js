@@ -232,7 +232,7 @@ const HomeProvider = () => {
         </div>
 
         {users.services?.length < 1 || !users.services ? (
-          <VerticalLinearStepper data={addresses} providerID={provider._id} />
+          <VerticalLinearStepper data={addresses} providerID={provider?._id} />
         ) : (
           <div className='render-clients'>
             {buyedServices.map((user) => (
