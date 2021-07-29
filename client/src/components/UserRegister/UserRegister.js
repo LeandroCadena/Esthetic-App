@@ -282,7 +282,7 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5"></Typography>
@@ -422,6 +422,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
+            style={{backgroundColor:"#af63a4"}}
             className={classes.submit}
           >
             Registrarme

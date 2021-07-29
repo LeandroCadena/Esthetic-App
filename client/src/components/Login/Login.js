@@ -121,17 +121,7 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          if (
-            user.providerFound?.roles[0].name == "provider" &&
-            !user.providerFound.confirm
-          ) {
-            toast.error(
-              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-              }
-            );
-          }
+          
           if (
             user.providerFound?.roles[0].name == "provider" &&
             user.providerFound.confirm
@@ -144,18 +134,7 @@ export default function SignIn() {
             );
             history.push("/user/provider");
           }
-          if (
-            user.userFound?.roles[0].name === "user" &&
-            !user.userFound.confirm
-          ) {
-            toast.error(
-              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-              }
-            );
-          }
-          if (
+          else if (
             user.userFound?.roles[0].name === "user" &&
             user.userFound.confirm
           ) {
@@ -174,6 +153,12 @@ export default function SignIn() {
               position: toast.POSITION.TOP_CENTER,
             }
           );
+          toast.warning(
+            `Asegurate de haber confirmado tu cuenta, chequea tu casilla de email`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
         }
       });
     }
@@ -187,7 +172,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <GoogleLogin
@@ -233,6 +218,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            style={{backgroundColor:"#af63a4"}}
           >
             Entrar
           </Button>

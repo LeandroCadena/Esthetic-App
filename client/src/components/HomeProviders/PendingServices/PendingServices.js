@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 //Material UI
@@ -25,6 +25,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 //
 import "./PendingServices.scss";
 import img from "../../../img/hombre_barberia_2.jpg";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,34 +63,42 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RecipeReviewCard({ data }) {
+
   const whatsApp = "https://web.whatsapp.com/";
   const classes = useStyles();
   const history = useHistory();
+const loginData = useSelector((state) => state.loginData)
+const [anchorEl, setAnchorEl] = React.useState(null);
+const [expanded, setExpanded] = React.useState(false);
+const [stateFav, setStateFav] = React.useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [expanded, setExpanded] = React.useState(false);
-  const [stateFav, setStateFav] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-  const handleFavorites = () => {
-    setStateFav(!stateFav);
-  };
-  //settings admin
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+console.log("estoy aqui ")
+const handleExpandClick = () => {
+  setExpanded(!expanded);
+};
+const handleFavorites = () => {
+  setStateFav(!stateFav);
+};
+//settings admin
+const handleClick = (event) => {
+  setAnchorEl(event.currentTarget);
+};
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleEdit = () => {
-    history.push(`/service/upload/${data._id}`);
-  };
+const handleClose = () => {
+  setAnchorEl(null);
+};
+const handleEdit = () => {
+  history.push(`/service/upload/${data._id}`);
+};
 
-  useEffect(() => {}, [data]);
-  
+useEffect(() => {}, [data]);
+
+
+
+
+
+
   return (
     <div className="card-services">
       <Card className={classes.root}>
@@ -103,14 +112,17 @@ export default function RecipeReviewCard({ data }) {
               src={data.image}
             ></Avatar>
           }
-          action={
-            <>
+          { ...loginData.userFound?.roles[0].name !== "user" &&
+           loginData.providerFound?.roles[0].name !== "provider"
+           ?
+            <div>
+
               <IconButton
                 aria-label="settings"
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-              >
+                >
                 <MoreVertIcon />
               </IconButton>
               <Menu
@@ -119,16 +131,23 @@ export default function RecipeReviewCard({ data }) {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-              >
+                >
                 <MenuItem onClick={handleEdit}>Editar 🖊</MenuItem>
                 <MenuItem onClick={handleClose}>Remover</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
-            </>
-          }
+            </div>
+          
+           :null 
+        } 
+          
+          
+         id="simple-menu"
+                
           title={data.name ? data.name : `${data.firstName} ${data.lastName}`}
           subheader={data.price ? `$ ${data.price}` : ""}
         />
+         
         <Link to={`/services/providers/${data.name}`}>
           <CardMedia
             className={classes.media}
