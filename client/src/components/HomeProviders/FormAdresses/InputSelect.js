@@ -29,7 +29,6 @@ export default function InputSelect({ data }) {
   const handleOpenType = () => {
     setOpenType(true);
   };
-  //   console.log('aqui', data);
   return (
     <div>
       <FormControl className={classes.formControl}>

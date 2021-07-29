@@ -98,12 +98,12 @@ export default function FormAdresses({ type, alldata, data }) {
             aria-labelledby='form-dialog-title'
           >
             <DialogTitle id='form-dialog-title'>
-              {'Actuliza tus horarios de trabajo'}
+              {'Actualiza tus horarios de trabajo'}
             </DialogTitle>
             <DialogContent>
               <DialogContentText>
                 {
-                  'Este es un espacio en que podrás actualizar los horarios de trabajo cuando lo desees.'
+                  'Este es un espacio en el que podrás actualizar los horarios de trabajo cuando lo desees.'
                 }
               </DialogContentText>
               <MaterialUIPickers />
@@ -138,7 +138,7 @@ export default function FormAdresses({ type, alldata, data }) {
             <DialogContent>
               <DialogContentText>
                 {
-                  'Este es un espacio en que podrás actualizar los servicios a prestar, puedes realizarlo en cualquier momento 😉.'
+                  'Este es un espacio en el que podrás actualizar los servicios a prestar, puedes realizarlo en cualquier momento 😉.'
                 }
               </DialogContentText>
 
@@ -183,12 +183,12 @@ export default function FormAdresses({ type, alldata, data }) {
               <DialogContentText>
                 {type === 'profile'
                   ? 'Es importante que completes todos los campos requeridos !'
-                  : 'Es importante que llenes los siguientes campos ya que podrás ser contactado por usuarios que se encuentren cerca a tu ubicación 😉.'}
+                  : 'Es importante que llenes los siguientes campos ya que podrás ser contactado por usuarios que se encuentren cerca de tu ubicación 😉.'}
 
                 <DialogContentText>
                   {type === 'profile'
-                    ? "Nota: Una vez ingresados los datos deberá 'Click' en enviar 👇"
-                    : " Nota: para agregar una nueva dirección debes completar todos los campos de este formulario y enviarlo, luego podrás dar 'Click' en 'AGREGAR' e ingresar tu nueva dirección."}
+                    ? "Nota: Una vez ingresados los datos haz 'Click' en enviar 👇"
+                    : "Nota: para agregar una nueva dirección debes completar todos los campos de este formulario y enviarlo. Luego podrás dar 'Click' en 'AGREGAR' e ingresar tu nueva dirección."}
                 </DialogContentText>
               </DialogContentText>
 
@@ -261,7 +261,7 @@ export default function FormAdresses({ type, alldata, data }) {
                   <TextField
                     autoFocus
                     margin='dense'
-                    label='Detalles de dirección (ejemplo: apto 101, torre 36)'
+                    label='Detalles de dirección (ejemplo: depto 101, torre 2, puerta blanca)'
                     type='email'
                     fullWidth
                     name='address_details'

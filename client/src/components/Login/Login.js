@@ -151,7 +151,6 @@ export default function SignIn() {
     }
   };
 
-  // console.log('---->', loginData?.userFound.roles[0]?.name);
   const responseGoogle = (response) => {
     console.log(response);
   };
