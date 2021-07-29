@@ -14,7 +14,6 @@ export const LoginUser = (data) => {
     return axios
       .post(`${HOST}/auth/signin`, data)
       .then((response) => {
-        // console.log(response.data);
         dispatch({
           type: actionsTypes.LOGIN_SUCCESSFUL,
           payload: response.data,
@@ -193,7 +192,7 @@ export const editUserAddresses = (payload) => async (dispatch) => {
     const { data } = await axios.put(
       `${GET_USERS}/${payload.userId}/addresses/${addressId}`
     );
-    console.log(data, 'Aca esta la data del objeto editado');
+
     dispatch({
       type: actionsTypes.EDIT_USER_ADDRESS_SUCCESS,
       payload: { addressId, data },
