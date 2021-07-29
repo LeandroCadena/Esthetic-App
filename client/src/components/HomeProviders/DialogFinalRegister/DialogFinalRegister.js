@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 //
@@ -10,6 +10,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { makeStyles } from '@material-ui/core/styles';
+import { getProviderDetails } from '../../../Redux/actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,12 +37,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function DialogFinalRegister({ nameBoton }) {
+export default function DialogFinalRegister({ nameBoton, providerID }) {
   const classes = useStyles();
-
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  const { data: actualProvider } = useSelector(
+    (state) => state.providerDetails
+  );
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    dispatch(getProviderDetails(providerID));
+  }, [dispatch]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,8 +56,11 @@ export default function DialogFinalRegister({ nameBoton }) {
 
   const handleClose = () => {
     // setOpen(false);
-
-    history.push('/');
+    window.localStorage.setItem(
+      'loggedSpatifyApp',
+      JSON.stringify({ providerFound: actualProvider })
+    );
+    window.location.reload(true);
   };
 
   return (

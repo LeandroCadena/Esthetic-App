@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Route } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -18,6 +19,7 @@ import ProviderRating from "../components/Section/ProviderRating/ProviderRating"
 import CovidProtocol from "../components/CovidProtocol/CovidProtocol";
 import Footer from "../components/Footer/Footer";
 import About from "../components/About/About";
+import CompletePerfil from '../components/CompletePerfil/CompletePerfil';
 
 import ConfirmationMail from "../components/ConfirmationMail/ConfirmationMail";
 import ConfirmationMailProvider from "../components/ConfirmationMail/ConfirmationMailProvider";
@@ -27,11 +29,14 @@ import EventsHistory from "../components/UserProfile/EventsHistory/EventsHistory
 const App = () => {
   return (
     <React.Fragment>
-      <Route path="/" component={Header} />
-      <Route exact path={["/"]} component={(Home, Section)} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/userRegister" component={UserRegister} />
-      <Route exact path="/user/provider" component={HomeProvider} />
+
+      <Route path='/' component={Header} />
+      <Route exact path={['/']} component={(Home, Section)} />
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/userRegister' component={UserRegister} />
+      <Route exact path='/user/provider' component={HomeProvider} />
+      <Route exact path='/complete/perfil/:id' component={CompletePerfil} />
+
       <Route
         exact
         path="/services/providers/:serviceName"
