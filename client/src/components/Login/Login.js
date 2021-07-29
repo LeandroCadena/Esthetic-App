@@ -121,17 +121,7 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          if (
-            user.providerFound?.roles[0].name == "provider" &&
-            !user.providerFound.confirm
-          ) {
-            toast.error(
-              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-              }
-            );
-          }
+          
           if (
             user.providerFound?.roles[0].name == "provider" &&
             user.providerFound.confirm
@@ -144,18 +134,7 @@ export default function SignIn() {
             );
             history.push("/user/provider");
           }
-          if (
-            user.userFound?.roles[0].name === "user" &&
-            !user.userFound.confirm
-          ) {
-            toast.error(
-              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-              }
-            );
-          }
-          if (
+          else if (
             user.userFound?.roles[0].name === "user" &&
             user.userFound.confirm
           ) {
@@ -170,6 +149,12 @@ export default function SignIn() {
         } else {
           toast.error(
             `Usuario o Constraseña inválidos. Por favor intenta de nuevo`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+          toast.warning(
+            `Asegurate de haber confirmado tu cuenta, chequea tu casilla de email`,
             {
               position: toast.POSITION.TOP_CENTER,
             }
