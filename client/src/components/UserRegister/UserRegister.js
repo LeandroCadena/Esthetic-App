@@ -91,26 +91,26 @@ export default function SignUp() {
       console.log(firstName.value);
       setValid(false);
       isValid = false;
-      setError({ ...error, firstNameError: "Por favor ingrese nombre" });
+      setError({ ...error, firstNameError: "Por favor ingrese su nombre" });
     } else if (/\d/.test(firstName.value)) {
       setValid(false);
       isValid = false;
       setError({
         ...error,
-        firstNameError: "El nombre no puede contener numeros",
+        firstNameError: "El nombre no puede contener números",
       });
     }
 
     if (!lastName.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, lastNameError: "Por favor ingrese apellido" });
+      setError({ ...error, lastNameError: "Por favor ingrese su apellido" });
     } else if (/\d/.test(lastName.value)) {
       setValid(false);
       isValid = false;
       setError({
         ...error,
-        lastNameError: "El apellido no puede contener numeros",
+        lastNameError: "El apellido no puede contener números",
       });
     }
     return isValid;
@@ -122,7 +122,7 @@ export default function SignUp() {
       console.log("entro aca");
       setValid(false);
       isValid = false;
-      setError({ ...error, passwordError: "Por favor ingrese password" });
+      setError({ ...error, passwordError: "Por favor ingrese su password" });
     }
 
     if (password.value.length < 8) {
@@ -131,7 +131,7 @@ export default function SignUp() {
       isValid = false;
       setError({
         ...error,
-        passwordError: "La contraseña debe tener 8 caracteres",
+        passwordError: "La contraseña debe tener al menos 8 caracteres",
       });
     }
     if (password.value !== passwordCheck.value) {
@@ -151,7 +151,7 @@ export default function SignUp() {
     if (!phone.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, phoneError: "Por favor ingrese telefono" });
+      setError({ ...error, phoneError: "Por favor ingrese su teléfono" });
     }
 
     if (phone.value.length < 10) {
@@ -159,7 +159,7 @@ export default function SignUp() {
       isValid = false;
       setError({
         ...error,
-        phoneError: "La telefono debe tener 10 digitos ",
+        phoneError: "La teléfono debe tener 10 dígitos para Bs.As. y CABA",
       });
     }
     return isValid;
@@ -170,7 +170,7 @@ export default function SignUp() {
     if (!email.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, emailError: "Por favor ingrese email" });
+      setError({ ...error, emailError: "Por favor ingrese su email" });
     }
 
     if (typeof email.value !== "undefined") {
@@ -180,7 +180,7 @@ export default function SignUp() {
       if (!pattern.test(email.value)) {
         setValid(false);
         isValid = false;
-        setError({ ...error, emailError: "Ingrese un email valido" });
+        setError({ ...error, emailError: "Ingrese un email válido" });
       }
     }
     return isValid;
@@ -191,7 +191,7 @@ export default function SignUp() {
     if (!gender.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, genderError: "Por favor seleccione un genero" });
+      setError({ ...error, genderError: "Por favor seleccione su género" });
     }
     return isValid;
   };
@@ -201,7 +201,10 @@ export default function SignUp() {
     if (!roles.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, rolesError: "Por favor seleccione un rol" });
+      setError({
+        ...error,
+        rolesError: "Por favor seleccione si es usuario final o prestador",
+      });
     }
     return isValid;
   };
@@ -243,9 +246,12 @@ export default function SignUp() {
         .catch((error) => {
           console.log(error);
           if (error.response?.status !== 404 || 422)
-            toast.error(`Lo siento, este email ya tiene una cuenta vinculada`, {
-              position: toast.POSITION.TOP_CENTER,
-            });
+            toast.error(
+              `Lo sentimos. Este email ya tiene una cuenta vinculada`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
         });
     }
   };
@@ -346,7 +352,7 @@ export default function SignUp() {
               />
             </Grid>
             <div style={{ color: "blue" }}>
-              *La contraseña debe tener al menos 8 carácteres
+              *La contraseña debe tener al menos 8 caracteres
             </div>
 
             <Grid item xs={12}>
@@ -378,7 +384,7 @@ export default function SignUp() {
                 {...phone}
               />
             </Grid>
-            <div style={{ color: "blue" }}>*Ingresar telefono sin 0 ni 15</div>
+            <div style={{ color: "blue" }}>*Ingresar teléfono sin 0 ni 15</div>
             <Grid item xs={12}>
               <InputLabel id="demo-simple-select-label">Género</InputLabel>
               <Select
