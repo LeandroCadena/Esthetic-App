@@ -1,12 +1,12 @@
-import axios from "axios";
-import actionsTypes from "../constants/constants";
+import axios from 'axios';
+import actionsTypes from '../constants/constants';
 import {
   EVENTS,
   GET_USERS,
   HOST,
   RESERVATIONS,
   USER,
-} from "../../utils/constants";
+} from '../../utils/constants';
 
 // login
 export const LoginUser = (data) => {
@@ -34,14 +34,14 @@ export const logout = () => {
   return (dispatch) => {
     dispatch({
       type: actionsTypes.LOGOUT,
-      payload: "",
+      payload: '',
     });
   };
 };
 
 export const userActiveSession = () => {
-  window.localStorage.getItem("loggedSpatifyApp");
-  const user = JSON.parse(window.localStorage.getItem("loggedSpatifyApp"));
+  window.localStorage.getItem('loggedSpatifyApp');
+  const user = JSON.parse(window.localStorage.getItem('loggedSpatifyApp'));
   return (dispatch) => {
     dispatch({
       type: actionsTypes.LOGGIN_IN_SESSION,
@@ -66,6 +66,20 @@ export const getUserProfile = (userId) => async (dispatch) => {
       type: actionsTypes.GET_USER_DATA_PROFILE_FAIL,
       payload: error.message,
     });
+  }
+};
+
+//USERS UPDATE AFTER LOGIN GOOGLE
+
+export const updateUsersAfterGoogle = (id, dataUpdate) => (dispatch) => {
+  try {
+    const { data } = axios.put(`${HOST}/users/${id}`, dataUpdate);
+    dispatch({
+      type: actionsTypes.UPDATE_USERS_AFTER_GOOGLE,
+      payload: data,
+    });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -119,7 +133,7 @@ export const postUserAddresses = (payload) => async (dispatch) => {
       `${GET_USERS}/${payload.userId}/addresses`,
       payload.input
     );
-    console.log("Esto es data", data);
+    console.log('Esto es data', data);
     dispatch({
       type: actionsTypes.ADD_USER_ADDRESS_SUCCESS,
       payload: data,
@@ -136,7 +150,7 @@ export const postUserAddresses = (payload) => async (dispatch) => {
 
 export const deleteUserAddresses = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_ADDRESS_REQUEST });
-    try {
+  try {
     const { data } = await axios.delete(
       `${GET_USERS}/${payload.userId}/addresses/${payload.addressId}`
     );
@@ -162,7 +176,7 @@ export const editUserAddresses = (payload) => async (dispatch) => {
     const { data } = await axios.put(
       `${GET_USERS}/${payload.userId}/addresses/${addressId}`
     );
-    console.log(data, "Aca esta la data del objeto editado");
+    console.log(data, 'Aca esta la data del objeto editado');
     dispatch({
       type: actionsTypes.EDIT_USER_ADDRESS_SUCCESS,
       payload: { addressId, data },

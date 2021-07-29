@@ -9,6 +9,7 @@ export interface IUser extends Document {
   email: string;
   phone: number;
   password: string;
+  googleId: string;
   roles: any[];
   event: any[];
   addresses: any[];
@@ -35,6 +36,7 @@ const UserSchema = new Schema<IUser>(
     gender: {
       type: String,
       enum: ['Male', 'Female', 'Non-binary'],
+      default: 'Non-binary',
     },
     email: {
       type: String,
@@ -43,13 +45,15 @@ const UserSchema = new Schema<IUser>(
     },
     phone: {
       type: Number,
-      required: true,
       trim: true,
+      default: 1234,
     },
     password: {
       type: String,
-      required: true,
       trim: true,
+    },
+    googleId: {
+      type: String,
     },
     roles: [
       {

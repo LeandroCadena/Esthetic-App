@@ -17,6 +17,7 @@ import Providers from '../components/SearchProvider/Providers';
 import CovidProtocol from '../components/CovidProtocol/CovidProtocol';
 import Footer from '../components/Footer/Footer';
 import About from '../components/About/About';
+import CompletePerfil from '../components/CompletePerfil/CompletePerfil';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
       <Route exact path='/login' component={Login} />
       <Route exact path='/userRegister' component={UserRegister} />
       <Route exact path='/user/provider' component={HomeProvider} />
+      <Route exact path='/complete/perfil/:id' component={CompletePerfil} />
       <Route
         exact
         path='/services/providers/:serviceName'

@@ -27,23 +27,24 @@ export const getUser: RequestHandler = async (req, res) => {
 };
 
 export const updateUser: RequestHandler = async (req, res) => {
-  
-  
   try {
-    const userUpdate: any = await Users.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!userUpdate)
+    const userUpdate: any = await Users.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    if (!userUpdate) {
       return res
         .status(404)
         .json({ message: 'No encontramos el usuario solicitado' });
+    }
     return res.status(201).json(userUpdate);
   } catch (error) {
-    res.status(500).json({ message: 'Ha habido un problema con tu pedido' }) ;
+    res.status(500).json({ message: 'Ha habido un problema con tu pedido' });
   }
-}
-  
-
+};
 
 export const deleteUser: RequestHandler = async (req, res) => {
   try {

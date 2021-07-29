@@ -1,13 +1,15 @@
-import express, { Application, Request } from 'express';
+import express, { Application } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import router from './routes/index.routes';
 import path from 'path';
 import passport from 'passport';
+import session from 'express-session';
 import JWTStrategy from './libs/passport-jwt';
 import { createRoles, createService } from './libs/initialSetupRoles';
-
-// const fileUpload = require('express-fileupload');
+import GoogleStrategy from 'passport-google-oauth20';
+import config from './config';
+import Users from './models/Users';
 
 const app: Application = express();
 createRoles();
@@ -16,19 +18,103 @@ app.set('port', process.env.PORT || 3002);
 app.use(express.json());
 // app.use(fileUpload());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.urlencoded({ extended: false }));
-
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 //authentication passport (read token)
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(JWTStrategy);
 //passport.authenticate('jwt');
 
+//google passport
+
+passport.serializeUser((user: any, done: any) => {
+  return done(null, user.id);
+});
+passport.deserializeUser(async (id: any, done: any) => {
+  try {
+    const user = await Users.findOne({ id: id });
+    if (user) return done(null, id);
+  } catch (error) {
+    console.log(error);
+    done(error, null);
+  }
+  return done(null, id);
+});
+
+passport.use(
+  new GoogleStrategy.Strategy(
+    {
+      clientID: config.GOOGLE_CLIENT_ID,
+      clientSecret: config.GOOGLE_CLIENT_SECRET,
+      callbackURL: 'http://localhost:3002/auth/google/callback',
+    },
+    async function (
+      accessToken: any,
+      refreshToken: any,
+      profile: any,
+      cb: any
+    ) {
+      //   Users.find({ googleId: profile.id }, function (err, user) {
+      //     return cb(err, user);
+      //   });
+      const defaultUser = {
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        email: profile.emails[0].value,
+        image: profile.photos[0].value,
+        googleId: profile.id,
+      };
+      try {
+        const user = await Users.findOne({ email: profile.emails[0].value });
+        if (user) {
+          cb(null, user);
+        } else {
+          const newUser = new Users(defaultUser);
+          await newUser.save();
+        }
+      } catch (error) {
+        console.log(error);
+        cb(error, null);
+      }
+
+      console.log(profile);
+      cb(null, profile);
+    }
+  )
+);
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function (req: any, res: any) {
+    // Successful authentication, redirect home.
+    res.redirect(`http://localhost:3000/complete/perfil/${req.user?.id}`);
+  }
+);
+
+//
+
 app.use('/', router);
+// config Oauth google and db
 
 // storage para guardar img en mi db
 // app.use('/uploads', express.static(path.join(__dirname + 'uploads')));
 app.use('/upload', express.static(path.join(__dirname + '../uploads')));
 
 export default app;
+
+//id cliente google = 566936992237-joaqbcfmijssrskuvo6ekpkvh4uj59eu.apps.googleusercontent.com
+// secret cliente google = wnl5ZzPMEk65iC80cMmGyH_A

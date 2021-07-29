@@ -10,10 +10,10 @@
   --border: #007aff;
   --error: #e94040;
   --success: #00c469;
-  --background_color:#f5f5f5;
+  --background_color: #f5f5f5;
 }
 
-.container-main{
+.container-main {
   background-image: url('https://cdn.pixabay.com/photo/2021/04/12/19/35/flowers-6173793_960_720.jpg');
   background-repeat: repeat;
   display: flex;
@@ -21,11 +21,11 @@
   align-items: center;
 }
 
-.container{
+.container {
   display: table;
   min-width: 90vw;
   min-height: 93vh;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgb(253, 245, 253)
+  background-color: rgb(253, 245, 253);
 }

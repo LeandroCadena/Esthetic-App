@@ -36,8 +36,7 @@ export const signUp: RequestHandler = async (req, res) => {
     // image: `uploads\\${file}`,
 
     const dataUser = {
-      // image: `http://localhost:3002/uploads/${req.file?.filename}`,
-      image: req.file?.path,
+      image: req.file?.path || req.body.image,
       // image: req.file?.buffer,
       firstName,
       lastName,
@@ -63,7 +62,7 @@ export const signUp: RequestHandler = async (req, res) => {
     // }
 
     const userBag = new Bags({ user: newUser });
-    await userBag.save()
+    await userBag.save();
 
     const savedUser = await newUser.save();
     return res.status(201).json(savedUser);
