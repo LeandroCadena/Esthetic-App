@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Grid,
   Box,
@@ -13,7 +12,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FormAdresses from '../../HomeProviders/FormAdresses/FormAdress';
+import FormAdresses from '../FormAdresses/FormAdress';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import MaterialUIPickers from '../SelectHour/SelectorHour';

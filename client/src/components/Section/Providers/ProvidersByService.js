@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, connect, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProvidersbyServiceName } from "../../../Redux/actions/actions";
 import { useParams } from "react-router-dom";
 import Provider from "./Provider/Provider.js";
@@ -13,23 +13,27 @@ export function ProvidersByService() {
 
   useEffect(() => {
     dispatch(getProvidersbyServiceName(serviceName));
-    return () => { };
+    return () => {};
   }, []);
 
   return (
     <div className="container-main">
-      <div className='container'>
-        <div className='providers-container'>
-          <div className='providers-filters'>
+      <div className="container">
+        <div className="providers-container">
+          <div className="providers-filters">
             <div>
               <h1 className="title">{`${serviceName}`}</h1>
-              <h4 className='title'>Prestadores disponibles</h4>
+              <h4 className="title">Prestadores disponibles</h4>
             </div>
           </div>
           <div className="providers-list">
             {providers &&
               providers.map((provider, index) => (
-                <Provider key={index} provider={provider} service={serviceName} />
+                <Provider
+                  key={index}
+                  provider={provider}
+                  service={serviceName}
+                />
               ))}
           </div>
         </div>

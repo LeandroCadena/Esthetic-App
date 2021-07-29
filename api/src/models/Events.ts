@@ -52,7 +52,7 @@ const EventSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Addresses",
       autopopulate: true,
-    }
+    },
   },
   { versionKey: false, timestamps: true }
 );

@@ -86,8 +86,6 @@ export default function MaterialUIPickers({ type }) {
     });
   };
 
-  console.log('xxxxxx--->', addHours);
-
   return (
     <form action='' onSubmit={handleSubmit}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>

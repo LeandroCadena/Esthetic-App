@@ -68,8 +68,7 @@ const MenuProps = {
 };
 
 const names = [
-  'Banco Central de la República Argentina',
-  'Banco Industrial',
+  'Banco Nación',
   'Banco Industrial',
   'Banco Santander',
   'BBVA ',
@@ -79,7 +78,7 @@ const names = [
   'HSBC Bank Argentina',
   'Banco San Juan',
 ];
-const typesCounts = [
+const countTypes = [
   'Caja de ahorros',
   'Cuenta corriente',
   'Cuenta sueldo',
@@ -181,7 +180,7 @@ export default function MultipleSelect() {
             renderValue={(selected) => selected.join(', ')}
             MenuProps={MenuProps}
           >
-            {typesCounts.map((name) => (
+            {countTypes.map((name) => (
               <MenuItem key={name} value={name}>
                 <Checkbox checked={personName.indexOf(name) > -1} />
                 <ListItemText primary={name} />
