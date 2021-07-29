@@ -17,17 +17,14 @@ const RatingSchema = new Schema(
     provider: {
       type: Schema.Types.ObjectId,
       ref: "Providers",
-      autopopulate: true,
     },
     user: {
       type: Schema.Types.ObjectId,
       ref: "Users",
-      autopopulate: true,
     },
     event: {
       type: Schema.Types.ObjectId,
       ref: "Events",
-      autopopulate: true,
     },
   },
   { versionKey: false, timestamps: true }

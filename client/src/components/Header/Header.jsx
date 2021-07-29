@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    font: 16
+    font: 16,
   },
   title: {
     display: "none",
@@ -99,15 +99,14 @@ export default function PrimarySearchAppBar() {
 
   const [render, setRender] = React.useState("");
   const [ID, setID] = useState("");
-  console.log(ID);
   const [user, setUser] = useState("");
-  
+
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
         if (storageData.userFound.roles[0].name === "user") {
-          setUser('user');
+          setUser("user");
           setID(storageData.userFound._id);
         } else {
           setUser("provider");
@@ -116,14 +115,13 @@ export default function PrimarySearchAppBar() {
       }
     }
   }, []);
-console.log(user)
   const open = Boolean(anchorEl);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedSpatifyApp");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      console.log(user)
+      console.log(user);
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);
@@ -142,7 +140,6 @@ console.log(user)
 
   const handleRedirect = (e) => {
     if (user === "user") {
-      console.log(user)
       history.push(`/profile/${ID}`);
     } else if (user === "provider") {
       history.push(`/providers/${ID}/profile`);
@@ -163,14 +160,22 @@ console.log(user)
       to={"/login"}
       style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
     >
-      <Button style={{ fontSize: "16px" }} color="inherit">INGRESAR</Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        INGRESAR
+      </Button>
     </Link>,
     "|",
     <Link
       to={"/userRegister"}
-      style={{ color: "rgb(121, 47, 111)", textDecoration: "none", font: "16px" }}
+      style={{
+        color: "rgb(121, 47, 111)",
+        textDecoration: "none",
+        font: "16px",
+      }}
     >
-      <Button style={{ fontSize: "16px" }} color="inherit">REGISTRARSE </Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        REGISTRARSE{" "}
+      </Button>
     </Link>,
   ];
 
@@ -204,54 +209,52 @@ console.log(user)
     </Menu>,
   ];
 
-  let loginProfile = user === 'user'
-    ? [
-      <div style={{display:"flex", alignItems:"center"}}>
-
-        <Avatar
-          onClick={handleClick}
-          alt="Remy Sharp"
-          src="/static/images/avatar/1.jpg"
-        />,
-        <Menu
-          id="fade-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Fade}
-          >
-          <MenuItem
-        onClick={(e) => handleRedirect(e)}
-        >
-            Perfil
-          </MenuItem>
-          {/*   </Link> */}
-          <Link
-            to={"/perfil/historial"}
-            style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
+  let loginProfile =
+    user === "user"
+      ? [
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              onClick={handleClick}
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+            />
+            ,
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
             >
-            <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
-          </Link>
-          <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
-        </Menu>,
-
-        <Link
-          to={"/cart"}
-          style={{
-            color: "rgb(121, 47, 111)",
-            textDecoration: "none",
-            borderRadius: 50,
-            marginLeft: "1rem",
-          }}
-          >
-          <Button color="inherit">
-            <BiShoppingBag />
-          </Button>
-        </Link>,
-          </div>
-      ]
-    : loginProvider;
+              <MenuItem onClick={(e) => handleRedirect(e)}>Perfil</MenuItem>
+              {/*   </Link> */}
+              <Link
+                to={"/perfil/historial"}
+                style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
+              >
+                <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
+            </Menu>
+            ,
+            <Link
+              to={"/cart"}
+              style={{
+                color: "rgb(121, 47, 111)",
+                textDecoration: "none",
+                borderRadius: 50,
+                marginLeft: "1rem",
+              }}
+            >
+              <Button color="inherit">
+                <BiShoppingBag />
+              </Button>
+            </Link>
+            ,
+          </div>,
+        ]
+      : loginProvider;
 
   return (
     <div className={`${classes.grow} header`}>
@@ -270,19 +273,20 @@ console.log(user)
               />
             </Link>
           </Typography>
-          <Link to={"/search"} style={{ textDecoration: "none" }}  /* onClick={(e)=>{handleSetSearchBar(e)} */>
+          <Link
+            to={"/search"}
+            style={{
+              textDecoration: "none",
+            }} /* onClick={(e)=>{handleSetSearchBar(e)} */
+          >
             <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
           </Link>
 
-
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}></div>
-          <div style={{ display: "flex", marginRight: "2rem" }}>
-
-          </div>
+          <div style={{ display: "flex", marginRight: "2rem" }}></div>
 
           <b>{render === "" ? loginAndRegister : loginProfile}</b>
-
         </Toolbar>
       </AppBar>
     </div>
