@@ -20,11 +20,7 @@ const initialState = {
   servicesByProvider: [],
   providerEventsHours: {},
   providersAddresses: [],
-<<<<<<< HEAD
   providerRating: {},
-=======
-  providersRating: {},
->>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
   provider_address_status: {},
   provider_address_update_status: {},
   provider_update_status: {},

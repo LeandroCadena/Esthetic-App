@@ -77,11 +77,7 @@ const UserSchema = new Schema<IUser>(
         ref: "CreditCards",
         autopopulate: true,
       },
-<<<<<<< HEAD
     ],
-=======
-    ]
->>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
   },
 
   { versionKey: false, timestamps: true }
