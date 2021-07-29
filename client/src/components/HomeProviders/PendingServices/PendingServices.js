@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -110,6 +110,7 @@ export default function RecipeReviewCard({ data }) {
               >
                 <MoreVertIcon />
               </IconButton>
+
               <Menu
                 id='simple-menu'
                 anchorEl={anchorEl}
