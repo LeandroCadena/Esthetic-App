@@ -3,7 +3,6 @@
  * @param {string} value
  */
 export const log = (value) => {
-    console.log(`%c${value}`, "color:blue; font-weight:bold");
   };
   
   /**
@@ -12,12 +11,7 @@ export const log = (value) => {
    * @param {string} message
    */
   export const success = (message) => {
-    console.log(
-      `%c------------------------\n%cSUCCESS%c ${message}\n------------------------`,
-      "color:green; font-weight:bold",
-      "background-color:green; color: white; font-weight:bold",
-      "color:green; font-weight:bold"
-    );
+
   };
   
   /**

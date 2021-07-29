@@ -19,6 +19,8 @@ import CovidProtocol from '../components/CovidProtocol/CovidProtocol';
 import Footer from '../components/Footer/Footer';
 import About from '../components/About/About';
 
+
+
 const App = () => {
   return (
     <React.Fragment>

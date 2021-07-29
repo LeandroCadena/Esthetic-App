@@ -12,11 +12,12 @@ import Select from "react-select";
 
 function Providers({ data }) {
   const dispatch = useDispatch();
-
   const allProviders = useSelector((state) => state.allProviders);
   const services = useSelector((state) => state.services);
+  
+  //...
 
- 
+//...
   const mayorAmenor = services.data?.sort(function (a, b) {
     if (b.price > a.price) {
       return 1;
@@ -26,9 +27,9 @@ function Providers({ data }) {
     }
     return 0;
   });
-  console.log(mayorAmenor)
-  const keyword = useSelector((state) => state.keyword);
+  console.log(mayorAmenor);
 
+  const keyword = useSelector((state) => state.keyword);
   const [state, setState] = useState("");
   const [select, setSelect] = useState("");
   console.log(keyword);
@@ -52,22 +53,21 @@ function Providers({ data }) {
 
  
   const providersOservices = [
-    { value: "Provedores", label: "Provedores" },
+    { value: "Proveedores", label: "Proveedores" },
     { value: "Servicios", label: "Servicios" },
   ];
-  const precios = [
+  const precio = [
     { value: "Mayor Precio", label: "Mayor Precio" },
-    { value: "Menor Precio", label: "Menor Precio" },
-  ];
-
+    { value: "Menor Precio", label: "Menor Precio" },]
 
   const serviceSearch = [
     <Select
-      options={precios}
-      placeholder="Ordenar por precio"
+      options={precio}
+      placeholder="Ordenar por precio:"
       onChange={(e) => handleSelect(e)}
     />,
     <SearchBar state={state} />,
+    
   ];
 
   return (
@@ -106,11 +106,12 @@ function Providers({ data }) {
             ))}
 
       
-        {select == "Menor Precio"  || select == "Mayor Precio" ?
-         select== "Menor Precio" ? mayorAmenor?.reverse().filter((dato) => {
+        {select === "Menor Precio"  || select === "Mayor Precio"?
+         select === "Menor Precio" ? mayorAmenor?.reverse().filter((dato) => {
           console.log(dato);
           return keyword?.length > 0
             ? dato.name?.indexOf(keyword) !== -1
+        
             : dato;
         }).map((name, index) => (
           <>
@@ -126,9 +127,8 @@ function Providers({ data }) {
           <>
             <PendingServices data={name} key={index} />
           </>
-        ))
-         : 
-        state === "Servicios" &&
+        )):        
+          state === "Servicios" &&
           services.data &&
           services.data
             .filter((dato) => {
@@ -140,9 +140,10 @@ function Providers({ data }) {
             .map((name, index) => (
               <>
                 <PendingServices data={name} key={index} />
+
               </>
             ))}
-
+          
       </div>
     </div>
   );
