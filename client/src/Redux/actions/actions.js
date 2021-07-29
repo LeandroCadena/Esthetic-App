@@ -73,12 +73,26 @@ export const handleSearchBar = (data) => (dispatch) => {
   dispatch({ type: actionsTypes.RENDER_SEARCHBAR, payload: data });
 };
 
+<<<<<<< HEAD
 export const handleSetSearchBar = (data) => (dispatch) => {
   dispatch({ type: actionsTypes.SET_SEARCHBAR, payload: data });
 };
 export const getProviderRating = (providerId) => async (dispatch) => {
   try {
     const { data } = await axios.get(`${HOST}/providers/review/${providerId}/`);
+=======
+export const handleSearchBar = (data) => (dispatch) => {
+  dispatch({ type: actionsTypes.RENDER_SEARCHBAR, payload: data })
+}
+
+export const handleSetSearchBar = (data) => (dispatch) => {
+  dispatch({ type: actionsTypes.SET_SEARCHBAR, payload: data })
+}
+
+export const getProviderRating = (providerId) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`${HOST}/providers/rating/${providerId}/`);
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
     dispatch({
       type: actionsTypes.GET_ALL_RATING_BY_PROVIDER,
       payload: data,
@@ -107,6 +121,7 @@ export const getProvidersbyServiceName = (serviceName) => async (dispatch) => {
 };
 
 export const updateProvider = (providerId, providerData) => async (dispatch) => {
+<<<<<<< HEAD
     try {
       const { data } = await axios.put(
         `${GET_PROVIDERS}/${providerId}`,
@@ -119,6 +134,20 @@ export const updateProvider = (providerId, providerData) => async (dispatch) => 
       dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: err });
     }
   };
+=======
+  try {
+    const { data } = await axios.put(
+      `${GET_PROVIDERS}/${providerId}`,
+      providerData
+    );
+    const success = 'Datos de perfil actualizados correctamente';
+    dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: success });
+  } catch (error) {
+    const err = 'Ocurrió un error al actualizar los datos de tu perfil';
+    dispatch({ type: actionsTypes.SET_PROVIDER_UPDATE, payload: err });
+  }
+};
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
 
 export const getAllProvidersAddresses = (providerId) => async (dispatch) => {
   try {

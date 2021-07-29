@@ -31,6 +31,7 @@ import upload from "../libs/multer";
 //passport.authenticate('jwt');
 const router = Router();
 
+router.get("/rating/:id", getAllRating);
 // <<PLAIN PROVIDERS ROUTES>>
 router.get("/", getAllProviders);
 // router.get("/?name", getProviderByName);
@@ -60,5 +61,10 @@ router.post("/:id/addresses", createAddress);
 router.put("/:id/addresses/:idAd", updateAddress);
 router.delete("/:id/addresses/:idAd", deleteAddress);
 
+<<<<<<< HEAD
+=======
+// <<Routes to providers' ratings>>
+// router.get("/:id/rating/:idrt", getOneRating);
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
 
 export default router;

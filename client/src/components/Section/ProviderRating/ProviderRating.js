@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -5,6 +6,7 @@ import {
   getProviderDetails,
   getProviderRating,
 } from "../../../Redux/actions/actions";
+import { HOST } from "../../../utils/constants";
 // import "ProviderRating.scss";
 
 const ProviderRating = () => {
@@ -16,6 +18,7 @@ const ProviderRating = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    console.log("hollaa", id)
     dispatch(getProviderDetails(id));
     dispatch(getProviderRating(id));
   }, [dispatch]);

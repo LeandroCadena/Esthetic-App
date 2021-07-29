@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+<<<<<<< HEAD
     font: 16,
+=======
+    font: 16
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
   },
   title: {
     display: "none",
@@ -106,7 +110,11 @@ export default function PrimarySearchAppBar() {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
         if (storageData.userFound.roles[0].name === "user") {
+<<<<<<< HEAD
           setUser("user");
+=======
+          setUser('user');
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
           setID(storageData.userFound._id);
         } else {
           setUser("provider");
@@ -160,13 +168,18 @@ export default function PrimarySearchAppBar() {
       to={"/login"}
       style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
     >
+<<<<<<< HEAD
       <Button style={{ fontSize: "16px" }} color="inherit">
         INGRESAR
       </Button>
+=======
+      <Button style={{ fontSize: "16px" }} color="inherit">INGRESAR</Button>
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
     </Link>,
     "|",
     <Link
       to={"/userRegister"}
+<<<<<<< HEAD
       style={{
         color: "rgb(121, 47, 111)",
         textDecoration: "none",
@@ -176,6 +189,11 @@ export default function PrimarySearchAppBar() {
       <Button style={{ fontSize: "16px" }} color="inherit">
         REGISTRARSE{" "}
       </Button>
+=======
+      style={{ color: "rgb(121, 47, 111)", textDecoration: "none", font: "16px" }}
+    >
+      <Button style={{ fontSize: "16px" }} color="inherit">REGISTRARSE </Button>
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
     </Link>,
   ];
   let loginProvider = [
@@ -208,7 +226,7 @@ export default function PrimarySearchAppBar() {
     </Menu>,
   ];
 
-  let loginProfile = loginData.userFound
+  let loginProfile = user === 'user'
     ? [
         <Avatar
           onClick={handleClick}
@@ -265,6 +283,7 @@ export default function PrimarySearchAppBar() {
               />
             </Link>
           </Typography>
+<<<<<<< HEAD
           <Link
             to={"/search"}
             style={{
@@ -279,6 +298,21 @@ export default function PrimarySearchAppBar() {
           <div style={{ display: "flex", marginRight: "2rem" }}></div>
 
           <b>{render === "" ? loginAndRegister : loginProfile}</b>
+=======
+          <Link to={"/search"} style={{ textDecoration: "none" }}  /* onClick={(e)=>{handleSetSearchBar(e)} */>
+            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
+          </Link>
+
+
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}></div>
+          <div style={{ display: "flex", marginRight: "2rem" }}>
+
+          </div>
+
+          <b>{render === "" ? loginAndRegister : loginProfile}</b>
+
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
 
           <Link
             to={"/cart"}

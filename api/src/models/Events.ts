@@ -4,7 +4,7 @@ const EventSchema = new Schema(
   {
     condition: {
       type: String,
-      enum: ["calcelled", "finalized", "pending"],
+      enum: ["cancelled", "finalized", "pending"],
       default: "pending",
     },
     date: {
@@ -52,7 +52,11 @@ const EventSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Addresses",
       autopopulate: true,
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
   },
   { versionKey: false, timestamps: true }
 );

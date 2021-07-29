@@ -15,9 +15,16 @@ import ProviderDetails from "../components/ProviderDetails/ProviderDetails";
 import HomeProvider from "../components/HomeProviders/HomePage/HomeProvider";
 import Providers from "../components/SearchProvider/Providers";
 import ProviderRating from "../components/Section/ProviderRating/ProviderRating";
+<<<<<<< HEAD
 import CovidProtocol from "../components/CovidProtocol/CovidProtocol";
 import Footer from "../components/Footer/Footer";
 import About from "../components/About/About";
+=======
+import CovidProtocol from '../components/CovidProtocol/CovidProtocol';
+import Footer from '../components/Footer/Footer';
+import About from '../components/About/About';
+import EventsHistory from '../components/UserProfile/EventsHistory/EventsHistory';
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
 
 const App = () => {
   return (
@@ -43,9 +50,16 @@ const App = () => {
         component={ProviderCalendar}
       />
       <Route exact path="/providers/:id" component={ProviderDetails} />
+<<<<<<< HEAD
       <Route exact path="/profile/:id" component={UserProfile} />
       <Route exact path="/search" component={Providers} />
       <Route exact path="/covid" component={CovidProtocol} />
+=======
+      <Route path="/profile/:id" component={UserProfile} />
+      <Route path="/search" component={Providers} />
+      <Route path="/covid" component={CovidProtocol} />
+      <Route path="/perfil/historial" component={EventsHistory}/>
+>>>>>>> af0a8fe310c3f32ff63acd3440967ce88717fe64
       <Route path="/" component={Footer} />
       <Route exact path="/about" component={About} />
     </React.Fragment>
