@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useContext} from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { LoginUser } from "../../Redux/actions/user.actions";
@@ -6,6 +6,7 @@ import { useInput } from "../../hooks/customHooks";
 import { log, success, error } from "../../utils/logs";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../../index";
 //materialUI
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -63,7 +64,8 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-
+  const { setUser } = useContext(UserContext);  
+  const { user } = useContext(UserContext);  
   //manejo de error
   const [valid, setValid] = useState(true);
   const [error, setError] = useState({ emailError: "", passwordError: "" });
@@ -121,7 +123,10 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          
+          if(user.userFound) {
+            setUser(user.userFound?.roles[0].name)
+              console.log(user)
+          }
           if (
             user.providerFound?.roles[0].name == "provider" &&
             user.providerFound.confirm
