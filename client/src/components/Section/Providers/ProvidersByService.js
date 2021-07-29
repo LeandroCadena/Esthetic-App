@@ -14,9 +14,9 @@ export function ProvidersByService() {
 
   const { serviceName } = useParams();
 
-/*  const  masRating = () => { 
+  const  masRating = () => { 
    
- } */
+ } 
 
   useEffect(() => {
     dispatch(getProvidersbyServiceName(serviceName));
