@@ -11,12 +11,11 @@ const ProviderRating = () => {
   const dispatch = useDispatch();
 
   const providerDetails = useSelector((state) => state.providerDetails);
-  const providerRating = useSelector((state) => state.providerRating);
+  const rating = useSelector((state) => state.providerRating.data);
 
   const { id } = useParams();
 
   useEffect(() => {
-    console.log("hollaa", id)
     dispatch(getProviderDetails(id));
     dispatch(getProviderRating(id));
   }, [dispatch]);
@@ -24,13 +23,18 @@ const ProviderRating = () => {
   return (
     <div className="container-main">
       <div className="container">
-        <h1 className="h1-details">{`Éstas son las reseñas de ${providerDetails.data?.firstName}`}</h1>
-        <div>
-          {providerRating ? (
-            <h2>providerRating.data.data?.rating</h2>
-          ) : (
-            <h2>providerRating.data.rating</h2>
-          )}
+        <h1 className="title">{`Éstas son las reseñas de ${providerDetails.data?.firstName}`}</h1>
+        <div className="comments">
+          {rating?.length
+            ? rating.map((rating) => {
+                return (
+                  <div>
+                    <h2>{`${rating.assessment}⭐`}</h2>
+                    <h4>{`${rating.comments}`}</h4>
+                  </div>
+                );
+              })
+            : null}
         </div>
       </div>
     </div>
