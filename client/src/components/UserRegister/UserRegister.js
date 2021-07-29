@@ -233,16 +233,12 @@ export default function SignUp() {
           roles: roles.value,
         })
         .then((a) => {
-          console.log(a.data);
           setUser(a.data);
           success(`register user ${a.data.email}`);
           history.push("/");
-          toast.success(
-            `🎉 Felicidades ${a.data.firstName}! Cuenta creada con éxito`,
-            {
-              position: toast.POSITION.TOP_CENTER,
-            }
-          );
+          toast.success(`🎉 Felicidades ,cuenta creada con exito`, {
+            position: toast.POSITION.TOP_CENTER,
+          });
           toast.warning(`🙌🏽 Debes verificar tu email antes de ingresar`, {
             position: toast.POSITION.TOP_CENTER,
           });
