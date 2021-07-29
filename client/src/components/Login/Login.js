@@ -187,7 +187,7 @@ export default function SignIn() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <GoogleLogin
@@ -233,6 +233,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            style={{backgroundColor:"#af63a4"}}
           >
             Entrar
           </Button>
