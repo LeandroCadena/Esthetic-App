@@ -191,14 +191,14 @@ const HomeProvider = () => {
   // console.log('HORARIOS', providerEventsHours);
   return (
     <div className="banner-container">
-      <div className="title-background">
+      {/* <div className="title-background">
         <h1>Spa-tify </h1>
         <h2>Bienvenido {users.firstName}</h2>
       </div>
 
       <div className="banner">
         <img className="banner-img" src={banner} alt="banner-img"></img>
-      </div>
+      </div> */}
 
       <div className="render-home">
         <div className="info-provider">
