@@ -13,6 +13,8 @@ export interface IUser extends Document {
   event: any[];
   addresses: any[];
   creditCards: any[];
+  rating: any[];
+  confirm:any;
   setImage(filename: any): void;
   comparePassword(password: string): Promise<boolean>;
 }
@@ -46,6 +48,10 @@ const UserSchema = new Schema<IUser>(
       required: true,
       trim: true,
     },
+    confirm:{
+      type: Boolean, 
+      default: false,
+        },
     password: {
       type: String,
       required: true,

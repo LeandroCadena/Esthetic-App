@@ -121,18 +121,46 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          if (user.providerFound?.roles) {
+          if (
+            user.providerFound?.roles[0].name == "provider" &&
+            !user.providerFound.confirm
+          ) {
+            toast.error(
+              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
+          }
+          if (
+            user.providerFound?.roles[0].name == "provider" &&
+            user.providerFound.confirm
+          ) {
             toast.success(
-              `👍 Bienvenid@ ${email.value} , un gran día te espera!`,
+              `👍 Bienvenido ${email.value}. Un gran día te espera!`,
               {
                 position: toast.POSITION.TOP_CENTER,
               }
             );
             history.push("/user/provider");
           }
-          if (user.userFound?.roles[0].name === "user") {
+          if (
+            user.userFound?.roles[0].name === "user" &&
+            !user.userFound.confirm
+          ) {
+            toast.error(
+              `😟 Lo sentimos. Debes confimar tu email antes de ingresar`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
+          }
+          if (
+            user.userFound?.roles[0].name === "user" &&
+            user.userFound.confirm
+          ) {
             toast.success(
-              `👍 Bienvenid@ ${email.value} , un gran día te espera!`,
+              `👍 Bienvenido ${email.value}. Un gran día te espera!`,
               {
                 position: toast.POSITION.TOP_CENTER,
               }
@@ -141,7 +169,7 @@ export default function SignIn() {
           }
         } else {
           toast.error(
-            `Usuario o constraseña inválidos, por favor intenta de nuevo`,
+            `Usuario o Constraseña inválidos. Por favor intenta de nuevo`,
             {
               position: toast.POSITION.TOP_CENTER,
             }
@@ -198,10 +226,10 @@ export default function SignIn() {
             autoComplete="current-password"
             {...password}
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Recordarme"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth

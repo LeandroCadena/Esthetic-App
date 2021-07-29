@@ -201,7 +201,10 @@ export default function SignUp() {
     if (!roles.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, rolesError: "Por favor seleccione si es usuario final o prestador" });
+      setError({
+        ...error,
+        rolesError: "Por favor seleccione si es usuario final o prestador",
+      });
     }
     return isValid;
   };
@@ -230,20 +233,29 @@ export default function SignUp() {
           roles: roles.value,
         })
         .then((a) => {
-          console.log(a);
+          console.log(a.data);
           setUser(a.data);
           success(`register user ${a.data.email}`);
           history.push("/");
-          toast.success(`🎉 Felicidades. Cuenta creada con éxito`, {
+          toast.success(
+            `🎉 Felicidades ${a.data.firstName}! Cuenta creada con éxito`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+          toast.warning(`🙌🏽 Debes verificar tu email antes de ingresar`, {
             position: toast.POSITION.TOP_CENTER,
           });
         })
         .catch((error) => {
           console.log(error);
           if (error.response?.status !== 404 || 422)
-            toast.error(`Lo sentimos. Este email ya tiene una cuenta vinculada`, {
-              position: toast.POSITION.TOP_CENTER,
-            });
+            toast.error(
+              `Lo sentimos. Este email ya tiene una cuenta vinculada`,
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
         });
     }
   };

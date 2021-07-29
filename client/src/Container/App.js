@@ -15,10 +15,14 @@ import ProviderDetails from "../components/ProviderDetails/ProviderDetails";
 import HomeProvider from "../components/HomeProviders/HomePage/HomeProvider";
 import Providers from "../components/SearchProvider/Providers";
 import ProviderRating from "../components/Section/ProviderRating/ProviderRating";
-import CovidProtocol from '../components/CovidProtocol/CovidProtocol';
-import Footer from '../components/Footer/Footer';
-import About from '../components/About/About';
-import EventsHistory from '../components/UserProfile/EventsHistory/EventsHistory';
+import CovidProtocol from "../components/CovidProtocol/CovidProtocol";
+import Footer from "../components/Footer/Footer";
+import About from "../components/About/About";
+
+import ConfirmationMail from "../components/ConfirmationMail/ConfirmationMail";
+import ConfirmationMailProvider from "../components/ConfirmationMail/ConfirmationMailProvider";
+
+import EventsHistory from "../components/UserProfile/EventsHistory/EventsHistory";
 
 const App = () => {
   return (
@@ -47,7 +51,13 @@ const App = () => {
       <Route exact path="/profile/:id" component={UserProfile} />
       <Route exact path="/search" component={Providers} />
       <Route exact path="/covid" component={CovidProtocol} />
-      <Route exact path="/perfil/historial" component={EventsHistory}/>
+      <Route exact path="/perfil/historial" component={EventsHistory} />
+      <Route exact path="/confirmation/user/:id" component={ConfirmationMail} />
+      <Route
+        exact
+        path="/confirmation/provider/:id"
+        component={ConfirmationMailProvider}
+      />
       <Route path="/" component={Footer} />
       <Route exact path="/about" component={About} />
     </React.Fragment>

@@ -15,6 +15,7 @@ export interface IProvider extends Document {
   addresses: any[];
   services: any[];
   rating: any[];
+  confirm:any;
   setImage(filename: any): void;
   comparePassword(password: string): Promise<boolean>;
 }
@@ -52,6 +53,10 @@ const ProvidersSchema = new Schema<IProvider>(
       required: true,
       trim: true,
     },
+    confirm:{
+      type: Boolean, 
+      default: false,
+        },
     bio: {
       type: String,
       trim: true,
