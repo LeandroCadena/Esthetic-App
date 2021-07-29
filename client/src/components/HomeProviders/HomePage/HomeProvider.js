@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import ProviderProfileData from "../../ProviderProfile/ProviderProfileData/ProviderProfileData";
 import { red, green, orange } from "@material-ui/core/colors";
-import ServicesProvider from "../../HomeProviders/ServicesProvider/ServideProvider";
+import ServicesProvider from "../../HomeProviders/ServicesProvider/ServicesProvider";
 import ProviderProfileAddresses from "../../ProviderProfile/ProviderProfileAddresses/ProviderProfileAddresses";
 import {
   getAllProvidersAddresses,
