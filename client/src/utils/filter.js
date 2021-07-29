@@ -17,3 +17,15 @@ export const editAddress = (addresses, addressId, newAddress) => {
 
   return array;
 };
+
+
+export const updateReservation = (array, id) =>{  
+  let newArray = [...array]
+  const index = newArray.findIndex(obj => obj._id === id)
+  newArray[index].isActive = false
+
+  console.log("Esta es la funcion updateReservation", array, id, newArray[index]._id)
+
+  return newArray 
+}
+

@@ -39,7 +39,8 @@ function AccordionReservations() {
 
   const deleteReservation = (reservationId) => {
     alert("El turno ha sido borrado con exito");
-    dispatch(deleteUserReservation({ reservationId }));
+    const event = reservationId
+    dispatch(deleteUserReservation({ event }));
   };
 
   /* const editAddress = () => {
@@ -59,6 +60,7 @@ function AccordionReservations() {
       <div className="accordion">
         {reservations.map((r, i) => (
           <>
+          {/* {console.log("Esto es el mapeo de todas las reservas", r.isActive)} */}
             {r.isActive === true && (
               <div className="accordion-item" onClick={() => toggle(i)}>
                 <div className="accordion-title">

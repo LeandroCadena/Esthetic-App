@@ -92,13 +92,15 @@ export const getUserReservations = (userId) => async (dispatch) => {
 
 export const deleteUserReservation = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_RESERVATIONS_REQUEST});
+  console.log("Esto es payload", payload)
     try {
     const { data } = await axios.post(
-      `${HOST}${EVENTS}/cancel${USER}`
+      `${HOST}${EVENTS}/cancel${USER}`, payload
     );
+    console.log("este es el turno que quiero borrar", data)
     dispatch({
       type: actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS,
-      payload: payload.eventId,
+      payload: payload.event,
     });
   } catch (error) {
     dispatch({
