@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,7 +16,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Fade from "@material-ui/core/Fade";
 import { logout } from "../../Redux/actions/user.actions";
 import "./Header.scss";
-import handleSetSearchBar from "../../Redux/actions/actions";
+import { UserContext } from "../../index";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,23 +101,28 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [render, setRender] = React.useState("");
   const [ID, setID] = useState("");
-  const [user, setUser] = useState("");
+ /*  const [user, setUser] = useState(""); */
+ const { setUser } = useContext(UserContext);  
+ const { user } = useContext(UserContext);  
+ console.log(user)
 
 
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
-        if (storageData.userFound.roles[0].name === "user") {
+        console.log(storageData.userFound.roles[0].name)
+        if (storageData.userFound.roles[0].name == "user") {
           setUser("user");
-          setID(storageData.userFound._id);
+          setID(storageData.userFound?._id);
         } else {
+          console.log("esntre acaaaaaa")
           setUser("provider");
           setID(storageData.providerFound?._id);
         }
       }
     }
-  }, []);
+  }, [user]);
   const open = Boolean(anchorEl);
 
   useEffect(() => {
@@ -154,8 +159,11 @@ export default function PrimarySearchAppBar() {
 
   const handleCloseLogin = () => {
     dispatch(logout());
-    setRender('');
-    history.push('/');
+
+    setRender("");
+    setUser("")
+    history.push("/");
+
     handleClose();
     setAnchorEl(null);
   };
