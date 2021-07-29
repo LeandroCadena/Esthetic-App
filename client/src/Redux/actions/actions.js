@@ -79,7 +79,6 @@ export const handleSetSearchBar = (data) => (dispatch) => {
 export const getProviderRating = (providerId) => async (dispatch) => {
   try {
     const { data } = await axios.get(`${HOST}/providers/review/${providerId}/`);
-    console.log("DATAAAA ", data);
     dispatch({
       type: actionsTypes.GET_ALL_RATING_BY_PROVIDER,
       payload: data,

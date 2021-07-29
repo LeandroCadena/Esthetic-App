@@ -17,7 +17,6 @@ const RatingSchema = new Schema(
     provider: {
       type: Schema.Types.ObjectId,
       ref: "Providers",
-      // autopopulate: true,
     },
     user: {
       type: Schema.Types.ObjectId,

@@ -85,6 +85,7 @@ const ProvidersSchema = new Schema<IProvider>(
       {
         type: Schema.Types.ObjectId,
         ref: "Rating",
+        autopopulate: true,
       },
     ],
   },

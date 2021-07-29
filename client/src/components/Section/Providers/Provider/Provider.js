@@ -1,19 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import defaultImg from "../../../../img/spa_default_1.jpg";
 import "./Provider.scss";
 import { getProviderRating } from "../../../../Redux/actions/actions";
+import ProviderRating from "../../ProviderRating/ProviderRating";
 
 function Provider({ provider, service }) {
   const dispatch = useDispatch();
   const providerRating = useSelector((state) => state.providerRating);
+  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     dispatch(getProviderRating(provider._id));
   }, [dispatch]);
 
-  console.log("RATIIIIIING: ", providerRating?.data);
+  // console.log("RESEÑASSSS: ", ProviderRating.data);
+
+  const ratingCB = (prov) => {
+    let avgAssessment = 3.5;
+    if (prov.rating?.length) {
+      avgAssessment += prov.rating.reduce(
+        (prev, next) => (prev.assessment += next.assessment)
+      );
+      avgAssessment /= prov.rating.length + 1;
+      setShowReviews(true);
+      return avgAssessment;
+    }
+    return avgAssessment;
+  };
 
   return (
     <div className="provider-container">
@@ -38,7 +53,7 @@ function Provider({ provider, service }) {
             )}
             <div className="card-title">
               <h2 className="">{`${provider.firstName} ${provider.lastName}`}</h2>
-              <h4>{`Calificación: ${provider.rating}`}⭐</h4>
+              <h4>{`Calificación: ${ratingCB(provider._id)}`}⭐</h4>
             </div>
           </div>
           <div className="card-options">
