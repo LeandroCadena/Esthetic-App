@@ -36,16 +36,6 @@
     color: black;
     align-items: center;
   }
-  .button {
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 4rem;
-    background-color: #343a41;
-    color: white;
-    border-radius: 0.25rem;
-    margin-top: 10rem;
-    cursor: pointer;
-  }
   
   .row-element {
     display: flex;

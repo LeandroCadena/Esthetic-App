@@ -204,8 +204,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.firstName
                     : type === 'addresses'
-                    ? data[0]?.country
-                    : ''
+                      ? data?.length ? data[0].country : ''
+                      : ''
                 }
               />
               <TextField
@@ -220,8 +220,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.lastName
                     : type === 'addresses'
-                    ? data[0]?.state
-                    : ''
+                      ? data?.length ? data[0].state : ''
+                      : ''
                 }
               />
               <TextField
@@ -236,8 +236,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.email
                     : type === 'addresses'
-                    ? data[0]?.city
-                    : ''
+                    ? data?.length ? data[0].city : ''
+                      : ''
                 }
               />
               <TextField
@@ -252,8 +252,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.phone
                     : type === 'addresses'
-                    ? data[0]?.address_1
-                    : ''
+                    ? data?.length ? data[0].address_1 : '  '
+                      : ''
                 }
               />
               {type === 'addresses' && (
@@ -267,7 +267,7 @@ export default function FormAdresses({ type, alldata, data }) {
                     name='address_details'
                     onChange={handleChange}
                     defaultValue={
-                      type === 'addresses' ? data[0]?.address_details : ''
+                      type === 'addresses' ? data?.length ? data[0].address_details : '' : ''
                     }
                   />
                   <TextField
@@ -278,7 +278,7 @@ export default function FormAdresses({ type, alldata, data }) {
                     fullWidth
                     name='zip_code'
                     onChange={handleChange}
-                    defaultValue={type === 'addresses' ? data[0]?.zip_code : ''}
+                    defaultValue={type === 'addresses' ? data?.length ? data[0].zip_code : '' : ''}
                   />
 
                   <InputSelect data={dataAdress} />
