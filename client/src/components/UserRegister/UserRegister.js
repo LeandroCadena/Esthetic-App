@@ -233,16 +233,12 @@ export default function SignUp() {
           roles: roles.value,
         })
         .then((a) => {
-          console.log(a.data);
           setUser(a.data);
           success(`register user ${a.data.email}`);
           history.push("/");
-          toast.success(
-            `🎉 Felicidades ${a.data.firstName}! Cuenta creada con éxito`,
-            {
-              position: toast.POSITION.TOP_CENTER,
-            }
-          );
+          toast.success(`🎉 Felicidades ,cuenta creada con exito`, {
+            position: toast.POSITION.TOP_CENTER,
+          });
           toast.warning(`🙌🏽 Debes verificar tu email antes de ingresar`, {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -286,7 +282,7 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5"></Typography>
@@ -426,6 +422,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
+            style={{backgroundColor:"#af63a4"}}
             className={classes.submit}
           >
             Registrarme

@@ -114,7 +114,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Nombre para la dirección"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.name && <p className="danger">{errors.name}</p>}
             </div>
             <div>
               <label>Pais: </label>
@@ -126,9 +125,7 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese el País"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.country && <p className="danger">{errors.country}</p>}
             </div>
-
             <div>
               <label>Provincia: </label>
               <input
@@ -139,7 +136,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese la Provincia"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.state && <p className="danger">{errors.state}</p>}
             </div>
 
             <div>
@@ -152,7 +148,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese la Ciudad"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.city && <p className="danger">{errors.city}</p>}
             </div>
             <div>
               <label>Calle: </label>
@@ -164,9 +159,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese la Calle"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.address_1 && (
-                <p className="danger">{errors.address_1}</p>
-              )}
             </div>
 
             <div>
@@ -179,9 +171,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese los detalles"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.address_details && (
-                <p className="danger">{errors.address_details}</p>
-              )}
             </div>
 
             <div>
@@ -194,7 +183,6 @@ function FormAddresses({ showModal, setShowModal, setChange }) {
                 placeholder="Ingrese el código postal"
                 onChange={(e) => handleInputChange(e.target)}
               />
-              {errors.zip_code && <p className="danger">{errors.zip_code}</p>}
             </div>
             <span className='main_address'>
               <label>Direccion Principal: </label>
