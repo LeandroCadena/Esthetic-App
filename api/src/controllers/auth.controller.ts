@@ -4,6 +4,7 @@ import Users from '../models/Users';
 import Providers from '../models/Providers';
 import createToken from '../utils/functionToken';
 import Bags from '../models/Bags';
+import sendCofirmationEmail from "../libs/EmailServices"
 
 //SIGNUP USERS: user / provider
 
@@ -52,21 +53,25 @@ export const signUp: RequestHandler = async (req, res) => {
     //   dataUser.setImage(filename);
     // }
     const newUser = new Users(dataUser);
-
+    
+    
     if (roles) {
       const foundRoles = await Role.find({ name: { $in: roles } });
       newUser.roles = foundRoles.map((role: any) => role._id);
     }
+    
+    
     // else {
-    //   const role = await Role.find({ name: 'user' });
-    //   newUser.roles = [role._id];
-    // }
-
-    const userBag = new Bags({ user: newUser });
-    await userBag.save()
-
-    const savedUser = await newUser.save();
-    return res.status(201).json(savedUser);
+      //   const role = await Role.find({ name: 'user' });
+      //   newUser.roles = [role._id];
+      // }
+      
+      const userBag = new Bags({ user: newUser });
+      await userBag.save()
+      
+      const savedUser = await newUser.save();
+      sendCofirmationEmail (savedUser) 
+      return res.status(201).json(savedUser);
   }
 
   if (roles === 'provider') {
@@ -114,12 +119,14 @@ export const signUp: RequestHandler = async (req, res) => {
         const foundRoles = await Role.find({ name: { $in: roles } });
         newProvider.roles = foundRoles.map((role: any) => role._id);
       }
-
       const savedProvider = await newProvider.save();
+      sendCofirmationEmail(savedProvider)
       return res.status(201).send({
         data: savedProvider,
         message: `Felicitaciones, ${newProvider.firstName}! Ya eres parte del equipo de Estetic-Aap.`,
       });
+      
+      
     } catch (error: any) {
       res.status(501).send({
         message: 'Algo salió mal. Por favor vuelve a intentarlo.',
