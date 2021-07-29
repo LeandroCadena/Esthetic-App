@@ -68,6 +68,7 @@
   .td-address{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     select{
      border-radius: 0.2em;
      margin-left: 5px;
@@ -75,6 +76,10 @@
     }
   }
 
-  .address-select {
-    
+  .modal-icon {
+    background-color: rgb(255, 255, 255);
+    border-radius: 8em;
+  }
+  .modal-icon:hover{
+    box-shadow: 0 0 10px 2px white;
   }

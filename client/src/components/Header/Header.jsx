@@ -1,25 +1,23 @@
-import React, { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { alpha, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import loto from '../../img/loto.png';
-import { BiShoppingBag } from 'react-icons/bi';
-import { useSelector, useDispatch } from 'react-redux';
-import Menu from '@material-ui/core/Menu';
-import Avatar from '@material-ui/core/Avatar';
-import Fade from '@material-ui/core/Fade';
-import SearchBar from '../Searchbar/Searchbar';
-import { logout, userActiveSession } from '../../Redux/actions/user.actions';
-import './Header.scss';
+
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { alpha, makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import MenuItem from "@material-ui/core/MenuItem";
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import loto from "../../img/loto.png";
+import { BiShoppingBag } from "react-icons/bi";
+import { useSelector, useDispatch } from "react-redux";
+import Menu from "@material-ui/core/Menu";
+import Avatar from "@material-ui/core/Avatar";
+import Fade from "@material-ui/core/Fade";
+import { logout } from "../../Redux/actions/user.actions";
+import "./Header.scss";
+import handleSetSearchBar from "../../Redux/actions/actions";
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -27,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    font: 16,
   },
   title: {
     display: 'none',
@@ -91,32 +90,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const options = [
-  'Zona Norte ',
-  'Zona Sur',
-  'Centro',
-  'Zona Este',
-  'Zona Oeste',
-];
-const ITEM_HEIGHT = 48;
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const setStateSearch = useSelector((state) => state.setStateSearch);
   const loginData = useSelector((state) => state.loginData);
   const userActive = useSelector((state) => state.userActive);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [zona, setzona] = React.useState(null);
-  const [render, setRender] = React.useState('');
+  const [render, setRender] = React.useState("");
+  const [ID, setID] = useState("");
+  const [user, setUser] = useState("");
 
+
+  useEffect(() => {
+    if (localStorage.getItem("loggedSpatifyApp")) {
+      const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
+      if (storageData.userFound) {
+        if (storageData.userFound.roles[0].name === "user") {
+          setUser("user");
+          setID(storageData.userFound._id);
+        } else {
+          setUser("provider");
+          setID(storageData.providerFound?._id);
+        }
+      }
+    }
+  }, []);
   const open = Boolean(anchorEl);
-  const abrir = Boolean(zona);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedSpatifyApp');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
+      console.log(user);
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);
@@ -134,25 +142,16 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleRedirect = (e) => {
-    console.log('entre');
-    console.log(loginData.providerFound);
-    if (loginData.userFound) {
-      let id = loginData.userFound?._id;
-      history.push(`/profile/${id}`);
-    } else if (loginData.providerFound) {
-      let id = loginData.providerFound?._id;
-      history.push(`/providers/${id}/profile`);
+
+    if (user === "user") {
+      history.push(`/profile/${ID}`);
+    } else if (user === "provider") {
+      history.push(`/providers/${ID}/profile`);
+
     }
     setAnchorEl(null);
   };
 
-  const handleClickZona = (event) => {
-    setzona(event.currentTarget);
-  };
-
-  const handleCloseZona = () => {
-    setzona(null);
-  };
   const handleCloseLogin = () => {
     dispatch(logout());
     setRender('');
@@ -166,16 +165,29 @@ export default function PrimarySearchAppBar() {
       to={'/login'}
       style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
     >
-      <Button color='inherit'>INGRESAR</Button>
+
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        INGRESAR
+      </Button>
+
     </Link>,
     '|',
     <Link
-      to={'/userRegister'}
-      style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
+
+      to={"/userRegister"}
+      style={{
+        color: "rgb(121, 47, 111)",
+        textDecoration: "none",
+        font: "16px",
+      }}
     >
-      <Button color='inherit'>REGISTRARSE </Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        REGISTRARSE{" "}
+      </Button>
+
     </Link>,
   ];
+
   let loginProvider = [
     <Avatar
       onClick={handleClick}
@@ -206,83 +218,58 @@ export default function PrimarySearchAppBar() {
     </Menu>,
   ];
 
-  let loginProfile = loginData.userFound
-    ? [
-        <Avatar
-          onClick={handleClick}
-          alt='Remy Sharp'
-          src='/static/images/avatar/1.jpg'
-        />,
-        <Menu
-          id='fade-menu'
-          anchorEl={anchorEl}
-          keepMounted
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Fade}
-        >
-          {/* <Link
-        to={`/user/profile/`}
-        
-        <Link
-        to={'/provider/profile'}
-        
-        style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
-      >  */}
-          <MenuItem
-            /* onClick={handleClose} */ onClick={(e) => handleRedirect(e)}
-          >
-            Perfil
-          </MenuItem>
-          {/*   </Link> */}
-          <Link
-            to={'/perfil/historial'}
-            style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
-          >
-            <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
-          </Link>
-          <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
-        </Menu>,
-      ]
-    : loginProvider;
 
-  const zonas = [
-    <Button
-      onClick={handleClickZona}
-      color='inherit'
-      style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
-    >
-      ZONAS{' '}
-    </Button>,
-    <Menu
-      id='long-menu'
-      anchorEl={zona}
-      keepMounted
-      open={abrir}
-      onClose={handleCloseZona}
-      PaperProps={{
-        style: {
-          color: 'rgb(121, 47, 111)',
-          maxHeight: ITEM_HEIGHT * 4.5,
-          width: '20ch',
-        },
-      }}
-    >
-      {options.map((option) => (
-        <MenuItem
-          key={option}
-          selected={option === 'Pyxis'}
-          onClick={handleCloseZona}
-        >
-          {option}
-        </MenuItem>
-      ))}
-    </Menu>,
-  ];
+  let loginProfile =
+    user === "user"
+      ? [
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              onClick={handleClick}
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+            />
+            ,
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem onClick={(e) => handleRedirect(e)}>Perfil</MenuItem>
+              {/*   </Link> */}
+              <Link
+                to={"/perfil/historial"}
+                style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
+              >
+                <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
+            </Menu>
+            ,
+            <Link
+              to={"/cart"}
+              style={{
+                color: "rgb(121, 47, 111)",
+                textDecoration: "none",
+                borderRadius: 50,
+                marginLeft: "1rem",
+              }}
+            >
+              <Button color="inherit">
+                <BiShoppingBag />
+              </Button>
+            </Link>
+            ,
+          </div>,
+        ]
+      : loginProvider;
 
   return (
     <div className={`${classes.grow} header`}>
-      <AppBar position='static' style={{ backgroundColor: 'white' }}>
+      <AppBar position="static" style={{ backgroundColor: "white" }}>
+
         <Toolbar>
           <Typography className={classes.title} variant='h6' noWrap>
             <Link to={'/'} style={{ textDecoration: 'none' }}>
@@ -297,40 +284,22 @@ export default function PrimarySearchAppBar() {
               />
             </Link>
           </Typography>
-          <Link to={'/search'}>
-            <div style={{ marginLeft: '4rem' }}>BUSQUEDA</div>
-          </Link>
-
-          {/*   <SearchBar /> */}
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}></div>
-          <div style={{ display: 'flex', marginRight: '2rem' }}>
-            <div>
-              {zonas}|
-              {/* <Link
-                to={"/provaiderRegister"}
-                style={{ color: "black", textDecoration: "none", background:"grey" }}
-              >
-                <Button color="inherit">INSCRIBITE COMO PROFESIONAL</Button>
-              </Link> */}
-            </div>
-          </div>
-          <b>{render === '' ? loginAndRegister : loginProfile}</b>
-          {/* <b>{!logginState ? loginAndRegister : loginProfile}</b> */}
 
           <Link
-            to={'/cart'}
+            to={"/search"}
             style={{
-              color: 'rgb(121, 47, 111)',
-              textDecoration: 'none',
-              borderRadius: 50,
-              marginLeft: '1rem',
-            }}
+              textDecoration: "none",
+            }} /* onClick={(e)=>{handleSetSearchBar(e)} */
           >
-            <Button color='inherit'>
-              <BiShoppingBag />
-            </Button>
+            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
+
           </Link>
+
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}></div>
+          <div style={{ display: "flex", marginRight: "2rem" }}></div>
+
+          <b>{render === "" ? loginAndRegister : loginProfile}</b>
         </Toolbar>
       </AppBar>
     </div>

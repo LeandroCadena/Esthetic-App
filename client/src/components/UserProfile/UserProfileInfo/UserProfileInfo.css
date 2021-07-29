@@ -22,6 +22,15 @@ font-size: 20px;
 
 }
 
+.profile-img{
+  border-radius: 100px;
+  width: 250px;
+}
+.img{
+  border-radius: 100px;
+  width: 250px;
+}
+
 .acordion-container{
   
   padding-top: 30px;

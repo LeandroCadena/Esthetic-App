@@ -1,4 +1,4 @@
-# Estetic-App
+# Spa-tify
 
 This app, is the result of the joining effort of 7 students from #Henry's full-stack web developer bootcamp. It's mainly a platform to gather esthetic service providers with esthetic service users. It's a place where local offer meets local demand for a premium home-delivery service. Some of the services offered go from hair and beard cuts to nail services, to massages and so on.
 

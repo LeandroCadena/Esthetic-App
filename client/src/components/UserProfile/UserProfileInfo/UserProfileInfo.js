@@ -9,43 +9,47 @@ import {
 } from "../../../Redux/actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
 import "./UserProfileInfo.css";
-
 import AccordionPrueba from "./AccordionPrueba";
-
-const ID = window.localStorage.getItem("loggedSpatifyApp")
-  ? JSON.parse(window.localStorage.getItem("loggedSpatifyApp"))
-  : null;
-console.log("Este es el ID", ID);
 
 function UserProfileInfo() {
   const [newAddressInfo, setnewAddressInfo] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
-  
+  const [userID, setUserID] = useState("");
+  const [change, setChange] = useState(false);
 
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.userData.data);
   const userAddresses = useSelector((state) => state.userAddresses.data);
 
   useEffect(() => {
-    dispatch(getUserProfile(ID.userFound._id));
-    dispatch(getUserAddresses(ID.userFound._id));
+    if (window.localStorage.getItem("loggedSpatifyApp")) {
+      const userData = JSON.parse(
+        window.localStorage.getItem("loggedSpatifyApp")
+      );
+      if (userData.userFound.roles[0].name === "user") {
+        setUserID(userData.userFound._id);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    if (userID !== '') {
+      dispatch(getUserProfile(userID));
+      dispatch(getUserAddresses(userID));
+    }
+  }, [userID]);
 
   return (
     <div>
       <div className="user-profile-info-container">
         <div className="profile-data">
           <div className="profile-img">
-            {/*    {userData.img ? (
-              <img
-                className="img"
-                src={userData.img}
-                alt="Service Image"
-              ></img>
+            {/* {userData.img ? (
+              <img className="img" src={userData.img} alt="Service Image"></img>
             ) : ( */}
-            {/*   <img className="img" src={defaultImg} alt="Default Image"></img> */}
-            {/*  )} */}
+            <img className="img" src={defaultImg} alt="Default Image"></img>
+            {/* )} */}
           </div>
         </div>
         <div className="profile-info">
@@ -68,6 +72,7 @@ function UserProfileInfo() {
             <h1>MIS DIRECCIONES</h1>
 
             <FormAddresses
+              setChange={() => { setChange(!change) }}
               showModal={addressModal}
               setShowModal={setAddressModal}
               newAddressInfo={newAddressInfo}
@@ -85,7 +90,7 @@ function UserProfileInfo() {
           <hr />
           <hr />
           <div className="acordion-container">
-            <AccordionPrueba />
+            <AccordionPrueba setChange={() => { setChange(!change) }} change={change} />
           </div>
         </div>
       </div>

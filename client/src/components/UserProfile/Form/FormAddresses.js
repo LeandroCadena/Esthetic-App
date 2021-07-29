@@ -1,44 +1,43 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
   postUserAddresses,
   putUserData,
 } from "../../../Redux/actions/user.actions";
 import { GET_USERS } from "../../../utils/constants";
-import { validate } from "../../../utils/validate-user-profile";
+import { validateAddress } from "../../../utils/validate-addresses";
 import "./Form.css";
 
-const ID = window.localStorage.getItem("loggedSpatifyApp")
-  ? JSON.parse(window.localStorage.getItem("loggedSpatifyApp"))
-  : null;
-
-function FormAddresses({ showModal, setShowModal }) {
-  const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
-    phone: false,
-  });
-
-  const [input, setInput] = useState({
-    addresses: {
-      name: "",
-      country: "",
-      state: "",
-      city: "",
-      address_1: "",
-      address_details: "",
-      zip_code: "",
-      is_main: false,
-      provider: "",
-      user: ID.userFound._id,
-    },
-  });
-
-  const [userId, setUserId] = useState("");
-
+function FormAddresses({ showModal, setShowModal, setChange }) {
+  const [ID, setID] = useState("");
   const dispatch = useDispatch();
   const modalRef = useRef();
+  const [errors, setErrors] = useState({});
+  const [first, setFirst] = useState(false);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("loggedSpatifyApp")) {
+      const userData = JSON.parse(
+        window.localStorage.getItem("loggedSpatifyApp")
+      );
+      if (userData.userFound.roles[0].name === "user") {
+        setID(userData.userFound._id);
+      }
+    }
+  }, []);
+
+  const [input, setInput] = useState({
+    name: "",
+    country: "",
+    state: "",
+    city: "",
+    address_1: "",
+    address_details: "",
+    zip_code: "",
+    is_main: false
+  });
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
@@ -49,135 +48,159 @@ function FormAddresses({ showModal, setShowModal }) {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const userId = ID.userFound._id;
-    dispatch(postUserAddresses({ userId, input }));
-  };
-
-  useEffect(() => {
-    if (window.localStorage.getItem("loggedSpatifyApp")) {
-      const userData = JSON.parse(
-        window.localStorage.getItem("loggedSpatifyApp")
-      );
-      if (userData.userFound.roles[0].name === "user") {
-        setUserId(userData.userFound._id);
+    if (ID !== '') {
+      if (!first) {
+        setFirst(true);
       }
+      if (!Object.keys(validateAddress(input)).length) {
+        try {
+          const { data } = await axios.post(
+            `${GET_USERS}/${ID}/addresses`,
+            input
+          );
+          setChange()
+          toast.success('Dirección agregada correctamente', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        } catch (error) {
+          toast.error('Ocurrió un error al añadir la dirección, intente de nuevo', {
+            position: toast.POSITION.TOP_CENTER
+          })
+        }
+        setShowModal(false)
+      } else {
+        setErrors(validateAddress(input))
+        toast.error('Complete los datos para la dirección', {
+          position: toast.POSITION.TOP_CENTER
+        })
+      }
+
     }
-  }, []);
+  };
 
   const handleInputChange = function (e) {
     setInput({
       ...input,
       [e.name]: e.value,
     });
-
-    /*  var objError = validate({
-      ...input,
-      [e.name]: e.value,
-    });
-    setErrors(objError); */
   };
+
+  const handleMain = (e) => {
+    setInput({
+      ...input,
+      is_main: e.target.checked,
+    });
+  };
+
+  useEffect(() => {
+    if (first) {
+      setErrors(validateAddress(input))
+    }
+  }, [input]);
 
   return (
     <>
       {showModal && (
         <div className="wrapper" ref={modalRef} onClick={closeModal}>
           <div className="form-container">
-            <form>
-              <div className="form-element">
-                <label>Referencia: </label>
-                <input
-                  className={errors.name && "danger"}
-                  name="name"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.name && <p className="danger">{errors.name}</p>}
-              </div>
-              <div>
-                <label>Pais: </label>
-                <input
-                  className={errors.country && "danger"}
-                  name="country"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.country && <p className="danger">{errors.country}</p>}
-              </div>
+            <div className="form-element-a">
+              <h3 className='modal-title'>NUEVA DIRECCIÓN</h3>
+              <label>Referencia: </label>
+              <input
+                className={errors.name && "danger"}
+                name="name"
+                type="text"
+                value={input.name}
+                placeholder="Nombre para la dirección"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Pais: </label>
+              <input
+                className={errors.country && "danger"}
+                name="country"
+                type="text"
+                value={input.country}
+                placeholder="Ingrese el País"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Provincia: </label>
+              <input
+                className={errors.state && "danger"}
+                name="state"
+                type="text"
+                value={input.state}
+                placeholder="Ingrese la Provincia"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
 
-              <div>
-                <label>Provincia: </label>
-                <input
-                  className={errors.state && "danger"}
-                  name="state"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.state && <p className="danger">{errors.state}</p>}
-              </div>
+            <div>
+              <label>Ciudad: </label>
+              <input
+                className={errors.city && "danger"}
+                name="city"
+                type="text"
+                value={input.city}
+                placeholder="Ingrese la Ciudad"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Calle: </label>
+              <input
+                className={errors.address_1 && "danger"}
+                name="address_1"
+                type="text"
+                value={input.address_1}
+                placeholder="Ingrese la Calle"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
 
-              <div>
-                <label>Ciudad: </label>
-                <input
-                  className={errors.city && "danger"}
-                  name="city"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.city && <p className="danger">{errors.city}</p>}
-              </div>
-              <div>
-                <label>Calle: </label>
-                <input
-                  className={errors.address_1 && "danger"}
-                  name="address_1"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.address_1 && (
-                  <p className="danger">{errors.address_1}</p>
-                )}
-              </div>
+            <div>
+              <label>Detalles: </label>
+              <input
+                className={errors.address_details && "danger"}
+                name="address_details"
+                type="text"
+                value={input.address_details}
+                placeholder="Ingrese los detalles"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
 
-              <div>
-                <label>Detalles: </label>
-                <input
-                  className={errors.address_details && "danger"}
-                  name="address_details"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.address_details && (
-                  <p className="danger">{errors.address_details}</p>
-                )}
-              </div>
+            <div>
+              <label>Codigo Postal: </label>
+              <input
+                className={errors.zip_code && "danger"}
+                name="zip_code"
+                type="text"
+                value={input.zip_code}
+                placeholder="Ingrese el código postal"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <span className='main_address'>
+              <label>Direccion Principal: </label>
+              <input
+                className={errors.zip_code && "danger"}
+                name="is_main"
+                type="checkbox"
+                onChange={(e) => handleMain(e)}
+              />
+            </span>
 
-              <div>
-                <label>Codigo Postal: </label>
-                <input
-                  className={errors.zip_code && "danger"}
-                  name="zip_code"
-                  type="text"
-                  placeholder="Ingrese su direccion"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-                {errors.zip_code && <p className="danger">{errors.zip_code}</p>}
-              </div>
-              <div>
-                <label>Direccion Principal: </label>
-                <input
-                  className={errors.zip_code && "danger"}
-                  name="is_main"
-                  type="checkbox"
-                  onChange={(e) => handleInputChange(e.target)}
-                />
-              </div>
-
+            <div className='form-buttons'>
+              <button
+                className="button"
+                onClick={() => setShowModal(false)}
+              >
+                CANCELAR
+              </button>
               <button
                 className="button"
                 type="submit"
@@ -185,7 +208,8 @@ function FormAddresses({ showModal, setShowModal }) {
               >
                 AGREGAR
               </button>
-            </form>
+            </div>
+
           </div>
         </div>
       )}

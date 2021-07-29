@@ -5,9 +5,12 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { getServices , handleKeyword ,getAllProviders} from "../../Redux/actions/actions";
-
-
+import {
+  getServices,
+  handleKeyword,
+  getAllProviders,
+  handleSearchBar,
+} from "../../Redux/actions/actions";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -51,74 +54,106 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
+
+  const renderSearchBar = useSelector((state) => state.renderSearchBar)
   const services = useSelector((state) => state.services.data);
-  const allProviders = useSelector((state) => state.allProviders)
+  const allProviders = useSelector((state) => state.allProviders);
 
-  const nameProvider = allProviders?.data.map(x => {return {name: x.firstName , lastname: x.lastName}})
-  const nameAndLastName = nameProvider.map(x => Object.values(x)).map(a => a.join(" "))
 
-  const nameServices = services?.map(x => x.name) 
-  const searchAll = nameAndLastName.concat(nameServices) 
+  //Estados, ciudades
+ const city =  allProviders.data?.map((z) => z.addresses[0]).map(x => x ? x.city : "")
+ const state =  allProviders.data?.map((z) => z.addresses[0]).map(x => x ? x.state : "")
  
-  /* console.log(searchAll) */
-  
+
+ const cityArr = new Set(city);
+ const stateArr = new Set(state);
  
-  
+ const cityNoRep = [...cityArr];
+ const stateNoRep = [...stateArr];
+ 
+ const places = [...cityNoRep, ...stateNoRep]
+
+  ///Nombre y Apellido de Proveedores
+  const nameProvider = allProviders?.data.map((x) => {
+    return { name: x.firstName, lastname: x.lastName };
+  });
+  const nameAndLastName = nameProvider
+    .map((x) => Object.values(x))
+    .map((a) => a.join(" "));
+
+  const searchProvider = nameAndLastName.concat(places);
+    console.log(searchProvider)
+/// Servicios 
+  const nameServices = services?.map((x) => x.name);
+console.log(nameServices)
+
+   
+
   const [keyword, setKeyword] = useState("");
-
+console.log(keyword)
   const handleChange = (e, value) => {
-    console.log("viendo cambios")
-    console.log(e.target.textContent)
     console.log(value)
-
     setKeyword(value);
-    /* dispatch(serviceSearch(keyword)); */
+    dispatch(handleKeyword(keyword));
+    
   };
-  
-  console.log(keyword);
+
+ 
 
   const reset = () => {
     setKeyword("");
   };
 
   const onFormSubmit = (e) => {
-    console.log("entre aca")
+    console.log("entre aca");
     e.preventDefault();
-    dispatch(handleKeyword(keyword))
-    reset();
-  };
+    console.log(keyword)
+    dispatch(handleKeyword(keyword));
+    reset()
+   };
 
   useEffect(() => {
-    dispatch(getServices());
-    dispatch(getAllProviders())
+    /*  dispatch(getServices());
+    dispatch(getAllProviders());  */
     
-  }, [dispatch, keyword]);
+    /* dispatch(handleSearchBar()) */
+  }, [/* dispatch */, keyword /* renderSearchBar */]);
+
+ 
+
 
   return (
-    <form type="submit" action="" onSubmit={onFormSubmit} style={{
-      display: "flex",
-      marginTop: 18,
-      justifyContent: "center",
-      borderRadius:50,
-      justifyContent: "center",
-      marginRight: "15rem"
-      }}>
+
+    <form
+      type="submit"
+      action=""
+      onSubmit={onFormSubmit}
+      style={{
+        display: "flex",
+        marginTop: 18,
+        justifyContent: "center",
+        borderRadius: 50,
+        justifyContent: "center",
+        marginRight: "15rem",
+      }}
+    >
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon style={{ color: "rgb(121, 47, 111)" }} />
         </div>
-        
+        {props?.state == "Provedores" ?
         <Autocomplete
+        
           id="custom-input-demo"
-          options={ searchAll } 
-          getOptionLabel={(option) => option ? option : ""}
-          onChange={(e, value) =>
-            handleChange(e, value)
-        }
+          options={searchProvider}
+          getOptionLabel={(option) => {
+            console.log(option)
+            return option ? option : " "}}
+          onChange={(e, value) => handleChange(e, value)}
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,
@@ -126,17 +161,42 @@ const SearchBar = () => {
           renderInput={(params) => (
             <div ref={params.InputProps.ref}>
               <input
-                style={{ width: "200%", marginRight:"1rem",
-                height:"4rem" }}
-                placeholder="Buscar a tu provedor fav..."
+                style={{ width: "200%", marginRight: "1rem", height: "4rem" }}
+                placeholder={ "Buscar proveedor por nombre o zona..."}
                 type="text"
                 {...params.inputProps}
               />
+              
             </div>
           )}
           inputProps={{ "aria-label": "search" }}
-          
         />
+     
+        :
+        <Autocomplete
+          id="custom-input-demo"
+          options={nameServices}
+          getOptionLabel={(option) => {
+            return option ? option : " "}}
+          onChange={(e, value) => handleChange(e, value)}
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          renderInput={(params) => (
+            <div ref={params.InputProps.ref}>
+              <input
+                style={{ width: "200%", marginRight: "1rem", height: "4rem" }}
+                placeholder={ "Busca tus servicios preferidos..."}
+                type="text"
+                {...params.inputProps}
+              />
+              
+            </div>
+          )}
+          inputProps={{ "aria-label": "search" }}
+        />
+      }
       </div>
     </form>
   );

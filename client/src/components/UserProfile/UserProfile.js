@@ -7,13 +7,6 @@ import UserReservations from "./UserReservations/UserReservations";
 import "./UserProfile.css";
 import UserBanner from "./UserBanner/UserBanner";
 
-const ID = window.localStorage.getItem("loggedSpatifyApp")
-  ? JSON.parse(window.localStorage.getItem("loggedSpatifyApp"))
-  : null;
-
-
-
-
 function UserProfile() {
   
   return (

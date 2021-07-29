@@ -82,7 +82,7 @@ function CartOrder({ total, itemLoading, response, props }) {
             if (res.data.error) {
                 response(false)
                 res.data.notAvailable.forEach((reservationDeleted) => {
-                    toast.error(`El turno para 
+                    toast.error(`Lo sentimos. El turno para 
                     ${reservationDeleted.service} del día 
                     ${reservationDeleted.date} a las 
                     ${reservationDeleted.hour}:00hs ya no se encuentra disponible`, {
@@ -91,7 +91,7 @@ function CartOrder({ total, itemLoading, response, props }) {
                 })
             } else {
                 response(false)
-                toast.success(`Todos los turnos se encuentras disponibles`, {
+                toast.success(`Todos los turnos se encuentran disponibles`, {
                     position: toast.POSITION.TOP_CENTER
                 })
                 const mercadoPagoResponse = await axios.get(`${HOST}/checkout/${userID}`);
