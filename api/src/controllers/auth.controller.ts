@@ -148,11 +148,16 @@ export const signIn: RequestHandler = async (req, res) => {
 
   //USER
   const userFound = await Users.findOne({ email: email });
+  if(userFound && !userFound.confirm){
+    return res.status(400).json({ message: 'Have to validate mail' });
+  }
   if (!userFound) {
     const providerFound = await Providers.findOne({ email: email });
     if (!providerFound)
       return res.status(400).json({ message: 'The user does not exist' });
-
+      if(providerFound && !providerFound.confirm){
+        return res.status(400).json({ message: 'Have to validate mail' });
+      }
     const isMatchProvider = await providerFound.comparePassword(password);
     if (isMatchProvider)
       return res.json({ providerFound, token: createToken(providerFound) });
