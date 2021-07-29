@@ -1,15 +1,12 @@
-
 import actionsTypes from "../constants/constants";
-import { editAddress, findService } from "../../utils/filter.js";
-
-
+import { editAddress, findService, updateReservation } from "../../utils/filter.js";
 
 const initialState = {
   services: {
     loading: true,
     data: [],
   },
-  userActive: '',
+  userActive: "",
   loginData: {},
 
   serviceDetails: { loading: true, data: {} },
@@ -29,8 +26,7 @@ const initialState = {
   provider_update_status: {},
   reservation_status: {},
 
-
-  setStateSearch : "", 
+  setStateSearch: "",
   renderSearchBar: "",
   userActive: "",
   loginData: {},
@@ -41,10 +37,8 @@ const initialState = {
   userAddresses: { loading: true, data: [] },
   userReservations: { loading: true, data: [] },
 
-
   allUsers: [],
   keyword: "",
-
 };
 
 const appReducer = (state = initialState, action) => {
@@ -71,7 +65,7 @@ const appReducer = (state = initialState, action) => {
       };
     case actionsTypes.LOGIN_SUCCESSFUL:
       window.localStorage.setItem(
-        'loggedSpatifyApp',
+        "loggedSpatifyApp",
         JSON.stringify(action.payload)
       );
       return {
@@ -89,7 +83,7 @@ const appReducer = (state = initialState, action) => {
         //error: action.payload.userActive,
       };
     case actionsTypes.LOGOUT:
-      window.localStorage.setItem('loggedSpatifyApp', '');
+      window.localStorage.setItem("loggedSpatifyApp", "");
       // window.localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -156,14 +150,14 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         allProviders: { loading: false, data: action.payload },
-      }
+      };
 
     case actionsTypes.GET_PROVIDER_DETAILS_REQ:
       return {
         ...state,
         providerDetails: { loading: true },
       };
-      
+
     case actionsTypes.GET_PROVIDER_DETAILS_SUCC:
       return {
         ...state,
@@ -363,8 +357,8 @@ const appReducer = (state = initialState, action) => {
         ...state,
         allProviders: { loading: false, data: action.payload },
       };
-      
-    ///RENDER SEARCHBAR 
+
+    ///RENDER SEARCHBAR
     case actionsTypes.RENDER_SEARCHBAR:
       return {
         ...state,
@@ -376,32 +370,35 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
-//DETELE USER RESERVATIOBS  ------>> /////VER
+    //DETELE USER RESERVATIOBS  ------>> /////VER
 
-case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
-  return {
-    ...state,
-    userReservations: { ...state.userReservations, loading: true },
-  };
-case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
-  return {
-    ...state, 
-    userReservations: {
-      loading: false,
-      data: state.userReservations.data.filter(
-        (r) => r._id !== action.payload
-      ),
-    },
-  };
-case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
-  return {
-    ...state,
-    userReservations: { loading: false, error: action.payload },
-  };
+    case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
+      return {
+        ...state,
+        userReservations: { ...state.userReservations, loading: true },
+      };
+    case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
+      console.log("Esto es reservations", state.userReservations.data)
+      return {
+        ...state,
+        userReservations: {
+          loading: false,
+          data: updateReservation(state.userReservations.data, action.payload)
+           /*  r._id === action.payload ? (r.isActive = false) : r */
+            ,
+          },
+         /*  console.log("estas son las reservas", state.userReservations.data) */
+      };
 
-//POST USER REVIEW
+    case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
+      return {
+        ...state,
+        userReservations: { loading: false, error: action.payload },
+      };
 
-case actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST:
+    //POST USER REVIEW
+
+    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST:
       return {
         ...state,
         userReservations: { ...state.userReservations, loading: true },
@@ -419,12 +416,6 @@ case actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST:
         ...state,
         userReservations: { loading: false, error: action.payload },
       };
-
-
-
-
-
-
 
     default:
       return state;
