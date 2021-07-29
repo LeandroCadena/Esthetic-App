@@ -56,11 +56,19 @@ export const getUserProfile = (userId) => async (dispatch) => {
   dispatch({ type: actionsTypes.GET_USER_DATA_PROFILE_REQUEST });
 
   try {
-    const { data } = await axios.get(`${HOST}/users/${userId}`);
-    dispatch({
-      type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
-      payload: data,
-    });
+    if (/^(?:[1-9]\d*|\d)$/.test(userId)) {
+      const { data } = await axios.get(`${HOST}/users/google/${userId}`);
+      dispatch({
+        type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
+        payload: data,
+      });
+    } else {
+      const { data } = await axios.get(`${HOST}/users/${userId}`);
+      dispatch({
+        type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
+        payload: data,
+      });
+    }
   } catch (error) {
     dispatch({
       type: actionsTypes.GET_USER_DATA_PROFILE_FAIL,
@@ -69,19 +77,28 @@ export const getUserProfile = (userId) => async (dispatch) => {
   }
 };
 
-//USERS UPDATE AFTER LOGIN GOOGLE
-
-export const updateUsersAfterGoogle = (id, dataUpdate) => (dispatch) => {
+//DELETE USER
+export const deleteUser = (id) => async () => {
   try {
-    const { data } = axios.put(`${HOST}/users/${id}`, dataUpdate);
-    dispatch({
-      type: actionsTypes.UPDATE_USERS_AFTER_GOOGLE,
-      payload: data,
-    });
+    await axios.delete(`${HOST}/users/${id}`);
   } catch (error) {
     console.log(error);
   }
 };
+
+//USERS UPDATE AFTER LOGIN GOOGLE
+
+// export const updateUsersAfterGoogle = (id, dataUpdate) => (dispatch) => {
+//   try {
+//     const { data } = axios.put(`${HOST}/users/${id}`, dataUpdate);
+//     dispatch({
+//       type: actionsTypes.UPDATE_USERS_AFTER_GOOGLE,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 //USER RESERVATIONS
 

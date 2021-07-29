@@ -14,27 +14,34 @@ import Users from './models/Users';
 const app: Application = express();
 createRoles();
 createService();
+
 app.set('port', process.env.PORT || 3002);
+
 app.use(express.json());
-// app.use(fileUpload());
 app.use(morgan('dev'));
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true,
-  })
-);
+
 //authentication passport (read token)
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(JWTStrategy);
-//passport.authenticate('jwt');
+
+//session
+app.use(
+  session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
 
 //google passport
-
 passport.serializeUser((user: any, done: any) => {
   return done(null, user.id);
 });
@@ -85,7 +92,7 @@ passport.use(
         cb(error, null);
       }
 
-      console.log(profile);
+      // console.log(profile);
       cb(null, profile);
     }
   )
@@ -100,6 +107,7 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function (req: any, res: any) {
+    console.log(req.user);
     // Successful authentication, redirect home.
     res.redirect(`http://localhost:3000/complete/perfil/${req.user?.id}`);
   }

@@ -22,6 +22,7 @@ import { InputLabel } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import { deleteUser } from '../../../Redux/actions/user.actions';
 
 function Copyright() {
   return (
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormCompleteRegister = ({ id }) => {
+const FormCompleteRegister = ({ id, userGoogle }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { setUser } = useContext(UserContext);
@@ -82,6 +83,17 @@ const FormCompleteRegister = ({ id }) => {
     genderError: '',
     rolesError: '',
   });
+
+  useEffect(() => {
+    setValid(true);
+    setError({
+      phoneError: '',
+      genderError: '',
+      rolesError: '',
+    });
+  }, [phone.value, gender.value, roles.value]);
+
+  // console.log('google--->', userGoogle);
 
   const validatePhone = () => {
     let isValid = true;
@@ -124,55 +136,63 @@ const FormCompleteRegister = ({ id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // posteo de user
     if (validatePhone() && validateGender() && validateRol()) {
-      /* 
-   dispatch(
-        updateUsersAfterGoogle(id, {
-          phone: phone.value,
-          gender: gender.value,
-          roles: roles.value,
-        })
-      )
-*/
-      axios
-        .put(`http://localhost:3002/users/${id}`, {
-          phone: phone.value,
-          gender: gender.value,
-          roles: roles.value,
-        })
-        .then((a) => {
-          console.log(a);
-          setUser(a.data);
-          success(`register user ${a.data.email}`);
-          if (roles.value === '60f8b6d9d525721260545f80') {
+      if (roles.value === '60f8b6d9d525721260545f80') {
+        axios
+          .put(`http://localhost:3002/users/${id}`, {
+            phone: phone.value,
+            gender: gender.value,
+            roles: roles.value,
+          })
+          .then((response) => {
+            window.localStorage.setItem(
+              'loggedSpatifyApp',
+              JSON.stringify({ userFound: { ...response.data } })
+            );
+            setUser(response.data);
+            success(`register user ${response.data.email}`);
             history.push('/');
-          } else if (roles.value === '60f8b6d9d525721260545f81') {
-            history.push('/user/provider');
-          }
-          toast.success(`🎉 Felicidades,cuenta creada con exito`, {
-            position: toast.POSITION.TOP_CENTER,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response?.status !== 404 || 422)
-            toast.error(`Lo siento, este email ya tiene una cuenta vinculada`, {
+            toast.success(`🎉 Felicidades,cuenta creada con exito`, {
               position: toast.POSITION.TOP_CENTER,
             });
-        });
+          });
+      }
+      if (roles.value === '60f8b6d9d525721260545f81') {
+        axios
+          .post('http://localhost:3002/auth/signup', {
+            ...userGoogle,
+            phone: phone.value,
+            gender: gender.value,
+            roles: 'provider',
+          })
+          .then((response) => {
+            window.localStorage.setItem(
+              'loggedSpatifyApp',
+              JSON.stringify({ providerFound: { ...response.data.data } })
+            );
+            dispatch(deleteUser(id));
+            setUser(response.data);
+            success(`register user ${response.data.email}`);
+            history.push('/user/provider');
+            toast.success(`🎉 Felicidades,cuenta creada con exito`, {
+              position: toast.POSITION.TOP_CENTER,
+            });
+          })
+          .catch((error) => {
+            // console.log(error);
+            if (error.response?.status !== 404 || 422)
+              toast.error(
+                `Lo siento, este email ya tiene una cuenta vinculada`,
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                }
+              );
+          });
+      }
     }
   };
 
-  useEffect(() => {
-    setValid(true);
-    setError({
-      phoneError: '',
-      genderError: '',
-      rolesError: '',
-    });
-  }, [phone.value, gender.value, roles.value]);
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -208,7 +228,7 @@ const FormCompleteRegister = ({ id }) => {
             <br />
             <br />
             <div className={classes.containersSelect}>
-              <Grid item xs={0}>
+              <Grid item xs={12}>
                 <InputLabel id='demo-simple-select-label'>Género</InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
@@ -224,7 +244,7 @@ const FormCompleteRegister = ({ id }) => {
                 </Select>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={12}>
                 <InputLabel id='demo-simple-select-label'>Rol</InputLabel>
                 <Select
                   labelId='demo-simple-select-label'

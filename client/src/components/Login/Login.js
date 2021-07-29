@@ -21,9 +21,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ButtonGoogle from './ButtonGoogle/ButtonGoogle';
 
 //google login
-import GoogleLogin from 'react-google-login';
 
 function Copyright() {
   return (
@@ -67,8 +67,8 @@ export default function SignIn() {
   //manejo de error
   const [valid, setValid] = useState(true);
   const [error, setError] = useState({ emailError: '', passwordError: '' });
-  const loginData = useSelector((state) => state.LoginData);
-  console.log('---x---', loginData);
+
+  // console.log('---x---', loginData);
 
   const email = useInput('email');
   const password = useInput('password');
@@ -150,8 +150,9 @@ export default function SignIn() {
   };
 
   // console.log('---->', loginData?.userFound.roles[0]?.name);
-  const responseGoogle = (response) => {
-    console.log(response);
+
+  const handleClick = () => {
+    window.open('http://localhost:3002/auth/google');
   };
 
   return (
@@ -163,13 +164,7 @@ export default function SignIn() {
         </Avatar>
         <br />
         <br />
-        <GoogleLogin
-          clientId='566936992237-joaqbcfmijssrskuvo6ekpkvh4uj59eu.apps.googleusercontent.com'
-          buttonText='Login'
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={'single_host_origin'}
-        />
+        <ButtonGoogle handleClick={handleClick} />
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant='outlined'

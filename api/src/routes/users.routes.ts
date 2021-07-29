@@ -21,6 +21,7 @@ const router = Router();
 
 router.get('/', usersCtrl.getUsers);
 router.get('/:id', usersCtrl.getUser);
+router.get('/google/:id', usersCtrl.getUserGoogle);
 router.delete('/:id', usersCtrl.deleteUser);
 router.put('/:id', usersCtrl.updateUser);
 // router.post('/:id', usersCtrl.updateUser);

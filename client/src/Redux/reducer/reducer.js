@@ -85,17 +85,17 @@ const appReducer = (state = initialState, action) => {
       };
 
     //UPDATE USERS AFTER LOGIN GOOGLE
-    case actionsTypes.UPDATE_USERS_AFTER_GOOGLE:
-      window.localStorage.setItem(
-        'loggedSpatifyApp',
-        JSON.stringify(action.payload)
-      );
-      return {
-        loginData: action.payload,
-        userActive: action.payload.userFound
-          ? action.payload.userFound.firstName
-          : action.payload.providerFound.firstName,
-      };
+    // case actionsTypes.UPDATE_USERS_AFTER_GOOGLE:
+    //   window.localStorage.setItem(
+    //     'loggedSpatifyApp',
+    //     JSON.stringify(action.payload)
+    //   );
+    //   return {
+    //     loginData: action.payload,
+    //     userActive: action.payload.userFound
+    //       ? action.payload.userFound.firstName
+    //       : action.payload.providerFound.firstName,
+    //   };
 
     //GET SERVICES --> DETAILS
     case actionsTypes.GET_SERVICES_DETAILS_REQUEST:

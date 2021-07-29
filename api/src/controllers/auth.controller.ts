@@ -16,19 +16,18 @@ export const signUp: RequestHandler = async (req, res) => {
     email,
     phone,
     password,
+    googleId,
     roles,
 
     // file,
   } = req.body;
 
-  console.log('---x---', req.body.roles);
-
-  if (!email || !password)
+  if (!email)
     return res
       .status(400)
       .json({ message: 'Please, send your email and password' });
 
-  if (roles === 'user') {
+  if ((!googleId || googleId.length < 1) && roles === 'user') {
     const userFound = await Users.findOne({ email: email }); // busco en la db
     if (userFound)
       return res.status(301).json({ message: 'The user alredy exists' });
@@ -68,7 +67,7 @@ export const signUp: RequestHandler = async (req, res) => {
     return res.status(201).json(savedUser);
   }
 
-  if (roles === 'provider') {
+  if (roles === 'provider' || roles[0] === 'provider' || googleId) {
     try {
       const foundProv = await Providers.findOne({ email: req.body.email });
       if (foundProv)
@@ -85,26 +84,28 @@ export const signUp: RequestHandler = async (req, res) => {
         email,
         phone,
         password,
+        googleId,
         roles,
         hasCalendar,
         addresses,
         services,
       } = req.body;
 
-      if (!email || !password)
+      if (!email)
         return res
           .status(400)
           .json({ message: 'Please, send your email and password' });
 
       const dataProvider = {
         //image: `uploads\\${file}`,
-        image: req.file?.path,
+        image: req.file?.path || req.body.image,
         firstName,
         lastName,
         gender,
         email,
         phone,
         password,
+        googleId,
         // hasCalendar,
       };
 
