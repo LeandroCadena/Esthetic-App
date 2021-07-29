@@ -44,7 +44,7 @@ export default function MaterialUIPickers({ type }) {
   const provider = JSON.parse(window.localStorage.getItem('loggedSpatifyApp'));
   const [addHours, setAddHours] = useState({
     eventsHours: [],
-    provider: provider.providerFound._id,
+    provider: provider.providerFound?._id,
   });
 
   const handleDateChange = (date) => {

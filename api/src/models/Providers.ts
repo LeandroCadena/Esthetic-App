@@ -10,6 +10,7 @@ export interface IProvider extends Document {
   phone: number;
   password: string;
   bio: string;
+  googleId: string;
   roles: any[];
   hasCalendar: any;
   addresses: any[];
@@ -50,7 +51,6 @@ const ProvidersSchema = new Schema<IProvider>(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
     },
     confirm:{
@@ -60,6 +60,9 @@ const ProvidersSchema = new Schema<IProvider>(
     bio: {
       type: String,
       trim: true,
+    },
+    googleId: {
+      type: String,
     },
     roles: [
       {

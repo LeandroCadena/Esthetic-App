@@ -201,6 +201,8 @@ export const checkoutMP = (payload) => async (dispatch) => {
   }
 };
 
+//ADD PROVIDERS
+
 export const addServicesToProvider = (services) => async () => {
   try {
     await axios.post(`${GET_PROVIDERS}/allServices`, services);

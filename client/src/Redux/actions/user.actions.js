@@ -1,12 +1,12 @@
-import axios from "axios";
-import actionsTypes from "../constants/constants";
+import axios from 'axios';
+import actionsTypes from '../constants/constants';
 import {
   EVENTS,
   GET_USERS,
   HOST,
   RESERVATIONS,
   USER,
-} from "../../utils/constants";
+} from '../../utils/constants';
 
 // login
 export const LoginUser = (data) => {
@@ -34,14 +34,14 @@ export const logout = () => {
   return (dispatch) => {
     dispatch({
       type: actionsTypes.LOGOUT,
-      payload: "",
+      payload: '',
     });
   };
 };
 
 export const userActiveSession = () => {
-  window.localStorage.getItem("loggedSpatifyApp");
-  const user = JSON.parse(window.localStorage.getItem("loggedSpatifyApp"));
+  window.localStorage.getItem('loggedSpatifyApp');
+  const user = JSON.parse(window.localStorage.getItem('loggedSpatifyApp'));
   return (dispatch) => {
     dispatch({
       type: actionsTypes.LOGGIN_IN_SESSION,
@@ -56,11 +56,19 @@ export const getUserProfile = (userId) => async (dispatch) => {
   dispatch({ type: actionsTypes.GET_USER_DATA_PROFILE_REQUEST });
 
   try {
-    const { data } = await axios.get(`${HOST}/users/${userId}`);
-    dispatch({
-      type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
-      payload: data,
-    });
+    if (/^(?:[1-9]\d*|\d)$/.test(userId)) {
+      const { data } = await axios.get(`${HOST}/users/google/${userId}`);
+      dispatch({
+        type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
+        payload: data,
+      });
+    } else {
+      const { data } = await axios.get(`${HOST}/users/${userId}`);
+      dispatch({
+        type: actionsTypes.GET_USER_DATA_PROFILE_SUCCESS,
+        payload: data,
+      });
+    }
   } catch (error) {
     dispatch({
       type: actionsTypes.GET_USER_DATA_PROFILE_FAIL,
@@ -68,6 +76,29 @@ export const getUserProfile = (userId) => async (dispatch) => {
     });
   }
 };
+
+//DELETE USER
+export const deleteUser = (id) => async () => {
+  try {
+    await axios.delete(`${HOST}/users/${id}`);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//USERS UPDATE AFTER LOGIN GOOGLE
+
+// export const updateUsersAfterGoogle = (id, dataUpdate) => (dispatch) => {
+//   try {
+//     const { data } = axios.put(`${HOST}/users/${id}`, dataUpdate);
+//     dispatch({
+//       type: actionsTypes.UPDATE_USERS_AFTER_GOOGLE,
+//       payload: data,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 //USER RESERVATIONS
 
@@ -115,10 +146,12 @@ export const postUserReview = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST});
     try {
     const { data } = await axios.post(
+
       `${HOST}${EVENTS}/review`,payload.input
       );
       
       console.log("Esto es data del postUserReview", data)
+
     dispatch({
       type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
       payload: data ,
@@ -133,6 +166,13 @@ export const postUserReview = (payload) => async (dispatch) => {
 
 
 
+export const deleteUserAddresses = (payload) => async (dispatch) => {
+  dispatch({ type: actionsTypes.DELETE_USER_ADDRESS_REQUEST });
+  try {
+    const { data } = await axios.delete(
+      `${GET_USERS}/${payload.userId}/addresses/${payload.addressId}`
+    );
+
 
 
 // GET ALL USERS
@@ -143,6 +183,7 @@ export const getAllUsers = () => async (dispatch) => {
     const { data } = await axios.get(`${GET_USERS}`);
     dispatch({ type: actionsTypes.GET_ALL_USERS_SUCCES, payload: data });
   } catch (error) {
+
     dispatch({
       type: actionsTypes.GET_ALL_USERS_FAIL,
     });
@@ -177,6 +218,7 @@ export const deleteUserAddresses = (payload) => async (dispatch) => {
     const { data } = await axios.delete(
       `${GET_USERS}/${payload.userID}/addresses/${payload.addressId}`
     );
+
     dispatch({
       type: actionsTypes.DELETE_USER_ADDRESS_SUCCESS,
       payload: payload.addressId,
