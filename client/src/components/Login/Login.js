@@ -205,10 +205,7 @@ export default function SignIn() {
             autoComplete="current-password"
             {...password}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Recordarme"
-          />
+         
           <Button
             type="submit"
             fullWidth
@@ -219,11 +216,6 @@ export default function SignIn() {
             Entrar
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Olvidaste la contraseña?
-              </Link>
-            </Grid>
             <Grid item>
               <Link to={"/userRegister"} variant="body2">
                 {"No tienes cuenta? Registrate"}
