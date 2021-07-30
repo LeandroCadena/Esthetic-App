@@ -13,11 +13,15 @@ import {
   createCreditCard,
   updateCreditCard,
   deleteCreditCard,
+
 } from '../controllers/creditCards';
+
+
 
 const router = Router();
 
 // <<PLAIN USERS ROUTES>>
+
 
 router.get('/', usersCtrl.getUsers);
 router.get('/:id', usersCtrl.getUser);
@@ -28,6 +32,7 @@ router.put('/:id', usersCtrl.updateUser);
 
 // router.put('/assignService/:id', usersCtrl.assignService);
 // router.put('/removeService/:id', usersCtrl.removeService);
+
 
 // <<Routes to users' addresses>>
 router.get('/:id/addresses', getAllAddresses);

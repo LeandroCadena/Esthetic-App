@@ -6,8 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import { render } from "react-dom";
 import "./index.scss";
 
-/* import reportWebVitals from './reportWebVitals'; */
-
 export const UserContext = React.createContext();
 
 const Root = () => {

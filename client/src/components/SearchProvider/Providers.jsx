@@ -1,83 +1,149 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProviders, getServices , handleKeyword} from "../../Redux/actions/actions";
+import {
+  getAllProviders,
+  getServices,
+  handleKeyword,
+} from "../../Redux/actions/actions";
 import ProviderCard from "./ProviderCard";
 import PendingServices from "../HomeProviders/PendingServices/PendingServices";
 import SearchBar from "../Searchbar/Searchbar";
+import Select from "react-select";
 
 function Providers({ data }) {
-  const allProviders = useSelector((state) => state.allProviders);
-  console.log(allProviders)
-  const services = useSelector((state) => state.services);
-  console.log(services);
-  const keyword = useSelector((state) => state.keyword);
- 
   const dispatch = useDispatch();
+
+  const allProviders = useSelector((state) => state.allProviders);
+  const services = useSelector((state) => state.services);
+
+ 
+  const mayorAmenor = services.data?.sort(function (a, b) {
+    if (b.price > a.price) {
+      return 1;
+    }
+    if (b.price < a.price) {
+      return -1;
+    }
+    return 0;
+  });
+  console.log(mayorAmenor)
+  const keyword = useSelector((state) => state.keyword);
+
+  const [state, setState] = useState("");
+  const [select, setSelect] = useState("");
+  console.log(keyword);
+  console.log(state);
+
+  const handleOrder = (e) => {
+    console.log(e.label)
+    setState(e.label);
+   
+    dispatch(handleKeyword(""));
+  };
+  const handleSelect = (e) => {
+    console.log(e.label)
+    setSelect(e.label);
+  };
 
   useEffect(() => {
     dispatch(getAllProviders());
     dispatch(getServices());
-  }, [dispatch]);
+  }, [dispatch, state]);
 
-  
-  useEffect(() => {
-    dispatch(handleKeyword())
-  }, [])
-  
+ 
+  const providersOservices = [
+    { value: "Provedores", label: "Provedores" },
+    { value: "Servicios", label: "Servicios" },
+  ];
+  const precios = [
+    { value: "Mayor Precio", label: "Mayor Precio" },
+    { value: "Menor Precio", label: "Menor Precio" },
+  ];
+
+
+  const serviceSearch = [
+    <Select
+      options={precios}
+      placeholder="Ordenar por precio"
+      onChange={(e) => handleSelect(e)}
+    />,
+    <SearchBar state={state} />,
+  ];
+
   return (
-    <div>
-      <SearchBar />
-      <div key="data" className="services-container">
-        {allProviders.data &&
+    <div style={{marginTop:"1rem"}}>
+      <Select
+        options={providersOservices}
+        placeholder="Filtrar por Proveedor o Servicio"
+        onChange={(e) => handleOrder(e)}
+      />
+      {state === "Provedores" ? <SearchBar state={state} /> : null}
+      {state === "Servicios" ? serviceSearch : null}
+      <div
+        style={{
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          display: "flex",
+          flexWrap: "wrap",
+        }}
+      >
+       
+        {state === "Provedores" &&
+          allProviders.data &&
           allProviders.data
             .filter((dato) => {
-              console.log(dato.firstName.concat(" ", dato.lastName))
+              console.log(keyword);
               return keyword?.length > 0
-                ? dato.firstName?.concat(" " , dato.lastName).indexOf(keyword) !==
-                    -1
+                ? dato.firstName?.concat(" ", dato.lastName) == keyword ||
+                    dato.addresses[0]?.state == keyword ||
+                    dato.addresses[0]?.city == keyword
                 : dato;
             })
             .map((firstName, index) => (
               <>
-                {/* <Service key={index} data={service} /> */}
                 <ProviderCard data={firstName} key={index} />
               </>
             ))}
-        {services.data &&
+
+      
+        {select == "Menor Precio"  || select == "Mayor Precio" ?
+         select== "Menor Precio" ? mayorAmenor?.reverse().filter((dato) => {
+          console.log(dato);
+          return keyword?.length > 0
+            ? dato.name?.indexOf(keyword) !== -1
+            : dato;
+        }).map((name, index) => (
+          <>
+            <PendingServices data={name} key={index} />
+          </>
+        )):
+        mayorAmenor?.filter((dato) => {
+          console.log(dato);
+          return keyword?.length > 0
+            ? dato.name?.indexOf(keyword) !== -1
+            : dato;
+        }).map((name, index) => (
+          <>
+            <PendingServices data={name} key={index} />
+          </>
+        ))
+         : 
+        state === "Servicios" &&
+          services.data &&
           services.data
             .filter((dato) => {
+              console.log(dato);
               return keyword?.length > 0
                 ? dato.name?.indexOf(keyword) !== -1
                 : dato;
             })
             .map((name, index) => (
               <>
-                {/* <Service key={index} data={service} /> */}
                 <PendingServices data={name} key={index} />
               </>
             ))}
-      </div>
 
-      {/* /* <Link to={`/providers/providers/${data.name}`}>
-        <div className='service-title-btn'>
-          <button>
-            <span className='service-title'>{data.name}</span>
-          </button>
-        </div>
-        <div>
-          {data.image ? (
-            <img className='img' src={data.image} alt='Service Image'></img>
-          ) : (
-            <img className='img' src={defaultImg} alt='Default Image'></img>
-          )}
-        </div>
-      </Link>
-      <span className='service-text'>{`Contrata servicios de ${data.name} a domicilio`}</span>
-      <Link to={`/services/details/${data._id}`}>
-        <button className='more-details'>
-          <span className='more-details-text'>Ver Detalles</span>
-        </button>
-      </Link>  */}
+      </div>
     </div>
   );
 }

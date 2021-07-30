@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { LoginUser } from '../../Redux/actions/user.actions';
@@ -6,6 +7,9 @@ import { useInput } from '../../hooks/customHooks';
 import { log, success, error } from '../../utils/logs';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { UserContext } from '../../index';
+
 //materialUI
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -63,15 +67,18 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-
+  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   //manejo de error
   const [valid, setValid] = useState(true);
-  const [error, setError] = useState({ emailError: '', passwordError: '' });
 
-  // console.log('---x---', loginData);
+  const [error, setError] = useState({ emailError: '', passwordError: '' });
+  const loginData = useSelector((state) => state.LoginData);
 
   const email = useInput('email');
   const password = useInput('password');
+
+  // console.log('---x---', loginData);
 
   ///Validaciones
   const validate = () => {
@@ -80,12 +87,14 @@ export default function SignIn() {
     if (!password.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, passwordError: 'Por favor ingrese contraseña' });
+
+      setError({ ...error, passwordError: 'Por favor ingresa tu contraseña' });
     }
     if (!email.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, emailError: 'Por favor ingrese email' });
+
+      setError({ ...error, emailError: 'Por favor ingresa tu email' });
     }
 
     if (typeof email !== 'undefined') {
@@ -96,7 +105,8 @@ export default function SignIn() {
       if (!pattern.test(email.value)) {
         setValid(false);
         isValid = false;
-        setError({ ...error, emailError: 'Ingrese un email valido' });
+
+        setError({ ...error, emailError: 'Por favor ingresa un email válido' });
       }
     }
     return isValid;
@@ -122,34 +132,55 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-          if (user.providerFound?.roles) {
-            toast.success(
-              `👍 Bienvenido ${email.value} , un gran día te espera`,
-              {
-                position: toast.POSITION.TOP_CENTER,
-              }
-            );
-            history.push('/user/provider');
+          if (user.userFound) {
+            setUser(user.userFound?.roles[0].name);
+            console.log(user);
           }
-          if (user.userFound?.roles[0].name === 'user') {
+
+          if (
+            user.providerFound?.roles[0].name == 'provider' &&
+            user.providerFound.confirm
+          ) {
             toast.success(
-              `👍 Bienvenido ${email.value} , un gran día te espera `,
+              `👍 Bienvenido ${email.value}. Un gran día te espera!`,
+
               {
                 position: toast.POSITION.TOP_CENTER,
               }
             );
+
+            history.push('/user/provider');
+          } else if (
+            user.userFound?.roles[0].name === 'user' &&
+            user.userFound.confirm
+          ) {
+            toast.success(
+              `👍 Bienvenido ${email.value}. Un gran día te espera!`,
+
+              {
+                position: toast.POSITION.TOP_CENTER,
+              }
+            );
+
             history.push('/'); // pendiente colocar path user
           }
         } else {
-          toast.error(`Usuario o Constraseña invalida, intente de nuevo `, {
-            position: toast.POSITION.TOP_CENTER,
-          });
+          toast.error(
+            `Usuario o Constraseña inválidos. Por favor intenta de nuevo`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
+          toast.warning(
+            `Asegurate de haber confirmado tu cuenta, chequea tu casilla de email`,
+            {
+              position: toast.POSITION.TOP_CENTER,
+            }
+          );
         }
       });
     }
   };
-
-  // console.log('---->', loginData?.userFound.roles[0]?.name);
 
   const handleClick = () => {
     window.open('http://localhost:3002/auth/google');
@@ -159,7 +190,10 @@ export default function SignIn() {
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        <Avatar
+          style={{ backgroundColor: '#af63a4' }}
+          className={classes.avatar}
+        >
           <LockOutlinedIcon />
         </Avatar>
         <br />
@@ -194,25 +228,18 @@ export default function SignIn() {
             autoComplete='current-password'
             {...password}
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Recordarme'
-          />
+
           <Button
             type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            style={{ backgroundColor: '#af63a4' }}
           >
             Entrar
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href='#' variant='body2'>
-                Olvidaste la contraseña?
-              </Link>
-            </Grid>
             <Grid item>
               <Link to={'/userRegister'} variant='body2'>
                 {'No tienes cuenta? Registrate'}

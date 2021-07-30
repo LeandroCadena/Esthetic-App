@@ -1,8 +1,9 @@
-
-
 .providers-container{
     display: flex;
-    padding: 50px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    
 }
 
 .providers-filters {

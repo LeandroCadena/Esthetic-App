@@ -15,6 +15,8 @@ export interface IProvider extends Document {
   hasCalendar: any;
   addresses: any[];
   services: any[];
+  rating: any[];
+  confirm:any;
   setImage(filename: any): void;
   comparePassword(password: string): Promise<boolean>;
 }
@@ -51,6 +53,10 @@ const ProvidersSchema = new Schema<IProvider>(
       type: String,
       trim: true,
     },
+    confirm:{
+      type: Boolean, 
+      default: false,
+        },
     bio: {
       type: String,
       trim: true,
@@ -81,6 +87,13 @@ const ProvidersSchema = new Schema<IProvider>(
       {
         type: Schema.Types.ObjectId,
         ref: 'Services',
+      },
+    ],
+    rating: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Rating",
+        autopopulate: true,
       },
     ],
   },
