@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     backgroundColor: "hsl(308deg 44% 33%)",
     width: "100%",
-    height: "auto",
+    height: 100,
   },
   containerFooterCopyright: {
     position: "absolute",
@@ -27,7 +27,8 @@ const useStyles = makeStyles(() => ({
     },
   },
   footerLinksDivider: {
-    borderBottom: "2px solid hsl(308deg 100% 80%)",
+    height: 40,
+    borderRight: "2px solid hsl(308deg 100% 80%)",
   },
   footerCopyright: {
     color: "White",
@@ -43,6 +44,7 @@ function Footer() {
   return (
     <Grid container justifyContent="center" className={classes.containerFooter}>
       <Grid item container justifyContent="flex-end" style={{ width: "100%" }}>
+
         <Grid
           item
           container
@@ -53,48 +55,54 @@ function Footer() {
             © Copyright 2021 <a href="/about-Us">G14</a>
           </span>
         </Grid>
+
         <Grid
           item
           container
           justifyContent="center"
           alignItems="center"
-          style={{ width: "60%" }}
+          style={{ width: "55%" }}
         >
-          <div className={classes.containerFooterLinks}>
-            <Link to="/about-Spa-tify">
-              <p>Sobre Spa-tify</p>
-            </Link>
+          <Grid item container justifyContent='center' alignItems="center" className={classes.containerFooterLinks}>
+            <Grid item>
+              <Link to="/login">
+                <p>Ingresar</p>
+              </Link>
+            </Grid>
             <Divider
-              variant="inset"
               component="p"
               className={classes.footerLinksDivider}
             />
-            <Link to="/login">
-              <p>ingresar</p>
-            </Link>
+            <Grid item>
+              <Link to="/userRegister">
+                <p>Registrarse</p>
+              </Link>
+            </Grid>
             <Divider
-              variant="inset"
               component="p"
               className={classes.footerLinksDivider}
             />
-            <Link to="/userRegister">
-              <p>registrarse</p>
-            </Link>
+            <Grid item>
+              <Link to="/about-Spa-tify">
+                <p>Sobre Spa-tify</p>
+              </Link>
+            </Grid>
             <Divider
-              variant="inset"
               component="p"
               className={classes.footerLinksDivider}
             />
-            <Link to="/about-Us">
-              <p>About G14</p>
-            </Link>
+            <Grid item>
+              <Link to="/about-Us">
+                <p>About G14</p>
+              </Link>
+            </Grid>
             <Divider
-              variant="inset"
               component="p"
               className={classes.footerLinksDivider}
             />
-          </div>
+          </Grid>
         </Grid>
+
         <Grid
           item
           container
@@ -106,13 +114,9 @@ function Footer() {
             <Link to="/covid">
               <p>Protocolo COVID-19</p>
             </Link>
-            <Divider
-              variant="inset"
-              component="p"
-              className={classes.footerLinksDivider}
-            />
           </div>
         </Grid>
+
       </Grid>
     </Grid>
   );
