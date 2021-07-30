@@ -76,7 +76,7 @@ export const getUserReservations = (userId) => async (dispatch) => {
 
   try {
     const { data } = await axios.get(`${HOST}${EVENTS}${USER}/${userId}`);
-    console.log("Aca hago el GET", "`${HOST}${EVENTS}/${USER}/${userId}`")
+   console.log("Aca hago el GET", "`${HOST}${EVENTS}/${USER}/${userId}`")
     dispatch({
       type: actionsTypes.GET_USER_RESERVATIONS_SUCCESS,
       payload: data,
@@ -90,17 +90,16 @@ export const getUserReservations = (userId) => async (dispatch) => {
 };
 //DELETE USER RESERVATIONS
 
-export const deleteUserReservation = (payload) => async (dispatch) => {
+
+export const deleteUserReservation = (userId) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_RESERVATIONS_REQUEST});
-  console.log("Esto es payload", payload)
     try {
-    const { data } = await axios.post(
-      `${HOST}${EVENTS}/cancel${USER}`, payload
+    const { data } = await axios.delete(
+      `${GET_USERS}/${RESERVATIONS}/${userId}/delete`
     );
-    console.log("este es el turno que quiero borrar", data)
     dispatch({
       type: actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS,
-      payload: payload.event,
+      payload: userId,
     });
   } catch (error) {
     dispatch({
@@ -109,29 +108,6 @@ export const deleteUserReservation = (payload) => async (dispatch) => {
     });
   }
 };
-///POST REVIEW 
-
-export const postUserReview = (payload) => async (dispatch) => {
-  dispatch({ type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST});
-    try {
-    const { data } = await axios.post(
-      `${HOST}${EVENTS}/review`,payload.input
-      );
-      
-      console.log("Esto es data del postUserReview", data)
-    dispatch({
-      type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
-      payload: data ,
-    });
-  } catch (error) {
-    dispatch({
-      type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
-      payload: error.message,
-    });
-  }
-};
-
-
 
 
 
@@ -148,7 +124,7 @@ export const getAllUsers = () => async (dispatch) => {
     });
   }
 };
-//USER ADDRESSES
+      //USER ADDRESSES
 
 
 export const getUserAddresses = (userId) => async (dispatch) => {
@@ -169,13 +145,36 @@ export const getUserAddresses = (userId) => async (dispatch) => {
 };
 //POST USER DATA ->>> UPDATE PROFILE
 
+//POST ADDRESS
+
+export const postUserAddresses = (payload) => async (dispatch) => {
+  dispatch({ type: actionsTypes.ADD_USER_ADDRESS_REQUEST });
+
+  try {
+    const { data } = await axios.post(
+      `${GET_USERS}/${payload.userId}/addresses`,
+      payload.input
+    );
+    console.log("Esto es data", data);
+    dispatch({
+      type: actionsTypes.ADD_USER_ADDRESS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: actionsTypes.ADD_USER_ADDRESS_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
 //DELETE  //"/:id/addresses/:idAd"
 
 export const deleteUserAddresses = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_ADDRESS_REQUEST });
-  try {
+    try {
     const { data } = await axios.delete(
-      `${GET_USERS}/${payload.userID}/addresses/${payload.addressId}`
+      `${GET_USERS}/${payload.userId}/addresses/${payload.addressId}`
     );
     dispatch({
       type: actionsTypes.DELETE_USER_ADDRESS_SUCCESS,
@@ -184,6 +183,29 @@ export const deleteUserAddresses = (payload) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: actionsTypes.DELETE_USER_ADDRESS_FAIL,
+      payload: error.message,
+    });
+  }
+};
+
+/// PUT ADDRESS
+
+export const editUserAddresses = (payload) => async (dispatch) => {
+  dispatch({ type: actionsTypes.EDIT_USER_ADDRESS_REQUEST });
+  const addressId = payload.addressId;
+
+  try {
+    const { data } = await axios.put(
+      `${GET_USERS}/${payload.userId}/addresses/${addressId}`
+    );
+    console.log(data, "Aca esta la data del objeto editado");
+    dispatch({
+      type: actionsTypes.EDIT_USER_ADDRESS_SUCCESS,
+      payload: { addressId, data },
+    });
+  } catch (error) {
+    dispatch({
+      type: actionsTypes.EDIT_USER_ADDRESS_FAIL,
       payload: error.message,
     });
   }

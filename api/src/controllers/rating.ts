@@ -6,11 +6,12 @@ import Events from "../models/Events";
 
 export const getAllRating: RequestHandler = async (req, res) => {
   try {
-    let avgAssessment: number = 4;
+    let avgAssessment: number = 3.5;
     const provider = await Providers.findById(req.params.id);
     if (provider) {
       const foundRating = await Rating.find({ provider: provider });
-      if (foundRating.length) {
+      console.log("RATING ENCONTRADO: ", foundRating);
+      if (foundRating) {
         let assessments: any[] = [];
         foundRating.map((rating: any) => assessments.push(rating.assessment));
         console.log("LISTA DE RESEÑAS: ", assessments);
@@ -27,13 +28,13 @@ export const getAllRating: RequestHandler = async (req, res) => {
           data: { rating: avgAssessment, details: foundRating },
         });
       } else {
-        res.status(200).send({
+        return res.status(404).send({
           message: "No hay reseñas para mostrar por el momento.",
           data: avgAssessment,
         });
       }
     } else {
-      res.status(404).send({
+      return res.status(404).send({
         message: "Proveedor no encontrado.",
       });
     }
@@ -41,7 +42,6 @@ export const getAllRating: RequestHandler = async (req, res) => {
     res.send(error);
   }
 };
-
 export const getOneRating: RequestHandler = async (req, res) => {
   try {
     const { id, idRt } = req.params;

@@ -1,12 +1,15 @@
+
 import actionsTypes from "../constants/constants";
-import { editAddress, findService, updateReservation } from "../../utils/filter.js";
+import { editAddress, findService } from "../../utils/filter.js";
+
+
 
 const initialState = {
   services: {
     loading: true,
     data: [],
   },
-  userActive: "",
+  userActive: '',
   loginData: {},
 
   serviceDetails: { loading: true, data: {} },
@@ -20,12 +23,14 @@ const initialState = {
   servicesByProvider: [],
   providerEventsHours: {},
   providersAddresses: [],
-  providersRating: {},
+  providersRating: [],
   provider_address_status: {},
   provider_address_update_status: {},
   provider_update_status: {},
   reservation_status: {},
-  setStateSearch: "",
+
+
+  setStateSearch : "", 
   renderSearchBar: "",
   userActive: "",
   loginData: {},
@@ -36,8 +41,10 @@ const initialState = {
   userAddresses: { loading: true, data: [] },
   userReservations: { loading: true, data: [] },
 
+
   allUsers: [],
   keyword: "",
+
 };
 
 const appReducer = (state = initialState, action) => {
@@ -64,7 +71,7 @@ const appReducer = (state = initialState, action) => {
       };
     case actionsTypes.LOGIN_SUCCESSFUL:
       window.localStorage.setItem(
-        "loggedSpatifyApp",
+        'loggedSpatifyApp',
         JSON.stringify(action.payload)
       );
       return {
@@ -82,7 +89,7 @@ const appReducer = (state = initialState, action) => {
         //error: action.payload.userActive,
       };
     case actionsTypes.LOGOUT:
-      window.localStorage.setItem("loggedSpatifyApp", "");
+      window.localStorage.setItem('loggedSpatifyApp', '');
       // window.localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -149,14 +156,14 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         allProviders: { loading: false, data: action.payload },
-      };
+      }
 
     case actionsTypes.GET_PROVIDER_DETAILS_REQ:
       return {
         ...state,
         providerDetails: { loading: true },
       };
-
+      
     case actionsTypes.GET_PROVIDER_DETAILS_SUCC:
       return {
         ...state,
@@ -264,6 +271,27 @@ const appReducer = (state = initialState, action) => {
         userAddresses: { loading: false, error: action.payload },
       };
 
+    //CREATE USER ADDRESS
+
+    case actionsTypes.ADD_USER_ADDRESS_REQUEST:
+      return {
+        ...state,
+        userAddresses: { ...state.userAddresses, loading: true },
+      };
+    case actionsTypes.ADD_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        userAddresses: {
+          loading: false,
+          data: [...state.userAddresses.data, action.payload.data],
+        },
+      };
+    case actionsTypes.ADD_USER_ADDRESS_FAIL:
+      return {
+        ...state,
+        userAddresses: { loading: false, error: action.payload },
+      };
+
     //DETELE USER ADDRESS
 
     case actionsTypes.DELETE_USER_ADDRESS_REQUEST:
@@ -282,6 +310,31 @@ const appReducer = (state = initialState, action) => {
         },
       };
     case actionsTypes.DELETE_USER_ADDRESS_FAIL:
+      return {
+        ...state,
+        userAddresses: { loading: false, error: action.payload },
+      };
+
+    //EDIT USER ADDRESS
+
+    case actionsTypes.EDIT_USER_ADDRESS_REQUEST:
+      return {
+        ...state,
+        userAddresses: { ...state.userAddresses, loading: true },
+      };
+    case actionsTypes.EDIT_USER_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        userAddresses: {
+          loading: false,
+          data: editAddress(
+            state.userAddresses.data,
+            action.payload.addressId,
+            action.payload.data.data
+          ),
+        },
+      };
+    case actionsTypes.EDIT_USER_ADDRESS_FAIL:
       return {
         ...state,
         userAddresses: { loading: false, error: action.payload },
@@ -310,8 +363,8 @@ const appReducer = (state = initialState, action) => {
         ...state,
         allProviders: { loading: false, data: action.payload },
       };
+      
     ///RENDER SEARCHBAR 
-
     case actionsTypes.RENDER_SEARCHBAR:
       return {
         ...state,
@@ -323,52 +376,33 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
-    //DETELE USER RESERVATIOBS  ------>> /////VER
+//DETELE USER RESERVATIOBS
 
-    case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
-      return {
-        ...state,
-        userReservations: { ...state.userReservations, loading: true },
-      };
-    case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
-      console.log("Esto es reservations", state.userReservations.data)
-      return {
-        ...state,
-        userReservations: {
-          loading: false,
-          data: updateReservation(state.userReservations.data, action.payload)
-           /*  r._id === action.payload ? (r.isActive = false) : r */
-            ,
-          },
-         /*  console.log("estas son las reservas", state.userReservations.data) */
-      };
+case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
+  return {
+    ...state,
+    userReservations: { ...state.userReservations, loading: true },
+  };
+case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
+  return {
+    ...state, /////VER
+    userAddresses: {
+      loading: false,
+      data: state.userAddresses.data.filter(
+        (a) => a._id !== action.payload
+      ),
+    },
+  };
+case actionsTypes.DELETE_USER_ADDRESS_FAIL:
+  return {
+    ...state,
+    userAddresses: { loading: false, error: action.payload },
+  };
 
-    case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
-      return {
-        ...state,
-        userReservations: { loading: false, error: action.payload },
-      };
 
-    //POST USER REVIEW
 
-    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST:
-      return {
-        ...state,
-        userReservations: { ...state.userReservations, loading: true },
-      };
-    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
-      return {
-        ...state,
-        userReservations: {
-          loading: false,
-          data: [...state.userReservations.data, action.payload.data],
-        },
-      };
-    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
-      return {
-        ...state,
-        userReservations: { loading: false, error: action.payload },
-      };
+
+
 
     default:
       return state;

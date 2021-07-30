@@ -10,6 +10,7 @@
 }
 
 .accordion-item {
+  background: #ffffff;
   margin-bottom: 5px;
   padding: 10px 20px;
   cursor: pointer;
@@ -51,8 +52,4 @@ margin: 0 5px;
 
 .trash-icon{
     color: red;
-}
-
-.isMain {
-  background-color: rgb(124, 255, 194);
 }

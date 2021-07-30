@@ -78,7 +78,13 @@ const UserSchema = new Schema<IUser>(
         ref: "CreditCards",
         autopopulate: true,
       },
-    ]
+    ],
+    rating: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Rating",
+      },
+    ],
   },
 
   { versionKey: false, timestamps: true }
