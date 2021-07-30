@@ -1,5 +1,7 @@
+
 import actionsTypes from "../constants/constants";
 import { editAddress, findService, updateReservation } from "../../utils/filter.js";
+
 
 const initialState = {
   services: {
@@ -62,6 +64,8 @@ const appReducer = (state = initialState, action) => {
         services: { loading: false, error: action.payload },
         allServices: { loading: false, error: action.payload },
       };
+
+    //USERS LOGIN
     case actionsTypes.LOGIN_SUCCESSFUL:
       window.localStorage.setItem(
         "loggedSpatifyApp",
@@ -75,12 +79,7 @@ const appReducer = (state = initialState, action) => {
           : action.payload.providerFound.firstName,
       };
 
-    case actionsTypes.LOGIN_FAIL:
-      // window.localStorage.setItem('token', action.payload.token);
-      return {
-        ...state,
-        //error: action.payload.userActive,
-      };
+    //LOGOUT USERS
     case actionsTypes.LOGOUT:
       window.localStorage.setItem("loggedSpatifyApp", "");
       // window.localStorage.setItem('token', action.payload.token);
@@ -95,6 +94,19 @@ const appReducer = (state = initialState, action) => {
         ...state,
         userActive: action.payload,
       };
+
+    //UPDATE USERS AFTER LOGIN GOOGLE
+    // case actionsTypes.UPDATE_USERS_AFTER_GOOGLE:
+    //   window.localStorage.setItem(
+    //     'loggedSpatifyApp',
+    //     JSON.stringify(action.payload)
+    //   );
+    //   return {
+    //     loginData: action.payload,
+    //     userActive: action.payload.userFound
+    //       ? action.payload.userFound.firstName
+    //       : action.payload.providerFound.firstName,
+    //   };
 
     //GET SERVICES --> DETAILS
     case actionsTypes.GET_SERVICES_DETAILS_REQUEST:

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserReservations } from "../../../Redux/actions/user.actions";
@@ -7,6 +8,7 @@ import "./UserReservations.css";
 
 function UserReservations() {
   return (
+
     <div className="booking-container">
       <div className="booking-data">
         <h1 className="h1"> MIS TURNOS</h1>

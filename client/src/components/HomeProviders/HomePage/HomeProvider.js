@@ -127,11 +127,13 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
   icon: {
-    transform: "scale(1.0, 1.0) rotate(0deg)",
-    transition: "",
-    "&:hover": {
-      transform: "scale(1.2, 1.2) rotate(270deg)",
-      transition: "transform 0.5s ease-in-out",
+
+    transform: 'scale(1.0, 1.0) rotate(0deg)',
+    transition: '',
+    '&:hover': {
+      transform: 'scale(1.2, 1.2) rotate(340deg)',
+      transition: 'transform 0.5s ease-in-out',
+
     },
     color: red[500],
   },
@@ -181,14 +183,15 @@ const HomeProvider = () => {
 
     dispatch(getProviderDetails(user.providerFound?._id));
 
-    dispatch(getEventsHoursProvider(provider._id));
+    dispatch(getEventsHoursProvider(provider?._id));
     //
-    dispatch(getAllProvidersAddresses(provider._id));
+    dispatch(getAllProvidersAddresses(provider?._id));
     //
   }, [dispatch]);
 
   // console.log('detailsProv', providerDetails.data);
-  // console.log('HORARIOS', providerEventsHours);
+  // console.log('ADRESSES', addresses);
+  // console.log('PROVIDER_id', provider._id);
   return (
     <div className="banner-container">
       <div className="title-background">
@@ -224,15 +227,14 @@ const HomeProvider = () => {
           />
           <ServicesProvider
             classes={classes}
-            // provider={provider}
             data={providerEventsHours?.eventsHours}
             alldata={services.data}
             type="Horarios"
           />
         </div>
 
-        {users.services?.length < 1 ? (
-          <VerticalLinearStepper />
+        {users.services?.length < 1 || !users.services ? (
+          <VerticalLinearStepper data={addresses} providerID={provider?._id} />
         ) : (
           boughtServices.map((user) => (
             <RecipeReviewCard data={user} key={user._id} />
