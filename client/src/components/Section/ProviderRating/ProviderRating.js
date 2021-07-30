@@ -5,7 +5,7 @@ import {
   getProviderDetails,
   getProviderRating,
 } from "../../../Redux/actions/actions";
-// import "ProviderRating.scss";
+import "./ProviderRating.scss";
 
 const ProviderRating = () => {
   const dispatch = useDispatch();
@@ -24,13 +24,13 @@ const ProviderRating = () => {
     <div className="container-main">
       <div className="container">
         <h1 className="title">{`Éstas son las reseñas de ${providerDetails.data?.firstName}`}</h1>
-        <div className="comments">
+        <div className="container-about">
           {rating?.length
             ? rating.map((rating) => {
                 return (
                   <div>
-                    <h2>{`${rating.assessment}⭐`}</h2>
-                    <h4>{`${rating.comments}`}</h4>
+                    <h4>{`${rating.assessment}⭐`}</h4>
+                    <p>{`${rating.comments}`}</p>
                   </div>
                 );
               })

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { alpha, makeStyles } from "@material-ui/core/styles";
@@ -17,7 +16,6 @@ import Fade from "@material-ui/core/Fade";
 import { logout } from "../../Redux/actions/user.actions";
 import "./Header.scss";
 
-
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -27,68 +25,67 @@ const useStyles = makeStyles((theme) => ({
     font: 16,
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: 20,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
+    "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
   sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
     },
   },
   sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
   root: {
-    display: 'flex',
-    '& > *': {
+    display: "flex",
+    "& > *": {
       margin: theme.spacing(1),
     },
   },
 }));
-
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -100,19 +97,21 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [render, setRender] = React.useState("");
   const [ID, setID] = useState("");
-  const [user, setUser] = useState("");
   const [username, setUsername] = useState(null);
+  /*  const [user, setUser] = useState(""); */
+  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
+
         if (storageData.userFound.roles[0].name == "user") {
           setUser("user");
           setID(storageData.userFound._id);
           setUsername(storageData.userFound.firstName);
         } else {
-          console.log("esntre acaaaaaa")
           setUser("provider");
           setID(storageData.providerFound?._id);
           setUsername(storageData.providerFound.firstName);
@@ -123,7 +122,7 @@ export default function PrimarySearchAppBar() {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedSpatifyApp');
+    const loggedUserJSON = window.localStorage.getItem("loggedSpatifyApp");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       user.userFound
@@ -131,7 +130,7 @@ export default function PrimarySearchAppBar() {
         : setRender(user.providerFound?.firstName);
       //(() => dispatch(userActiveSession()))();
     }
-    if (userActive !== '') setRender(userActive);
+    if (userActive !== "") setRender(userActive);
   }, [userActive]);
 
   const handleClick = (event) => {
@@ -143,12 +142,10 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleRedirect = (e) => {
-
     if (user === "user") {
       history.push(`/profile/${ID}`);
     } else if (user === "provider") {
       history.push(`/providers/${ID}/profile`);
-
     }
     setAnchorEl(null);
   };
@@ -157,7 +154,7 @@ export default function PrimarySearchAppBar() {
     dispatch(logout());
 
     setRender("");
-    setUser("")
+    setUser("");
     history.push("/");
 
     handleClose();
@@ -166,18 +163,15 @@ export default function PrimarySearchAppBar() {
 
   const loginAndRegister = [
     <Link
-      to={'/login'}
-      style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
+      to={"/login"}
+      style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
     >
-
       <Button style={{ fontSize: "16px" }} color="inherit">
         INGRESAR
       </Button>
-
     </Link>,
-    '|',
+    "|",
     <Link
-
       to={"/userRegister"}
       style={{
         color: "rgb(121, 47, 111)",
@@ -188,7 +182,6 @@ export default function PrimarySearchAppBar() {
       <Button style={{ fontSize: "16px" }} color="inherit">
         REGISTRARSE{" "}
       </Button>
-
     </Link>,
   ];
 
@@ -201,7 +194,7 @@ export default function PrimarySearchAppBar() {
       {render && render[0]}
     </Avatar>,
     <Menu
-      id='fade-menu'
+      id="fade-menu"
       anchorEl={anchorEl}
       keepMounted
       open={open}
@@ -213,15 +206,14 @@ export default function PrimarySearchAppBar() {
       </MenuItem>
       {/*   </Link> */}
       <Link
-        to={'/user/provider'}
-        style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
+        to={"/user/provider"}
+        style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
       >
         <MenuItem onClick={handleClose}>Mis Servicios</MenuItem>
       </Link>
       <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
     </Menu>,
   ];
-
 
   let loginProfile =
     user === "user"
@@ -273,17 +265,16 @@ export default function PrimarySearchAppBar() {
   return (
     <div className={`${classes.grow} header`}>
       <AppBar position="static" style={{ backgroundColor: "white" }}>
-
         <Toolbar>
-          <Typography className={classes.title} variant='h6' noWrap>
-            <Link to={'/'} style={{ textDecoration: 'none' }}>
+          <Typography className={classes.title} variant="h6" noWrap>
+            <Link to={"/"} style={{ textDecoration: "none" }}>
               <img
                 src={loto}
-                alt='img no founded'
+                alt="logo not found"
                 style={{
-                  width: '4rem',
-                  height: '3rem ',
-                  marginBottom: '-1rem',
+                  width: "4rem",
+                  height: "3rem ",
+                  marginBottom: "-1rem",
                 }}
               />
             </Link>
@@ -293,10 +284,44 @@ export default function PrimarySearchAppBar() {
             to={"/search"}
             style={{
               textDecoration: "none",
-            }} /* onClick={(e)=>{handleSetSearchBar(e)} */
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
           >
-            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
+            <div style={{ marginLeft: "4rem" }}>Filtrar búsqueda</div>
+          </Link>
 
+          <Link
+            to={"/about-Spa-tify"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>Sobre Spa-tify</div>
+          </Link>
+
+          <Link
+            to={"/about-Us"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>About G14</div>
+          </Link>
+
+          <Link
+            to={"/covid"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>Protocolo COVID-19</div>
           </Link>
 
           <div className={classes.grow} />
