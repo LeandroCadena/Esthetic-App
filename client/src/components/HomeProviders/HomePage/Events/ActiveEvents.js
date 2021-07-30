@@ -64,7 +64,7 @@ function ActiveEvents() {
     return (
         <div className="accordion-wrapper">
             <div className="accordion">
-                {reservations.map((r, i) => (
+                {reservations && reservations.length && reservations.map((r, i) => (
                     <>
                         {r.isActive === true && (
                             <div className="accordion-item event-active" onClick={() => toggle(i)}>
@@ -110,7 +110,7 @@ function ActiveEvents() {
                     </>
                 ))}
                 <h3 className='final-title-back'>Turnos Cancelados</h3>
-                {reservations.map((r, i) => (
+                {reservations && reservations.length && reservations.map((r, i) => (
                     <>
                         {r.providerAlert === true && (
                             <div className="accordion-item event-not-active" onClick={() => toggle(i)}>
@@ -156,7 +156,7 @@ function ActiveEvents() {
                     </>
                 ))}
                 <h3 className='final-title-back'>Turnos Finalizados</h3>
-                {reservations.map((r, i) => (
+                {reservations && reservations.length && reservations.map((r, i) => (
                     <>
                         {r.isActive === false && r.providerAlert === false && (
                             <div className="accordion-item event-history" onClick={() => toggle(i)}>
