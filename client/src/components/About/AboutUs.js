@@ -1,8 +1,12 @@
 import React from "react";
-import { Grid, Typography, Button } from "@material-ui/core";
+import { Grid, Box, Typography, IconButton } from "@material-ui/core";
+import GitHubIcon from '@material-ui/icons/GitHub';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import EmailIcon from '@material-ui/icons/Email';
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import Image from "../../img/banner.jpg";
+import { data } from '../../utils/aboutUsData';
 
 const useStyles = makeStyles(() => ({
   bannerImg: {
@@ -32,12 +36,21 @@ const useStyles = makeStyles(() => ({
   containerText: {
     padding: 15,
   },
-  text: {
-    width: "50%",
+  containerCard: {
+    width: '80%',
+    margin: '30px auto'
+  },
+  card: {
+    width: '30%',
+  },
+  cardItems: {
+    width: "80%",
+    margin: '20px auto'
   },
   containerTextItem: {
-    marginBottom: 15,
+    margin: '15px auto',
     width: "80%",
+    textAlign: "center"
   },
   title: {
     color: "hsl(308deg 44% 33%)",
@@ -50,6 +63,22 @@ const useStyles = makeStyles(() => ({
   strong: {
     color: "hsl(308deg 44% 33%)",
   },
+  image: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  profileImg: {
+    borderRadius: '50%',
+    width: 150,
+    height: 150,
+  },
+  iconButton: {
+        color: 'hsl(308deg 44% 70%)',
+        '&:hover': {
+            backgroundColor: 'hsl(308deg 44% 92%)',
+            color: 'hsl(308deg 14% 50%)',
+        }
+  }
 }));
 
 function AboutUs() {
@@ -59,6 +88,7 @@ function AboutUs() {
     <div className="container-main">
       <div className="container">
         <Grid container direction="column">
+
           <Grid item container direction="column">
             <Grid item container direction="row">
               <div className={classes.bannerContainer}>
@@ -92,185 +122,51 @@ function AboutUs() {
             </Grid>
           </Grid>
 
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>Daniel Abuaf</Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/Dabuaf86">Dabuaf86</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="dabuaf@gmail.com">dabuaf@gmail.com</a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/daniel-abuaf-fullstack-dev/">
-                  daniel-abuaf-fullstack-dev
-                </a>
-              </Typography>
-            </Grid>
+          <Grid item container justifyContent='center' className={classes.containerCard} spacing={2}>
+            {
+              data.map((d, i) => {
+                return(
+                    <Grid
+                      item
+                      container
+                      direction='row'
+                      className={classes.card}
+                      key={i}
+                    >
+
+                      <Grid item container direction="column" alignItems='center' className={classes.cardItems}>
+                        <Box className={classes.image}>
+                          <img
+                            className={classes.profileImg}
+                            src={d.image}
+                            alt='img-actual-provider'
+                          />
+                        </Box>
+                        <Typography className={classes.title}>{d.name}</Typography>
+                        <Typography className={classes.subtitle}>
+                          <a href={`mailto:${d.mail}`} target='_blank'>
+                            <IconButton className={classes.iconButton}>
+                              <EmailIcon />
+                            </IconButton>
+                          </a>
+                          <a href={d.github} target='_blank'>
+                            <IconButton className={classes.iconButton}>
+                              <GitHubIcon />
+                            </IconButton>
+                          </a>
+                          <a href={d.linkedin} target='_blank'>
+                            <IconButton className={classes.iconButton}>
+                              <LinkedInIcon />
+                            </IconButton>
+                          </a>
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                )
+              })
+            }
           </Grid>
 
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>Emiliano Pintos</Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/emilianoagustin">emilianoagustin</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="pintos.emiliano@gmail.com">
-                  pintos.emiliano@gmail.com
-                </a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/emiliano-agust%C3%ADn-pintos/">
-                  emiliano-pintos
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>
-                Eugenio Buttazzoni
-              </Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/eugebutta">eugebutta</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="eugebutta2020@gmail.com">eugebutta2020@gmail.com</a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/eugenio-buttazzoni/">
-                  eugenio-buttazzoni
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>
-                Gabriel De Giorgi
-              </Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/gabrieldegiorgi">gabrieldegiorgi</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="degiorgi.gabriel@gmail.com">
-                  degiorgi.gabriel@gmail.com
-                </a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/gabriel-de-giorgi/">
-                  gabriel-de-giorgi
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>Ignacio Lozada</Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/ignaloza">ignaloza</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="ignacio_lozada@hotmail.com">
-                  ignacio_lozada@hotmail.com
-                </a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/ignacio-lozada/">
-                  ignacio-lozada
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>Leandro Cadena</Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/LeandroCadena">LeandroCadena</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="cadenaleandro97@gmail.com">
-                  cadenaleandro97@gmail.com
-                </a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/leandro-cadena/">
-                  leandro-cadena
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            justifyContent="center"
-            className={classes.containerText}
-          >
-            <Grid item container direction="column" className={classes.text}>
-              <Typography className={classes.title}>Mario Martínez</Typography>
-              <Typography className={classes.subtitle}>
-                <br />
-                <strong className={classes.strong}>Github -</strong>{" "}
-                <a href="https://github.com/mariomartinez81">mariomartinez81</a>
-                <br />
-                <strong className={classes.strong}>Gmail -</strong>{" "}
-                <a href="marioaviva@gmail.com">marioaviva@gmail.com</a>
-                <br />
-                <strong className={classes.strong}>LinkedIn -</strong>{" "}
-                <a href="https://www.linkedin.com/in/mario-mart%C3%ADnez-671131175/">
-                  mario-martinez
-                </a>
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
       </div>
     </div>
