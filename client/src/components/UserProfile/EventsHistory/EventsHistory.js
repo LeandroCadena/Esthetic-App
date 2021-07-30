@@ -1,6 +1,7 @@
 import React from 'react'
 import Section from './Section/Section'
-import Sidebar from './Sidebar/Sidebar'
+import Submenu from './Submenu/Submenu'
+
 
 
 function EventsHistory() {
@@ -8,7 +9,7 @@ function EventsHistory() {
     
     return (
         <div>
-            <Sidebar/>
+            <Submenu/>
             <Section/>            
         </div>
     )   

@@ -3,9 +3,9 @@ import actionsTypes from "../constants/constants";
 import {
   editAddress,
   findService,
+  sortByDate,
   updateReservation,
 } from "../../utils/filter.js";
-
 
 const initialState = {
   services: {
@@ -336,11 +336,14 @@ const appReducer = (state = initialState, action) => {
         userReservations: { ...state.userReservations, loading: true },
       };
     case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
+
+      console.log("Esto es reservations", state.userReservations.data);
       return {
         ...state,
         userReservations: {
           loading: false,
           data: updateReservation(state.userReservations.data, action.payload),
+
         },
       };
 
@@ -370,6 +373,32 @@ const appReducer = (state = initialState, action) => {
         ...state,
         userReservations: { loading: false, error: action.payload },
       };
+
+    ///SORT EVENTS BY DATE
+
+    case actionsTypes.SORT_EVENTS_NEW:
+      return {
+        ...state,
+        userReservations: {
+          data: sortByDate(state.userReservations.data),
+          loading: false,
+        },
+      };
+
+
+      case actionsTypes.SORT_EVENTS_OLD:
+        return {
+          ...state,
+          userReservations: {
+            data: sortByDate(state.userReservations.data).reverse(),
+            loading: false,
+          },
+        };
+
+
+
+
+
 
     default:
       return state;

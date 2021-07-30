@@ -1,26 +1,24 @@
 import React from "react";
+import imgDefault from "../../../../../img/masaje_1.jpg";
+import "./Event.css";
 
 function Event({ r }) {
   return (
-    <div>
-      {r.isActive === false && r.ratingAlert === false && (
-        <div className="accordion-item">
-          <div className="accordion-title">
-            <p>
-              <b>Servicio Contratado:</b> {r.service.name}
-            </p>
-          </div>
+    <div className="event-container">
+     <div>
+        <img className="img-default" src={imgDefault} alt="service"></img>
+        </div>
 
-          {r && (
-            <div>
-              <p className="p">Dia: {r.date}</p>
-              <p className="p">Hora: {r.hour} Hs.</p>
-              <p className="p">Precio: ${r.service.price}</p>
-              <p className="p">
-                Prestador: {r.provider.firstName} {r.provider.lastName}
-              </p>
-            </div>
-          )}
+      {r && (
+        <div className="event-info">
+          <h3>Servicio Contratado:</h3> {r.service.name}
+          
+          <p className="p-event-info">Dia: {r.date}</p>
+          <p className="p-event-info">Hora: {r.hour} Hs.</p>
+          <p className="p-event-info">Precio: ${r.service.price}</p>
+          <p className="p-event-info">
+            Prestador: {r.provider.firstName} {r.provider.lastName}
+          </p>
         </div>
       )}
     </div>
