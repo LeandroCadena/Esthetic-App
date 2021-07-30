@@ -18,7 +18,8 @@ import Providers from "../components/SearchProvider/Providers";
 import ProviderRating from "../components/Section/ProviderRating/ProviderRating";
 import CovidProtocol from "../components/CovidProtocol/CovidProtocol";
 import Footer from "../components/Footer/Footer";
-import About from "../components/About/About";
+import AboutSpaTify from "../components/About/AboutSpaTify";
+import AboutUs from "../components/About/AboutUs";
 import CompletePerfil from '../components/CompletePerfil/CompletePerfil';
 
 import ConfirmationMail from "../components/ConfirmationMail/ConfirmationMail";
@@ -64,7 +65,8 @@ const App = () => {
         component={ConfirmationMailProvider}
       />
       <Route path="/" component={Footer} />
-      <Route exact path="/about" component={About} />
+      <Route exact path="/about-Spa-tify" component={AboutSpaTify} />
+      <Route exact path="/about-Us" component={AboutUs} />
     </React.Fragment>
   );
 };

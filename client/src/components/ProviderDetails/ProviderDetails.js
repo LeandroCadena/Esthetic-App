@@ -18,7 +18,7 @@ const ProviderDetails = () => {
   return (
     <div className="container-main">
       <div className="container">
-        <h1 className="h1-details">
+        <h1 className="title">
           {providerDetails.data &&
             `Bienvenido al espacio de ${providerDetails.data.firstName}`}
         </h1>
@@ -36,9 +36,9 @@ const ProviderDetails = () => {
               alt="Default Image"
             ></img>
           )}
-          <div className="container-about">
-            <h2 className="details-h2">Acerca de mí...</h2>
-            <span>
+          <div>
+            <h2 className="details-h2">Mi bio</h2>
+            <div className="container-about">
               {providerDetails.data?.bio ? (
                 <p>{providerDetails.data.bio}</p>
               ) : (
@@ -55,7 +55,7 @@ const ProviderDetails = () => {
                   debitis quaerat iusto.
                 </p>
               )}
-            </span>
+            </div>
           </div>
           <div>
             <ProviderServices providerId={id} />
