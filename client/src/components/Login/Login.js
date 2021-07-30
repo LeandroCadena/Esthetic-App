@@ -71,10 +71,12 @@ export default function SignIn() {
   const { user } = useContext(UserContext);
   //manejo de error
   const [valid, setValid] = useState(true);
-  const email = useInput("email");
-  const password = useInput("password");
+
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const loginData = useSelector((state) => state.LoginData);
+
+  const email = useInput("email");
+  const password = useInput("password");
 
   ///Validaciones
   const validate = () => {
@@ -134,7 +136,7 @@ export default function SignIn() {
           }
 
           if (
-            user.providerFound?.roles[0].name == "provider" &&
+            user.providerFound?.roles[0].name === "provider" &&
             user.providerFound.confirm
           ) {
             toast.success(
@@ -178,8 +180,8 @@ export default function SignIn() {
     }
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
+  const handleClick = () => {
+    window.open("http://localhost:3002/auth/google");
   };
 
   return (
