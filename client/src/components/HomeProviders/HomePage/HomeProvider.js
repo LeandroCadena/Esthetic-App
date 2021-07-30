@@ -4,8 +4,7 @@ import banner from "../../../img/banner.jpg";
 import VerticalLinearStepper from "../Stepper/SelectService";
 import RecipeReviewCard from "../PendingServices/PendingServices";
 import { useDispatch, useSelector } from "react-redux";
-//siguiente variable es solo para efectos de prueba (a la espera de la ruta para renderizar)
-//
+
 import { makeStyles } from "@material-ui/core/styles";
 import ProviderProfileData from "../../ProviderProfile/ProviderProfileData/ProviderProfileData";
 import { red, green, orange } from "@material-ui/core/colors";
@@ -189,19 +188,16 @@ const HomeProvider = () => {
     //
   }, [dispatch]);
 
-  // console.log('detailsProv', providerDetails.data);
-  // console.log('ADRESSES', addresses);
-  // console.log('PROVIDER_id', provider._id);
   return (
     <div className="banner-container">
-      <div className="title-background">
+      {/* <div className="title-background">
         <h1>Spa-tify </h1>
         <h2>Bienvenido {users.firstName}</h2>
       </div>
 
       <div className="banner">
         <img className="banner-img" src={banner} alt="banner-img"></img>
-      </div>
+      </div> */}
 
       <div className="render-home">
         <div className="info-provider">

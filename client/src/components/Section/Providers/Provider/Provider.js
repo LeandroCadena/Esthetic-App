@@ -27,13 +27,13 @@ function Provider({ provider, service }) {
               <h2 className="">{`${provider.firstName} ${provider.lastName}`}</h2>
               <h4>{`Calificación: ${
                 provider.rating?.length
-                  ? provider.rating.map((r) => {
-                      let suma = 0;
-                      suma += r.assessment;
-                      return Math.round(
-                        (suma + avgAssessment) / (provider.rating.length + 1)
-                      );
-                    })
+                  ? (
+                      (provider.rating.reduce(
+                        (prev, next) => prev.assessment + next.assessment
+                      ) +
+                        avgAssessment) /
+                      (provider.rating.length + 1)
+                    ).toFixed(2)
                   : avgAssessment
               }⭐`}</h4>
               <h4>{`* ${
