@@ -43,7 +43,7 @@ function Footer() {
 
   return (
     <Grid container justifyContent="center" className={classes.containerFooter}>
-      <Grid item container justifyContent="flex-end" style={{ width: "100%" }}>
+      <Grid item container justifyContent="space-evenly" style={{ width: "100%" }}>
 
         <Grid
           item
@@ -61,7 +61,7 @@ function Footer() {
           container
           justifyContent="center"
           alignItems="center"
-          style={{ width: "55%" }}
+          style={{ width: "35%" }}
         >
           <Grid item container justifyContent='center' alignItems="center" className={classes.containerFooterLinks}>
             <Grid item>
@@ -100,21 +100,12 @@ function Footer() {
               component="p"
               className={classes.footerLinksDivider}
             />
+            <Grid item>
+              <Link to="/covid">
+                <p>Protocolo COVID-19</p>
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
-
-        <Grid
-          item
-          container
-          justifyContent="center"
-          alignItems="center"
-          style={{ width: "20%" }}
-        >
-          <div className={classes.containerFooterLinks}>
-            <Link to="/covid">
-              <p>Protocolo COVID-19</p>
-            </Link>
-          </div>
         </Grid>
 
       </Grid>
