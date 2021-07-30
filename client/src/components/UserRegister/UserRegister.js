@@ -29,7 +29,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         Spa-tify{" "}
       </Link>{" "}
       {new Date().getFullYear()}
@@ -405,7 +405,7 @@ export default function SignUp() {
             </Grid>
 
             <Grid item xs={12}>
-              <InputLabel id="demo-simple-select-label">Rol</InputLabel>
+              <InputLabel id="demo-simple-select-label">Soy</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"

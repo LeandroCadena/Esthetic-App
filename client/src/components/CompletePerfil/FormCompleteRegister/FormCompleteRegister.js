@@ -28,7 +28,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="/">
         Spa-tify{" "}
       </Link>{" "}
       {new Date().getFullYear()}
@@ -181,7 +181,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
             // console.log(error);
             if (error.response?.status !== 404 || 422)
               toast.error(
-                `Lo siento, este email ya tiene una cuenta vinculada`,
+                `Lo sentimos. Este email ya tiene una cuenta vinculada.`,
                 {
                   position: toast.POSITION.TOP_CENTER,
                 }
@@ -222,7 +222,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
                 {...phone}
               />
             </Grid>
-            <div style={{ color: "blue" }}>*Ingresar telefono sin 0 ni 15</div>
+            <div style={{ color: "blue" }}>*Ingresar teléfono sin 0 ni 15</div>
             <br />
             <br />
             <div className={classes.containersSelect}>
@@ -243,7 +243,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
               </Grid>
 
               <Grid item xs={12}>
-                <InputLabel id="demo-simple-select-label">Rol</InputLabel>
+                <InputLabel id="demo-simple-select-label">Soy</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -258,7 +258,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
                   <MenuItem value={"60f8b6d9d525721260545f81"}>
                     Proveedor{" "}
                   </MenuItem>
-                  <MenuItem value={"60f8b6d9d525721260545f82"}>admin</MenuItem>
+                  {/* <MenuItem value={"60f8b6d9d525721260545f82"}>admin</MenuItem> */}
                 </Select>
               </Grid>
             </div>

@@ -47,7 +47,7 @@ function Providers({ data }) {
 
  
   const providersOservices = [
-    { value: "Provedores", label: "Prestadores" },
+    { value: "Prestadores", label: "Prestadores" },
     { value: "Servicios", label: "Servicios" },
   ];
   const precios = [
