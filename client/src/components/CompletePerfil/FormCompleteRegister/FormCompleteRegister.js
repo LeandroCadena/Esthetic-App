@@ -23,6 +23,7 @@ import { Link } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { deleteUser } from '../../../Redux/actions/user.actions';
+import { HOST } from '../../../utils/constants';
 
 function Copyright() {
   return (
@@ -92,8 +93,6 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
       rolesError: '',
     });
   }, [phone.value, gender.value, roles.value]);
-
-  // console.log('google--->', userGoogle);
 
   const validatePhone = () => {
     let isValid = true;

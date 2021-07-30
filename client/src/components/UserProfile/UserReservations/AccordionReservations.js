@@ -67,7 +67,7 @@ function AccordionReservations() {
         {reservations.map((r, i) => (
           <>
             {r.isActive === true && (
-              <div className="accordion-item" onClick={() => toggle(i)}>
+              <div className="accordion-item event-active" onClick={() => toggle(i)}>
                 <div className="accordion-title">
                   <p>
                     <b>Servicio Contratado:</b> {r.service.name}
@@ -90,18 +90,20 @@ function AccordionReservations() {
                       <p className="p">Precio: ${r.service.price}</p>
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
+                      </p>
+                      <div className='center-target-button'>
                         <button onClick={() => deleteReservation(r._id)} className="cancel-button" >
                           Cancelar Turno
                           <CancelIcon />
                         </button>
-                      </p>
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
             )}
             {r.userAlert === true && (
-              <div className="accordion-item" onClick={() => toggle(i)}>
+              <div className="accordion-item event-not-active" onClick={() => toggle(i)}>
                 <div className="accordion-title">
                   <p>
                     <b>Servicio Contratado:</b> {r.service.name}
@@ -124,11 +126,13 @@ function AccordionReservations() {
                       <p className="p">Precio: ${r.service.price}</p>
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
+                      </p>
+                      <div className='center-target-button'>
                         <button onClick={() => checkDelete(r._id)} className="check-button" >
                           Aceptar
                           <CheckCircleIcon />
                         </button>
-                      </p>
+                      </div>
                     </div>
                   )}
                 </div>

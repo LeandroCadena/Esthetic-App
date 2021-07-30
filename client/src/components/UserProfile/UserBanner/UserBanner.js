@@ -126,11 +126,6 @@ function UserBanner() {
           Ver Historial de compras
         </Link>
       </div>
-      <div className='under-banner'>
-        <Link className='under-button'>
-          Ver Servicios favoritos
-        </Link>
-      </div>
     </div>
   );
 }

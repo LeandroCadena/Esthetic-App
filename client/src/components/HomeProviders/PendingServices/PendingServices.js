@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 //Material UI
@@ -69,32 +69,31 @@ export default function RecipeReviewCard({ data }) {
   const whatsApp = "https://web.whatsapp.com/";
   const classes = useStyles();
   const history = useHistory();
-const loginData = useSelector((state) => state.loginData)
-const [anchorEl, setAnchorEl] = React.useState(null);
-const [expanded, setExpanded] = React.useState(false);
-const [stateFav, setStateFav] = React.useState(false);
+  const loginData = useSelector((state) => state.loginData)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [expanded, setExpanded] = React.useState(false);
+  const [stateFav, setStateFav] = React.useState(false);
 
 
-console.log("estoy aqui ")
-const handleExpandClick = () => {
-  setExpanded(!expanded);
-};
-const handleFavorites = () => {
-  setStateFav(!stateFav);
-};
-//settings admin
-const handleClick = (event) => {
-  setAnchorEl(event.currentTarget);
-};
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  const handleFavorites = () => {
+    setStateFav(!stateFav);
+  };
+  //settings admin
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-const handleClose = () => {
-  setAnchorEl(null);
-};
-const handleEdit = () => {
-  history.push(`/service/upload/${data._id}`);
-};
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleEdit = () => {
+    history.push(`/service/upload/${data._id}`);
+  };
 
-useEffect(() => {}, [data]);
+  useEffect(() => { }, [data]);
 
 
 
@@ -114,9 +113,9 @@ useEffect(() => {}, [data]);
               src={data.image}
             ></Avatar>
           }
-          { ...loginData.userFound?.roles[0].name !== "user" &&
-           loginData.providerFound?.roles[0].name !== "provider"
-           ?
+          {...loginData.userFound?.roles[0].name !== "user" &&
+            loginData.providerFound?.roles[0].name !== "provider"
+            ?
             <div>
 
               <IconButton
@@ -124,7 +123,7 @@ useEffect(() => {}, [data]);
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                >
+              >
                 <MoreVertIcon />
               </IconButton>
 
@@ -134,23 +133,23 @@ useEffect(() => {}, [data]);
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                >
+              >
                 <MenuItem onClick={handleEdit}>Editar 🖊</MenuItem>
                 <MenuItem onClick={handleClose}>Remover</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </div>
-          
-           :null 
-        } 
-          
-          
-         id="simple-menu"
-                
+
+            : null
+          }
+
+
+          id="simple-menu"
+
           title={data.name ? data.name : `${data.firstName} ${data.lastName}`}
           subheader={data.price ? `$ ${data.price}` : ""}
         />
-         
+
         <Link to={`/services/providers/${data.name}`}>
           <CardMedia
             className={classes.media}

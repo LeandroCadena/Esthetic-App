@@ -46,13 +46,11 @@
   padding: 5px;
 }
 
-
-
 .booking-container {
   background-color: #ffffff;
-  width: 500px;
-  height: 550px;
-  padding: 25px;
+  width: max-content;
+  height: max-content;
+  padding: 25px 40px 25px 40px;
   margin: 25px;
   box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
     0 12.5px 10px rgb(0 0 0 / 6%);

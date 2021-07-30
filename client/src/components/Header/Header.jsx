@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -107,7 +107,6 @@ export default function PrimarySearchAppBar() {
     if (localStorage.getItem("loggedSpatifyApp")) {
       const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
-        console.log(storageData.userFound.roles[0].name)
         if (storageData.userFound.roles[0].name == "user") {
           setUser("user");
           setID(storageData.userFound._id);
@@ -127,7 +126,6 @@ export default function PrimarySearchAppBar() {
     const loggedUserJSON = window.localStorage.getItem('loggedSpatifyApp');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      console.log(user);
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);

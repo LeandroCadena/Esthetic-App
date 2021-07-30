@@ -115,7 +115,6 @@ export default function FormAdresses({ type, alldata, data }) {
       );
     }
   };
-  console.log('ACTUAL_PROVIDER', actualProvider);
 
   return (
     <>

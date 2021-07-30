@@ -47,11 +47,9 @@
 }
 
 .cancel-button{
-  margin-top: 15px;
-  margin-left: 55px;
   height: 30px;
-  align-items: center;
   display: flex;
+  align-items: center;
   justify-content: center;
   border-radius: 1em;
   padding: 5px 10px 5px 10px;
@@ -62,8 +60,6 @@
 }
 
 .check-button{
-  margin-top: 15px;
-  margin-left: 55px;
   height: 30px;
   align-items: center;
   display: flex;
@@ -74,4 +70,21 @@
 
 .check-button:hover {
   background-color: rgb(147, 230, 255);
+}
+
+.center-target-button{
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.event-active{
+  background-color: rgba(184, 255, 221, 0.8);
+}
+.event-not-active{
+  background-color: rgba(253, 200, 200, 0.8);
+}
+
+.event-history{
+  background-color: rgba(210, 237, 255, 0.8);
 }

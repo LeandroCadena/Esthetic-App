@@ -78,8 +78,6 @@ export default function SignIn() {
   const email = useInput('email');
   const password = useInput('password');
 
-  // console.log('---x---', loginData);
-
   ///Validaciones
   const validate = () => {
     let isValid = true;
