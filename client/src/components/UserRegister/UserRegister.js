@@ -416,7 +416,7 @@ export default function SignUp() {
               >
                 <MenuItem value={"user"}>Usuario</MenuItem>
                 <MenuItem value={"provider"}>Proveedor </MenuItem>
-                <MenuItem value={"admin"}>admin</MenuItem>
+                {/* <MenuItem value={"admin"}>admin</MenuItem> */}
               </Select>
             </Grid>
           </Grid>

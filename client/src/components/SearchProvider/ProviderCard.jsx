@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "4px 4px 30px #e1b2f0",
     borderColor: "grey",
     filter: "saturate(80%)",
-   
   },
   media: {
     height: 0,
@@ -56,10 +55,12 @@ const useStyles = makeStyles((theme) => ({
   font: {
     fontSize: "18px",
   },
+  cardTitle: {
+    textDecoration: "underline",
+  },
 }));
 
 export default function RecipeReviewCard({ data }) {
-
   const whatsApp = "https://web.whatsapp.com/";
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -102,7 +103,7 @@ export default function RecipeReviewCard({ data }) {
               <h1>{`${data.addresses[0]?.city} / ${data.addresses[0]?.state} `}</h1>
             </div>
             {data.services &&
-              "Los servicios adquiridos y los datos principales del cliente se encuentran al desplegando la flecha..."}
+              "Haz click en la flecha hacia abajo para ver MÁS..."}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
@@ -150,7 +151,8 @@ export default function RecipeReviewCard({ data }) {
             {data.services && (
               <>
                 <Typography paragraph className={classes.cardTitle}>
-                  Servicio(s):
+                  {" "}
+                  <b>Servicio(s):</b>
                 </Typography>
                 <Typography paragraph className={classes.cardContent}>
                   {data.services.map((service) => (
@@ -159,16 +161,20 @@ export default function RecipeReviewCard({ data }) {
                 </Typography>
 
                 <Typography paragraph className={classes.cardTitle}>
-                  Correo:
+                  <b>Correo:</b>
                 </Typography>
                 <Typography paragraph className={classes.cardContent}>
                   {data.email}
                 </Typography>
 
-                <Typography paragraph>Teléfono:</Typography>
+                <Typography paragraph className={classes.cardTitle}>
+                  <b>Teléfono:</b>
+                </Typography>
                 <Typography paragraph>{data.phone}</Typography>
 
-                <Typography paragraph>Género:</Typography>
+                <Typography paragraph className={classes.cardTitle}>
+                  <b>Género:</b>
+                </Typography>
                 <Typography paragraph>{data.gender}</Typography>
               </>
             )}
