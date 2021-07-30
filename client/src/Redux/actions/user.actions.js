@@ -76,7 +76,7 @@ export const getUserReservations = (userId) => async (dispatch) => {
 
   try {
     const { data } = await axios.get(`${HOST}${EVENTS}${USER}/${userId}`);
-   console.log("Aca hago el GET", "`${HOST}${EVENTS}/${USER}/${userId}`")
+    console.log("Aca hago el GET", "`${HOST}${EVENTS}/${USER}/${userId}`");
     dispatch({
       type: actionsTypes.GET_USER_RESERVATIONS_SUCCESS,
       payload: data,
@@ -90,15 +90,15 @@ export const getUserReservations = (userId) => async (dispatch) => {
 };
 //DELETE USER RESERVATIONS
 
-
 export const deleteUserReservation = (payload) => async (dispatch) => {
-  dispatch({ type: actionsTypes.DELETE_USER_RESERVATIONS_REQUEST});
-  console.log("Esto es payload", payload)
-    try {
+  dispatch({ type: actionsTypes.DELETE_USER_RESERVATIONS_REQUEST });
+  console.log("Esto es payload", payload);
+  try {
     const { data } = await axios.post(
-      `${HOST}${EVENTS}/cancel${USER}`, payload
+      `${HOST}${EVENTS}/cancel${USER}`,
+      payload
     );
-    console.log("este es el turno que quiero borrar", data)
+    console.log("este es el turno que quiero borrar", data);
     dispatch({
       type: actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS,
       payload: payload.event,
@@ -110,19 +110,17 @@ export const deleteUserReservation = (payload) => async (dispatch) => {
     });
   }
 };
-///POST REVIEW 
+///POST REVIEW
 
 export const postUserReview = (payload) => async (dispatch) => {
-  dispatch({ type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST});
-    try {
-    const { data } = await axios.post(
-      `${HOST}${EVENTS}/review`,payload.input
-      );
-      
-      console.log("Esto es data del postUserReview", data)
+  dispatch({ type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_REQUEST });
+  try {
+    const { data } = await axios.post(`${HOST}${EVENTS}/review`, payload.input);
+
+    console.log("Esto es data del postUserReview", data);
     dispatch({
       type: actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES,
-      payload: data ,
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -132,13 +130,8 @@ export const postUserReview = (payload) => async (dispatch) => {
   }
 };
 
-
-
-
-
 // GET ALL USERS
 export const getAllUsers = () => async (dispatch) => {
-
   dispatch({ type: actionsTypes.GET_ALL_USERS });
   try {
     const { data } = await axios.get(`${GET_USERS}`);
@@ -149,8 +142,7 @@ export const getAllUsers = () => async (dispatch) => {
     });
   }
 };
-      //USER ADDRESSES
-
+//USER ADDRESSES
 
 export const getUserAddresses = (userId) => async (dispatch) => {
   dispatch({ type: actionsTypes.GET_USER_ADDRESSES_REQUEST });
@@ -197,7 +189,7 @@ export const postUserAddresses = (payload) => async (dispatch) => {
 
 export const deleteUserAddresses = (payload) => async (dispatch) => {
   dispatch({ type: actionsTypes.DELETE_USER_ADDRESS_REQUEST });
-    try {
+  try {
     const { data } = await axios.delete(
       `${GET_USERS}/${payload.userId}/addresses/${payload.addressId}`
     );
@@ -253,4 +245,16 @@ export const putUserData = (userId, updatedData) => async (dispatch) => {
       payload: error.message,
     });
   }
+};
+
+export const sortDateNew = () => (dispatch) => {
+  dispatch({
+    type: actionsTypes.SORT_EVENTS_NEW,
+  });
+};
+
+export const sortDateOld = () => (dispatch) => {
+  dispatch({
+    type: actionsTypes.SORT_EVENTS_OLD,
+  });
 };
