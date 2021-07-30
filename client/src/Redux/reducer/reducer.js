@@ -386,14 +386,14 @@ const appReducer = (state = initialState, action) => {
       };
 
 
-      case actionsTypes.SORT_EVENTS_OLD:
-        return {
-          ...state,
-          userReservations: {
-            data: sortByDate(state.userReservations.data).reverse(),
-            loading: false,
-          },
-        };
+    case actionsTypes.SORT_EVENTS_OLD:
+      return {
+        ...state,
+        userReservations: {
+          data: sortByDate(state.userReservations.data).reverse(),
+          loading: false,
+        },
+      };
 
 
 
