@@ -82,6 +82,7 @@ function FormAddresses({ showModal, setShowModal }) {
       {showModal && (
         <div className="wrapper" ref={modalRef} onClick={closeModal}>
           <div className="form-container">
+
             <form>
               <div className="form-element-a">
                 <label>Referencia: </label>
@@ -177,7 +178,104 @@ function FormAddresses({ showModal, setShowModal }) {
                   onChange={(e) => handleInputChange(e.target)}
                 />
               </div>
+            <div className="form-element-a">
+              <h3 className='modal-title'>NUEVA DIRECCIÓN</h3>
+              <label>Referencia: </label>
+              <input
+                className={errors.name && "danger"}
+                name="name"
+                type="text"
+                value={input.name}
+                placeholder="Nombre para la dirección"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Pais: </label>
+              <input
+                className={errors.country && "danger"}
+                name="country"
+                type="text"
+                value={input.country}
+                placeholder="Ingrese el País"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Provincia: </label>
+              <input
+                className={errors.state && "danger"}
+                name="state"
+                type="text"
+                value={input.state}
+                placeholder="Ingrese la Provincia"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
 
+            <div>
+              <label>Ciudad: </label>
+              <input
+                className={errors.city && "danger"}
+                name="city"
+                type="text"
+                value={input.city}
+                placeholder="Ingrese la Ciudad"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <div>
+              <label>Calle: </label>
+              <input
+                className={errors.address_1 && "danger"}
+                name="address_1"
+                type="text"
+                value={input.address_1}
+                placeholder="Ingrese la Calle"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+
+            <div>
+              <label>Detalles: </label>
+              <input
+                className={errors.address_details && "danger"}
+                name="address_details"
+                type="text"
+                value={input.address_details}
+                placeholder="Ingrese los detalles"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+
+            <div>
+              <label>Codigo Postal: </label>
+              <input
+                className={errors.zip_code && "danger"}
+                name="zip_code"
+                type="text"
+                value={input.zip_code}
+                placeholder="Ingrese el código postal"
+                onChange={(e) => handleInputChange(e.target)}
+              />
+            </div>
+            <span className='main_address'>
+              <label>Direccion Principal: </label>
+              <input
+                className={errors.zip_code && "danger"}
+                name="is_main"
+                type="checkbox"
+                onChange={(e) => handleMain(e)}
+              />
+            </span>
+
+            <div className='form-buttons'>
+              <button
+                className="button"
+                onClick={() => setShowModal(false)}
+              >
+                CANCELAR
+              </button>
               <button
                 className="button"
                 type="submit"

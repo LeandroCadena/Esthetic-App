@@ -6,12 +6,17 @@ import {
   getProviderRating,
 } from "../../../Redux/actions/actions";
 // import "ProviderRating.scss";
+import "./ProviderRating.scss";
 
 const ProviderRating = () => {
   const dispatch = useDispatch();
+
   const providerDetails = useSelector((state) => state.providerDetails);
   const ProviderRating = useSelector((state) => state.providerDetails);
   const { id, idUser } = useParams();
+  const rating = useSelector((state) => state.providerRating.data);
+  const { id } = useParams();
+
 
   useEffect(() => {
     dispatch(getProviderDetails(id));
@@ -21,7 +26,19 @@ const ProviderRating = () => {
   return (
     <div className="container-main">
       <div className="container">
-        <h1 className="h1-details">{`Éstas son las reseñas de ${providerDetails.data?.firstName}`}</h1>
+        <h1 className="title">{`Éstas son las reseñas de ${providerDetails.data?.firstName}`}</h1>
+        <div className="container-about">
+          {rating?.length
+            ? rating.map((rating) => {
+                return (
+                  <div>
+                    <h4>{`${rating.assessment}⭐`}</h4>
+                    <p>{`${rating.comments}`}</p>
+                  </div>
+                );
+              })
+            : null}
+        </div>
       </div>
     </div>
   );

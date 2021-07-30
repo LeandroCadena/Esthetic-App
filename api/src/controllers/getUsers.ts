@@ -26,27 +26,71 @@ export const getUser: RequestHandler = async (req, res) => {
   }
 };
 
-export const updateUser: RequestHandler = async (req, res) => {
-  
-  
+export const getUserGoogle: RequestHandler = async (req, res) => {
+  // para traer un solo usuario
   try {
-    const userUpdate: any = await Users.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!userUpdate)
+    const userFound = await Users.findOne({ googleId: req.params.id });
+    if (!userFound)
+      return res
+        .json(404)
+        .json({ message: 'No encontramos el usuario solicitado' });
+    return res.json(userFound);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+export const updateUser: RequestHandler = async (req, res) => {
+  try {
+    if (/^(?:[1-9]\d*|\d)$/.test(req.params.id)) {
+      const userGoogleUpdate: any = await Users.findOneAndUpdate(
+        { googleId: req.params.id },
+        req.body,
+        {
+          new: true,
+        }
+      );
+      if (!userGoogleUpdate) {
+        return res
+          .status(404)
+          .json({ message: 'No encontramos el usuario solicitado' });
+      }
+      return res.status(201).json(userGoogleUpdate);
+    }
+    const userUpdate: any = await Users.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    if (!userUpdate) {
       return res
         .status(404)
         .json({ message: 'No encontramos el usuario solicitado' });
+    }
     return res.status(201).json(userUpdate);
   } catch (error) {
-    res.status(500).json({ message: 'Ha habido un problema con tu pedido' }) ;
+    res.status(500).json({ message: 'Ha habido un problema con tu pedido' });
   }
-}
-  
-
+};
 
 export const deleteUser: RequestHandler = async (req, res) => {
   try {
+    if (/^(?:[1-9]\d*|\d)$/.test(req.params.id)) {
+      const userDel = await Users.findOneAndDelete({ googleId: req.params.id });
+      if (!userDel)
+        return res
+          .status(404)
+          .json({ message: 'No encontramos el usuario solicitado' });
+      else {
+        // await fs.unlink(path.resolve(userDel.image));
+        return res.json({
+          message: 'Usuario eliminado con éxito.',
+          userDel,
+        });
+      }
+    }
     const userDelete = await Users.findByIdAndDelete(req.params.id);
     if (!userDelete)
       return res

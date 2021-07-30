@@ -9,11 +9,13 @@ export interface IUser extends Document {
   email: string;
   phone: number;
   password: string;
+  googleId: string;
   roles: any[];
   event: any[];
   addresses: any[];
   creditCards: any[];
   rating: any[];
+  confirm:any;
   setImage(filename: any): void;
   comparePassword(password: string): Promise<boolean>;
 }
@@ -35,7 +37,10 @@ const UserSchema = new Schema<IUser>(
     },
     gender: {
       type: String,
-      enum: ["Male", "Female", "Non-binary"],
+
+      enum: ['Male', 'Female', 'Non-binary'],
+      default: 'Non-binary',
+
     },
     email: {
       type: String,
@@ -44,13 +49,19 @@ const UserSchema = new Schema<IUser>(
     },
     phone: {
       type: Number,
-      required: true,
       trim: true,
+      default: 1234,
     },
+    confirm:{
+      type: Boolean, 
+      default: false,
+        },
     password: {
       type: String,
-      required: true,
       trim: true,
+    },
+    googleId: {
+      type: String,
     },
     roles: [
       {
@@ -79,6 +90,7 @@ const UserSchema = new Schema<IUser>(
         autopopulate: true,
       },
     ],
+
     rating: [
       {
         type: Schema.Types.ObjectId,

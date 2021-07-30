@@ -4,12 +4,11 @@ import banner from "../../../img/banner.jpg";
 import VerticalLinearStepper from "../Stepper/SelectService";
 import RecipeReviewCard from "../PendingServices/PendingServices";
 import { useDispatch, useSelector } from "react-redux";
-//siguiente variable es solo para efectos de prueba (a la espera de la ruta para renderizar)
-//
+
 import { makeStyles } from "@material-ui/core/styles";
 import ProviderProfileData from "../../ProviderProfile/ProviderProfileData/ProviderProfileData";
 import { red, green, orange } from "@material-ui/core/colors";
-import ServicesProvider from "../../HomeProviders/ServicesProvider/ServideProvider";
+import ServicesProvider from "../../HomeProviders/ServicesProvider/ServicesProvider";
 import ProviderProfileAddresses from "../../ProviderProfile/ProviderProfileAddresses/ProviderProfileAddresses";
 import {
   getAllProvidersAddresses,
@@ -127,11 +126,13 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
   icon: {
-    transform: "scale(1.0, 1.0) rotate(0deg)",
-    transition: "",
-    "&:hover": {
-      transform: "scale(1.2, 1.2) rotate(270deg)",
-      transition: "transform 0.5s ease-in-out",
+
+    transform: 'scale(1.0, 1.0) rotate(0deg)',
+    transition: '',
+    '&:hover': {
+      transform: 'scale(1.2, 1.2) rotate(340deg)',
+      transition: 'transform 0.5s ease-in-out',
+
     },
     color: red[500],
   },
@@ -181,24 +182,22 @@ const HomeProvider = () => {
 
     dispatch(getProviderDetails(user.providerFound?._id));
 
-    dispatch(getEventsHoursProvider(provider._id));
+    dispatch(getEventsHoursProvider(provider?._id));
     //
-    dispatch(getAllProvidersAddresses(provider._id));
+    dispatch(getAllProvidersAddresses(provider?._id));
     //
   }, [dispatch]);
 
-  // console.log('detailsProv', providerDetails.data);
-  // console.log('HORARIOS', providerEventsHours);
   return (
     <div className="banner-container">
-      <div className="title-background">
+      {/* <div className="title-background">
         <h1>Spa-tify </h1>
         <h2>Bienvenido {users.firstName}</h2>
       </div>
 
       <div className="banner">
         <img className="banner-img" src={banner} alt="banner-img"></img>
-      </div>
+      </div> */}
 
       <div className="render-home">
         <div className="info-provider">
@@ -224,15 +223,14 @@ const HomeProvider = () => {
           />
           <ServicesProvider
             classes={classes}
-            // provider={provider}
             data={providerEventsHours?.eventsHours}
             alldata={services.data}
             type="Horarios"
           />
         </div>
 
-        {users.services?.length < 1 ? (
-          <VerticalLinearStepper />
+        {users.services?.length < 1 || !users.services ? (
+          <VerticalLinearStepper data={addresses} providerID={provider?._id} />
         ) : (
           boughtServices.map((user) => (
             <RecipeReviewCard data={user} key={user._id} />

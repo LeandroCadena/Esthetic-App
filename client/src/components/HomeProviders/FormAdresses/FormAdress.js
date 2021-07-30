@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,22 +13,45 @@ import Grid from '@material-ui/core/Grid';
 import { IconButton, Avatar } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 
-//
-
 //select
 import InputSelect from './InputSelect';
+import { red, green, orange } from '@material-ui/core/colors';
+
 import {
   addAdressesToProvider,
+  getProviderDetails,
   updateProfileProvider,
 } from '../../../Redux/actions/actions';
 import CheckBoxComponent from '../CheckBox/CheckBoxComponent';
 import MaterialUIPickers from '../SelectHour/SelectorHour';
 
+//styles
+
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles(() => ({
+  icon: {
+    transform: 'scale(1.0, 1.0) rotate(0deg)',
+    transition: '',
+    '&:hover': {
+      transform: 'scale(1.2, 1.2) rotate(270deg)',
+      transition: 'transform 0.5s ease-in-out',
+    },
+    color: red[500],
+  },
+  addAdresses: {},
+}));
+
 export default function FormAdresses({ type, alldata, data }) {
-  const provider = JSON.parse(window.localStorage.getItem('loggedSpatifyApp'));
+  const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [principal, setPrincipal] = useState(false);
+
+  const { data: actualProvider } = useSelector(
+    (state) => state.providerDetails
+  );
+
+  const provider = JSON.parse(window.localStorage.getItem('loggedSpatifyApp'));
 
   const initialStateProfile = {
     provider: provider.providerFound?._id,
@@ -46,6 +69,9 @@ export default function FormAdresses({ type, alldata, data }) {
   }
   const [dataAdress, setDataAdress] = useState(state);
 
+  useEffect(() => {
+    dispatch(getProviderDetails(provider.providerFound?._id));
+  }, [dispatch]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -75,12 +101,21 @@ export default function FormAdresses({ type, alldata, data }) {
       dispatch(addAdressesToProvider(dataAdress));
       setDataAdress({});
       setOpen(false);
+      window.localStorage.setItem(
+        'loggedSpatifyApp',
+        JSON.stringify({ providerFound: actualProvider })
+      );
     } else {
       dispatch(updateProfileProvider(dataAdress));
       setDataAdress({});
       setOpen(false);
+      window.localStorage.setItem(
+        'loggedSpatifyApp',
+        JSON.stringify({ providerFound: actualProvider })
+      );
     }
   };
+  console.log('ACTUAL_PROVIDER', actualProvider);
 
   return (
     <>
@@ -98,12 +133,12 @@ export default function FormAdresses({ type, alldata, data }) {
             aria-labelledby='form-dialog-title'
           >
             <DialogTitle id='form-dialog-title'>
-              {'Actuliza tus horarios de trabajo'}
+              {'Actualiza tus horarios de trabajo'}
             </DialogTitle>
             <DialogContent>
               <DialogContentText>
                 {
-                  'Este es un espacio en que podrás actualizar los horarios de trabajo cuando lo desees.'
+                  'Este es un espacio en el que podrás actualizar los horarios de trabajo cuando lo desees.'
                 }
               </DialogContentText>
               <MaterialUIPickers />
@@ -138,7 +173,7 @@ export default function FormAdresses({ type, alldata, data }) {
             <DialogContent>
               <DialogContentText>
                 {
-                  'Este es un espacio en que podrás actualizar los servicios a prestar, puedes realizarlo en cualquier momento 😉.'
+                  'Este es un espacio en el que podrás actualizar los servicios a prestar, puedes realizarlo en cualquier momento 😉.'
                 }
               </DialogContentText>
 
@@ -155,10 +190,11 @@ export default function FormAdresses({ type, alldata, data }) {
           </Dialog>
         </div>
       )}
+
       {type !== 'service' && type !== 'horarios' ? (
         <div>
           {type === 'profile' || type === 'addresses' ? (
-            <Avatar>
+            <Avatar className={classes.icon}>
               <IconButton onClick={handleClickOpen}>
                 <EditIcon />
               </IconButton>
@@ -183,12 +219,12 @@ export default function FormAdresses({ type, alldata, data }) {
               <DialogContentText>
                 {type === 'profile'
                   ? 'Es importante que completes todos los campos requeridos !'
-                  : 'Es importante que llenes los siguientes campos ya que podrás ser contactado por usuarios que se encuentren cerca a tu ubicación 😉.'}
+                  : 'Es importante que llenes los siguientes campos ya que podrás ser contactado por usuarios que se encuentren cerca de tu ubicación 😉.'}
 
                 <DialogContentText>
                   {type === 'profile'
-                    ? "Nota: Una vez ingresados los datos deberá 'Click' en enviar 👇"
-                    : " Nota: para agregar una nueva dirección debes completar todos los campos de este formulario y enviarlo, luego podrás dar 'Click' en 'AGREGAR' e ingresar tu nueva dirección."}
+                    ? "Nota: Una vez ingresados los datos haz 'Click' en enviar 👇"
+                    : "Nota: para agregar una nueva dirección debes completar todos los campos de este formulario y enviarlo. Luego podrás dar 'Click' en 'AGREGAR' e ingresar tu nueva dirección."}
                 </DialogContentText>
               </DialogContentText>
 
@@ -203,9 +239,11 @@ export default function FormAdresses({ type, alldata, data }) {
                 defaultValue={
                   type === 'profile'
                     ? data?.firstName
-                    : type === 'addresses'
+
+                    : type === 'addresses' && Array.isArray(data)
                     ? data[0]?.country
                     : ''
+
                 }
               />
               <TextField
@@ -220,8 +258,10 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.lastName
                     : type === 'addresses'
-                    ? data[0]?.state
+
+                    ? data && data[0]?.state
                     : ''
+
                 }
               />
               <TextField
@@ -236,8 +276,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.email
                     : type === 'addresses'
-                    ? data[0]?.city
-                    : ''
+                    ? data?.length ? data[0].city : ''
+                      : ''
                 }
               />
               <TextField
@@ -252,8 +292,8 @@ export default function FormAdresses({ type, alldata, data }) {
                   type === 'profile'
                     ? data?.phone
                     : type === 'addresses'
-                    ? data[0]?.address_1
-                    : ''
+                    ? data?.length ? data[0].address_1 : '  '
+                      : ''
                 }
               />
               {type === 'addresses' && (
@@ -261,13 +301,13 @@ export default function FormAdresses({ type, alldata, data }) {
                   <TextField
                     autoFocus
                     margin='dense'
-                    label='Detalles de dirección (ejemplo: apto 101, torre 36)'
+                    label='Detalles de dirección (ejemplo: depto 101, torre 2, puerta blanca)'
                     type='email'
                     fullWidth
                     name='address_details'
                     onChange={handleChange}
                     defaultValue={
-                      type === 'addresses' ? data[0]?.address_details : ''
+                      type === 'addresses' ? data?.length ? data[0].address_details : '' : ''
                     }
                   />
                   <TextField
@@ -278,7 +318,7 @@ export default function FormAdresses({ type, alldata, data }) {
                     fullWidth
                     name='zip_code'
                     onChange={handleChange}
-                    defaultValue={type === 'addresses' ? data[0]?.zip_code : ''}
+                    defaultValue={type === 'addresses' ? data?.length ? data[0].zip_code : '' : ''}
                   />
 
                   <InputSelect data={dataAdress} />

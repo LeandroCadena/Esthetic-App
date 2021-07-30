@@ -38,6 +38,10 @@ router.get("/:id", getProviderById);
 router.delete("/:id", deleteProvider);
 router.put("/:id", updateProvider);
 
+// <<Routes to providers' ratings>>
+router.get("/review/:id", getAllRating);
+// router.get("/rating/:id/:idrt", getOneRating);
+
 //Calendar Routes to provider Route
 router.post("/calendar", CreateCalendar);
 router.get("/calendar/:id", getHoursByProvider);
@@ -56,8 +60,8 @@ router.post("/:id/addresses", createAddress);
 router.put("/:id/addresses/:idAd", updateAddress);
 router.delete("/:id/addresses/:idAd", deleteAddress);
 
+
 // <<Routes to providers' ratings>>
 router.get("/:id/rating", getAllRating);
 router.get("/:id/rating/:idrt", getOneRating);
-
 export default router;

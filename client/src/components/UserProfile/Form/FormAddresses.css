@@ -1,5 +1,5 @@
 .danger {
-    border: red 1px solid;
+    border-color: red;
   }
   .form {
     display: flex;
@@ -50,4 +50,3 @@
   .row-element {
     display: flex;
   }
-  

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserReservations } from "../../../Redux/actions/user.actions";
@@ -7,6 +8,7 @@ import "./UserReservations.css";
 function UserReservations() {
  /*  const dispatch = useDispatch();
   const userData = useSelector((state) => state.userReservations.data);
+
   const [ID, setID] = useState('');
   
   
@@ -27,13 +29,16 @@ function UserReservations() {
     }
   }, []); */
   return (
+
     <div className="booking-container">
       <div className="booking-data">
         <h1 className="h1"> MIS TURNOS</h1>
         <h3 className="h3">Proximos Turnos {/* {userData && userData._id} */}</h3>
         <div className="booking-info">
           <AccordionReservations/>
-        
+          <h3 className="h3">Turnos por calificar </h3> 
+        <ReservationsToRate/>
+
         </div>
       </div>
     </div>

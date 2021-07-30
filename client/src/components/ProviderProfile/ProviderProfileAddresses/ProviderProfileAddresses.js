@@ -41,7 +41,7 @@ function ProviderProfileAddresses({ provider, classes, data }) {
               justifyContent='space-between'
               direction='column'
             >
-              {data ? (
+              {data.length > 0 ? (
                 data?.map((a) => {
                   return (
                     <>
@@ -80,7 +80,7 @@ function ProviderProfileAddresses({ provider, classes, data }) {
                   );
                 })
               ) : (
-                <h2>loading...</h2>
+                <h2>Direcciones 🏠</h2>
               )}
             </Grid>
           </Grid>

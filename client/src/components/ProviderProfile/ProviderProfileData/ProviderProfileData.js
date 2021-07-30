@@ -21,12 +21,17 @@ function ProviderProfileData({ provider, classes, data }) {
   // useEffect(async () => {
   //   dispatch(getAllProvidersAddresses(provider._id));
   // }, [dispatch]);
-
+  console.log('---.', provider);
+  console.log('DATA', data);
   return (
     <Grid item className={classes.gridProfile}>
       <Paper className={classes.paper} elevation={3}>
         <Box className={classes.image}>
-          <img className={classes.profileImg} src={Image} />
+          <img
+            className={classes.profileImg}
+            src={provider?.image}
+            alt='img-actual-provider'
+          />
         </Box>
         <Divider className={classes.divider} />
         <Box className={classes.data}>
@@ -98,7 +103,7 @@ function ProviderProfileData({ provider, classes, data }) {
                 justifyContent='space-between'
                 direction='column'
               >
-                {data ? (
+                {data.length > 0 ? (
                   data
                     .filter((address) => address.is_main === true)
                     .map((a) => {
@@ -110,7 +115,7 @@ function ProviderProfileData({ provider, classes, data }) {
                             justifyContent='space-between'
                             className={classes.dirItems}
                           >
-                            <Typography variant='h7'>Ubicación</Typography>
+                            <Typography variant='h7'>Tipo</Typography>
                             <Typography variant='h7'>{a.name}</Typography>
                           </Grid>
                           <Grid
@@ -152,7 +157,7 @@ function ProviderProfileData({ provider, classes, data }) {
                       );
                     })
                 ) : (
-                  <h2>loading...</h2>
+                  <p>completa el formulario...</p>
                 )}
               </Grid>
             </Grid>
