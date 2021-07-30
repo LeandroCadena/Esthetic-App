@@ -14,6 +14,7 @@ import { HOST } from "../../../utils/constants";
 
 function AccordionReservations() {
   const [ID, setID] = useState("");
+  const [change, setChange] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function AccordionReservations() {
     if (ID) {
       dispatch(getUserReservations(ID));
     }
-  }, [ID]);
+  }, [ID, change]);
 
   const data = useSelector((state) => state.userReservations.data);
   let reservations = [];
@@ -51,6 +52,7 @@ function AccordionReservations() {
     })
     const event = reservationId;
     await axios.post(`${HOST}/events/alert`, { event: event });
+    setChange(!change)
   };
 
   const toggle = (i) => {
@@ -91,6 +93,10 @@ function AccordionReservations() {
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
                       </p>
+                      <p className="p">{`Dirección: ${r.address.address_1}, ${r.address.city}, ${r.address.state}
+                                            , ${r.address.country}`}
+                                            </p>
+                                            <p className="p">Detalles: {r.address.address_details}</p>
                       <div className='center-target-button'>
                         <button onClick={() => deleteReservation(r._id)} className="cancel-button" >
                           Cancelar Turno
@@ -102,6 +108,11 @@ function AccordionReservations() {
                 </div>
               </div>
             )}
+          </>
+        ))}
+        <h3 className="final-title-back">Turnos Cancelados</h3>
+        {reservations.map((r, i) => (
+          <>
             {r.userAlert === true && (
               <div className="accordion-item event-not-active" onClick={() => toggle(i)}>
                 <div className="accordion-title">
@@ -127,6 +138,10 @@ function AccordionReservations() {
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
                       </p>
+                      <p className="p">{`Dirección: ${r.address.address_1}, ${r.address.city}, ${r.address.state}
+                                            , ${r.address.country}`}
+                                            </p>
+                                            <p className="p">Detalles: {r.address.address_details}</p>
                       <div className='center-target-button'>
                         <button onClick={() => checkDelete(r._id)} className="check-button" >
                           Aceptar

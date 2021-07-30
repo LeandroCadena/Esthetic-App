@@ -109,7 +109,7 @@ function ActiveEvents() {
                         )}
                     </>
                 ))}
-                <h3>Turnos Cancelados</h3>
+                <h3 className='final-title-back'>Turnos Cancelados</h3>
                 {reservations.map((r, i) => (
                     <>
                         {r.providerAlert === true && (
@@ -155,7 +155,7 @@ function ActiveEvents() {
                         )}
                     </>
                 ))}
-                <h3>Turnos Finalizados</h3>
+                <h3 className='final-title-back'>Turnos Finalizados</h3>
                 {reservations.map((r, i) => (
                     <>
                         {r.isActive === false && r.providerAlert === false && (

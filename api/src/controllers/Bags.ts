@@ -48,35 +48,36 @@ export const getReservationsAvailability: RequestHandler = async (req, res) => {
         const user = await Users.findById(req.params.id)
         const bag = await Bags.findOne({ user: user })
 
-        let available: any[] = [];
-        let notAvailable: any[] = [];
+        res.status(200).send(bag.reservations)
+        // let available: any[] = [];
+        // let notAvailable: any[] = [];
 
-        for (let i = 0; i < bag.reservations.length; i++) {
-            const calendar = await Calendar.findOne({ provider: bag.reservations[i].providerID })
-            const eventFound = await Events.findOne({
-                $and: [
-                    { calendar: calendar },
-                    { hour: bag.reservations[i].hour },
-                    { date: bag.reservations[i].date }
-                ]
-            })
-            if (eventFound) notAvailable.push(bag.reservations[i])
-            else {
-                if (!isValidDate(bag.reservations[i].date, bag.reservations[i].hour)) {
-                    notAvailable.push(bag.reservations[i])
-                } else {
-                    available.push(bag.reservations[i])
-                }
-            }
-        }
+        // for (let i = 0; i < bag.reservations.length; i++) {
+        //     const calendar = await Calendar.findOne({ provider: bag.reservations[i].providerID })
+        //     const eventFound = await Events.findOne({
+        //         $and: [
+        //             { calendar: calendar },
+        //             { hour: bag.reservations[i].hour },
+        //             { date: bag.reservations[i].date }
+        //         ]
+        //     })
+        //     if (eventFound) notAvailable.push(bag.reservations[i])
+        //     else {
+        //         if (!isValidDate(bag.reservations[i].date, bag.reservations[i].hour)) {
+        //             notAvailable.push(bag.reservations[i])
+        //         } else {
+        //             available.push(bag.reservations[i])
+        //         }
+        //     }
+        // }
 
-        if (notAvailable.length) {
-            bag.reservations = available;
-            await bag.save();
-            res.status(200).json({ error: true, notAvailable });
-        } else {
-            res.status(200).json({ error: false, available })
-        }
+        // if (notAvailable.length) {
+        //     bag.reservations = available;
+        //     await bag.save();
+        //     res.status(200).json({ error: true, notAvailable });
+        // } else {
+        //     res.status(200).json({ error: false, available })
+        // }
 
     } catch (error) {
         return res.send(error);

@@ -10,7 +10,7 @@
 }
 
 .accordion-item {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 15px;
@@ -36,14 +36,6 @@
   overflow: hidden;
   transition: all 0.75s cubic-bezier(0, 1, 0, 1);
   position: relative;
-}
-
-.accordion-item-options {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  margin: 15px;
-  
 }
 
 .cancel-button{

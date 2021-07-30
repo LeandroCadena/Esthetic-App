@@ -33,7 +33,7 @@
   width: 350px;
 }
 .h1 {
-  margin: 10px;
+  margin-bottom: 10px;
 }
 .profile-data {
   display: flex;
@@ -42,8 +42,10 @@
 }
 
 .p {
-  margin: 5px;
-  padding: 5px;
+  margin-top: 5px;
+  padding-top: 3px;
+  margin-bottom: 3px;
+  border-top: 1px solid rgb(151, 151, 151);
 }
 
 .booking-container {
@@ -54,4 +56,10 @@
   margin: 25px;
   box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
     0 12.5px 10px rgb(0 0 0 / 6%);
+}
+
+.final-title-back{
+  border-bottom: 1px solid gray;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
 }
