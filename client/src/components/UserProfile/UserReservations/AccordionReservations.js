@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteUserAddresses,
   deleteUserReservation,
-  editUserAddresses,
-  getUserAddresses,
   getUserReservations,
 } from "../../../Redux/actions/user.actions";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { HiOutlinePencilAlt } from "react-icons/hi";
 import "./AccordionReservations.css";
-import { GiCancel } from "react-icons/gi";
+import { toast } from "react-toastify";
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import axios from "axios";
+import { HOST } from "../../../utils/constants";
 
 function AccordionReservations() {
   const [ID, setID] = useState("");
@@ -38,14 +38,20 @@ function AccordionReservations() {
   }
 
   const deleteReservation = (reservationId) => {
-    alert("El turno ha sido borrado con exito");
+    toast.success('El turno fue dado de baja, se informará al proveedor', {
+      position: toast.POSITION.TOP_CENTER
+    })
     const event = reservationId
     dispatch(deleteUserReservation({ event }));
   };
 
-  /* const editAddress = () => {
-      setEditAddressModal(prev => !prev)
-  } */
+  const checkDelete = async (reservationId) => {
+    toast.success('El turno fue removido al historial', {
+      position: toast.POSITION.TOP_CENTER
+    })
+    const event = reservationId;
+    await axios.post(`${HOST}/events/alert`, { event: event });
+  };
 
   const toggle = (i) => {
     if (selected === i) {
@@ -60,7 +66,6 @@ function AccordionReservations() {
       <div className="accordion">
         {reservations.map((r, i) => (
           <>
-          {/* {console.log("Esto es el mapeo de todas las reservas", r.isActive)} */}
             {r.isActive === true && (
               <div className="accordion-item" onClick={() => toggle(i)}>
                 <div className="accordion-title">
@@ -85,14 +90,43 @@ function AccordionReservations() {
                       <p className="p">Precio: ${r.service.price}</p>
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
-                        <button className="cancel-button">
+                        <button onClick={() => deleteReservation(r._id)} className="cancel-button" >
                           Cancelar Turno
-                          <i
-                            className="cancel-icon"
-                            onClick={() => deleteReservation(r._id)}
-                          >
-                            <GiCancel />
-                          </i>
+                          <CancelIcon />
+                        </button>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {r.userAlert === true && (
+              <div className="accordion-item" onClick={() => toggle(i)}>
+                <div className="accordion-title">
+                  <p>
+                    <b>Servicio Contratado:</b> {r.service.name}
+                  </p>
+                  <span>
+                    {selected == i ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                  </span>
+                </div>
+                <div
+                  className={
+                    selected == i
+                      ? `accordion-description-show`
+                      : `accordion-description`
+                  }
+                >
+                  {r && (
+                    <div>
+                      <p className="p">Dia: {r.date}</p>
+                      <p className="p">Hora: {r.hour} Hs.</p>
+                      <p className="p">Precio: ${r.service.price}</p>
+                      <p className="p">
+                        Prestador: {r.provider.firstName} {r.provider.lastName}
+                        <button onClick={() => checkDelete(r._id)} className="check-button" >
+                          Aceptar
+                          <CheckCircleIcon />
                         </button>
                       </p>
                     </div>

@@ -100,6 +100,7 @@ export default function PrimarySearchAppBar() {
   const [render, setRender] = React.useState("");
   const [ID, setID] = useState("");
   const [user, setUser] = useState("");
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     if (localStorage.getItem("loggedSpatifyApp")) {
@@ -108,9 +109,11 @@ export default function PrimarySearchAppBar() {
         if (storageData.userFound.roles[0].name === "user") {
           setUser("user");
           setID(storageData.userFound._id);
+          setUsername(storageData.userFound.firstName);
         } else {
           setUser("provider");
           setID(storageData.providerFound?._id);
+          setUsername(storageData.providerFound.firstName);
         }
       }
     }
@@ -182,7 +185,7 @@ export default function PrimarySearchAppBar() {
   let loginProvider = [
     <Avatar
       onClick={handleClick}
-      alt="Remy Sharp"
+      alt={username ? username : "Remy Sharp"}
       src="/static/images/avatar/1.jpg"
     >
       {render[0]}
@@ -212,48 +215,48 @@ export default function PrimarySearchAppBar() {
   let loginProfile =
     user === "user"
       ? [
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Avatar
-              onClick={handleClick}
-              alt="Remy Sharp"
-              src="/static/images/avatar/1.jpg"
-            />
-            ,
-            <Menu
-              id="fade-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}
-              onClose={handleClose}
-              TransitionComponent={Fade}
-            >
-              <MenuItem onClick={(e) => handleRedirect(e)}>Perfil</MenuItem>
-              {/*   </Link> */}
-              <Link
-                to={"/perfil/historial"}
-                style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
-              >
-                <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
-              </Link>
-              <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
-            </Menu>
-            ,
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Avatar
+            onClick={handleClick}
+            alt={username ? username : "Remy Sharp"}
+            src="/static/images/avatar/1.jpg"
+          />
+          ,
+          <Menu
+            id="fade-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Fade}
+          >
+            <MenuItem onClick={(e) => handleRedirect(e)}>Perfil</MenuItem>
+            {/*   </Link> */}
             <Link
-              to={"/cart"}
-              style={{
-                color: "rgb(121, 47, 111)",
-                textDecoration: "none",
-                borderRadius: 50,
-                marginLeft: "1rem",
-              }}
+              to={"/perfil/historial"}
+              style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
             >
-              <Button color="inherit">
-                <BiShoppingBag />
-              </Button>
+              <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
             </Link>
-            ,
-          </div>,
-        ]
+            <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
+          </Menu>
+          ,
+          <Link
+            to={"/cart"}
+            style={{
+              color: "rgb(121, 47, 111)",
+              textDecoration: "none",
+              borderRadius: 50,
+              marginLeft: "1rem",
+            }}
+          >
+            <Button color="inherit">
+              <BiShoppingBag />
+            </Button>
+          </Link>
+          ,
+        </div>,
+      ]
       : loginProvider;
 
   return (

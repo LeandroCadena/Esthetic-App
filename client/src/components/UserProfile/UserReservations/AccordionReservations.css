@@ -49,12 +49,29 @@
 .cancel-button{
   margin-top: 15px;
   margin-left: 55px;
-  height: 30px
+  height: 30px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 1em;
+  padding: 5px 10px 5px 10px;
 }
 
+.cancel-button:hover {
+  background-color: rgb(255, 147, 147);
+}
 
-.cancel-icon{
-    color: red;
-    margin: 0 5px;
-    font-weight: 600;
+.check-button{
+  margin-top: 15px;
+  margin-left: 55px;
+  height: 30px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 1em;
+  padding: 5px 10px 5px 10px;
+}
+
+.check-button:hover {
+  background-color: rgb(147, 230, 255);
 }
