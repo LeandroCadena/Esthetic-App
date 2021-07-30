@@ -14,7 +14,6 @@ export const LoginUser = (data) => {
     return axios
       .post(`${HOST}/auth/signin`, data)
       .then((response) => {
-        // console.log(response.data);
         dispatch({
           type: actionsTypes.LOGIN_SUCCESSFUL,
           payload: response.data,
@@ -163,17 +162,6 @@ export const postUserReview = (payload) => async (dispatch) => {
     });
   }
 };
-
-
-
-export const deleteUserAddresses = (payload) => async (dispatch) => {
-  dispatch({ type: actionsTypes.DELETE_USER_ADDRESS_REQUEST });
-  try {
-    const { data } = await axios.delete(
-      `${GET_USERS}/${payload.userId}/addresses/${payload.addressId}`
-    );
-
-
 
 // GET ALL USERS
 export const getAllUsers = () => async (dispatch) => {
