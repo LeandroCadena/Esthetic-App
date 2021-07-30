@@ -12,7 +12,7 @@ export const data = [
         github: 'https://github.com/emilianoagustin',
         githubUser: 'emilianoagustin',
         mail: 'pintos.emiliano@gmail.com',
-        linkedin: 'https://www.linkedin.com/in/emiliano-agustin-pintos/',
+        linkedin: 'https://www.linkedin.com/in/emiliano-agustín-pintos/',
         image: 'https://avatars.githubusercontent.com/u/30700594?v=4'
     },
     {
@@ -28,7 +28,7 @@ export const data = [
         github: 'https://github.com/gabrieldegiorgi',
         githubUser: 'gabrieldegiorgi',
         mail: 'degiorgi.gabriel@gmail.com',
-        linkedin: 'https://www.linkedin.com/in/gabriled-de-giorgi/',
+        linkedin: 'https://www.linkedin.com/in/gabriel-de-giorgi/',
         image: 'https://avatars.githubusercontent.com/u/76463643?v=4'
     },
     {
