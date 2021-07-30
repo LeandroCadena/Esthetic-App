@@ -23,7 +23,6 @@ const CompletePerfil = () => {
     if (data) {
       if (data.roles) {
         if (data.roles[0]?.name === 'user') {
-          console.log('USER');
           dispatch(LoginUser({ email: data.email, password: data.email })).then(
             (user) => {
               toast.success(
@@ -33,11 +32,10 @@ const CompletePerfil = () => {
                 }
               );
               history.push('/');
+              window.location.reload(true);
             }
           );
-        }
-        if (data.roles[0]?.name === 'provider') {
-          console.log('PROVIDER');
+        } else if (data.roles[0]?.name === 'provider') {
           dispatch(LoginUser({ email: data.email, password: data.email })).then(
             (user) => {
               toast.success(
@@ -47,6 +45,7 @@ const CompletePerfil = () => {
                 }
               );
               history.push('/user/provider');
+              window.location.reload(true);
             }
           );
         }
@@ -57,15 +56,17 @@ const CompletePerfil = () => {
   useEffect(() => {
     setTimeout(() => {
       setCheck(true);
-    }, 3000);
+    }, 4000);
   }, []);
-
+  console.log('Data en complete--->', data);
   const userGoogle = {
     firstName: data?.firstName,
     lastName: data?.lastName,
     image: data?.image,
     googleId: data?.googleId,
     email: data?.email,
+    confirm: true,
+    password: data?.password,
   };
 
   return (

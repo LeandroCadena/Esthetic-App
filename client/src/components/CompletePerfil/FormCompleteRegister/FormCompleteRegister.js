@@ -22,7 +22,7 @@ import { InputLabel } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { deleteUser } from '../../../Redux/actions/user.actions';
+import { deleteUser, LoginUser } from '../../../Redux/actions/user.actions';
 
 function Copyright() {
   return (
@@ -139,6 +139,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
     // posteo de user
     if (validatePhone() && validateGender() && validateRol()) {
       if (roles.value === '60f8b6d9d525721260545f80') {
+        //user
         axios
           .put(`http://localhost:3002/users/${id}`, {
             phone: phone.value,
@@ -146,19 +147,26 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
             roles: roles.value,
           })
           .then((response) => {
-            window.localStorage.setItem(
-              'loggedSpatifyApp',
-              JSON.stringify({ userFound: { ...response.data } })
-            );
-            setUser(response.data);
-            success(`register user ${response.data.email}`);
-            history.push('/');
-            toast.success(`🎉 Felicidades,cuenta creada con exito`, {
-              position: toast.POSITION.TOP_CENTER,
+            dispatch(
+              LoginUser({
+                email: userGoogle.email,
+                password: userGoogle.email,
+              })
+            ).then((user) => {
+              toast.success(
+                `👍 Bienvenido ${userGoogle.firstName}. Un gran día te espera!`,
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                }
+              );
+              history.push('/');
+              window.location.reload(true);
             });
           });
       }
       if (roles.value === '60f8b6d9d525721260545f81') {
+        //provider
+
         axios
           .post('http://localhost:3002/auth/signup', {
             ...userGoogle,
@@ -167,17 +175,23 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
             roles: 'provider',
           })
           .then((response) => {
-            window.localStorage.setItem(
-              'loggedSpatifyApp',
-              JSON.stringify({ providerFound: { ...response.data.data } })
-            );
             dispatch(deleteUser(id));
-            setUser(response.data);
-            success(`register user ${response.data.email}`);
-            history.push('/user/provider');
-            toast.success(`🎉 Felicidades,cuenta creada con exito`, {
-              position: toast.POSITION.TOP_CENTER,
+            dispatch(
+              LoginUser({
+                email: userGoogle.email,
+                password: userGoogle.password,
+              })
+            ).then((user) => {
+              toast.success(
+                `👍 Bienvenido ${userGoogle.firstName}. Un gran día te espera!`,
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                }
+              );
+              history.push('/user/provider');
+              window.location.reload(true);
             });
+            // setUser(response.data);
           })
           .catch((error) => {
             // console.log(error);
@@ -192,7 +206,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
       }
     }
   };
-
+  console.log('USER_GOOGLE_FORM', userGoogle);
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />

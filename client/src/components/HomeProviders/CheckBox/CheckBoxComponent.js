@@ -24,7 +24,7 @@ const CheckBoxComponent = ({ data }) => {
 
   const [serviceAdd, setServiceAdd] = React.useState({
     services: [],
-    provider: provider.providerFound?._id.toString(),
+    provider: provider?.providerFound?._id.toString(),
   });
 
   const handleChange = (e) => {

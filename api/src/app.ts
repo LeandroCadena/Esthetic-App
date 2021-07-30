@@ -83,19 +83,26 @@ passport.use(
         confirm: true,
       };
       try {
-        const user = await Users.findOne({ email: profile.emails[0].value });
-        if (user) {
-          cb(null, user);
+        const provider = await Providers.findOne({
+          email: profile.emails[0].value,
+        });
+        if (provider) {
+          return cb(null, provider);
         } else {
-          const newUser = new Users(defaultUser);
-          await newUser.save();
+          const user = await Users.findOne({ email: profile.emails[0].value });
+          if (user) {
+            return cb(null, user);
+          } else {
+            const newUser = new Users(defaultUser);
+            await newUser.save();
+          }
         }
       } catch (error) {
         console.log(error);
         cb(error, null);
       }
 
-      // console.log(profile);
+      console.log('PROFILE-->', profile);
       cb(null, profile);
     }
   )
@@ -110,7 +117,7 @@ app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   async function (req: any, res: any) {
-    console.log(req.user);
+    // console.log(req.user);
     // Successful authentication, redirect home.
 
     res.redirect(`http://localhost:3000/complete/perfil/${req.user?.id}`);
