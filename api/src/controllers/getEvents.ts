@@ -38,7 +38,7 @@ export const getCalendarEventsByDay: RequestHandler = async (req, res) => {
           });
 
           events[index] = {
-            isActive: true,
+            isActive: validate,
             isAvailable: true,
             date: req.body.date,
             hour: hour,

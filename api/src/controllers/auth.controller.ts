@@ -69,9 +69,7 @@ export const signUp: RequestHandler = async (req, res) => {
     await userBag.save()
 
     const savedUser = await newUser.save();
-    if (!googleId) {
-      sendCofirmationEmail(savedUser)
-    }
+    sendCofirmationEmail(savedUser)
     return res.status(201).json(savedUser);
 
   }
@@ -105,9 +103,7 @@ export const signUp: RequestHandler = async (req, res) => {
         newProvider.roles = foundRoles.map((role: any) => role._id);
       }
       const savedProvider = await newProvider.save();
-      if (!googleId) {
-        sendCofirmationEmail(savedProvider)
-      }
+      sendCofirmationEmail(savedProvider)
       return res.status(201).send({
         data: savedProvider,
         message: `Felicitaciones, ${newProvider.firstName}! Ya eres parte del equipo de Estetic-Aap.`,
