@@ -29,8 +29,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Spa-tify{" "}
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -282,7 +282,10 @@ export default function SignUp() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
+        <Avatar
+          style={{ backgroundColor: "#af63a4" }}
+          className={classes.avatar}
+        >
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5"></Typography>
@@ -402,7 +405,7 @@ export default function SignUp() {
             </Grid>
 
             <Grid item xs={12}>
-              <InputLabel id="demo-simple-select-label">Rol</InputLabel>
+              <InputLabel id="demo-simple-select-label">Soy</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -413,7 +416,7 @@ export default function SignUp() {
               >
                 <MenuItem value={"user"}>Usuario</MenuItem>
                 <MenuItem value={"provider"}>Proveedor </MenuItem>
-                <MenuItem value={"admin"}>admin</MenuItem>
+                {/* <MenuItem value={"admin"}>admin</MenuItem> */}
               </Select>
             </Grid>
           </Grid>
@@ -422,7 +425,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
-            style={{backgroundColor:"#af63a4"}}
+            style={{ backgroundColor: "#af63a4" }}
             className={classes.submit}
           >
             Registrarme

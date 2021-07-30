@@ -4,8 +4,7 @@ import banner from "../../../img/banner.jpg";
 import VerticalLinearStepper from "../Stepper/SelectService";
 import RecipeReviewCard from "../PendingServices/PendingServices";
 import { useDispatch, useSelector } from "react-redux";
-//siguiente variable es solo para efectos de prueba (a la espera de la ruta para renderizar)
-//
+
 import { makeStyles } from "@material-ui/core/styles";
 import ProviderProfileData from "../../ProviderProfile/ProviderProfileData/ProviderProfileData";
 import { red, green, orange } from "@material-ui/core/colors";
@@ -18,6 +17,7 @@ import {
   getProviderServices,
   getServices,
 } from "../../../Redux/actions/actions";
+import ActiveEvents from "./Events/ActiveEvents";
 
 //
 
@@ -166,15 +166,15 @@ const HomeProvider = () => {
     if (user) {
       user.userFound
         ? setUsers({
-            ...users,
-            firstName: user.userFound?.firstName,
-            services: user.userFound?.services,
-          })
+          ...users,
+          firstName: user.userFound?.firstName,
+          services: user.userFound?.services,
+        })
         : setUsers({
-            ...users,
-            firstName: user.providerFound?.firstName,
-            services: user.providerFound?.services,
-          });
+          ...users,
+          firstName: user.providerFound?.firstName,
+          services: user.providerFound?.services,
+        });
     }
 
     dispatch(getServices());
@@ -189,57 +189,54 @@ const HomeProvider = () => {
     //
   }, [dispatch]);
 
-  // console.log('detailsProv', providerDetails.data);
-  // console.log('ADRESSES', addresses);
-  // console.log('PROVIDER_id', provider._id);
   return (
-    <div className="banner-container">
-      <div className="title-background">
-        <h1>Spa-tify </h1>
-        <h2>Bienvenido {users.firstName}</h2>
-      </div>
+    <div className='container-main'>
+      <div className='container'>
+        <div className='user-profile-container'>
 
-      <div className="banner">
-        <img className="banner-img" src={banner} alt="banner-img"></img>
-      </div>
+          <div className="info-provider">
+            <ProviderProfileData
+              className="prov-detail"
+              classes={classes}
+              provider={providerDetails?.data}
+              data={addresses}
+            />
 
-      <div className="render-home">
-        <div className="info-provider">
-          <ProviderProfileData
-            className="prov-detail"
-            classes={classes}
-            provider={providerDetails?.data}
-            data={addresses}
-          />
+            <ProviderProfileAddresses
+              classes={classes}
+              provider={provider}
+              data={addresses}
+            />
 
-          <ProviderProfileAddresses
-            classes={classes}
-            provider={provider}
-            data={addresses}
-          />
+            <ServicesProvider
+              classes={classes}
+              provider={provider}
+              data={servicesByProvider?.data}
+              alldata={services.data}
+              type="Servicios"
+            />
+            <ServicesProvider
+              classes={classes}
+              data={providerEventsHours?.eventsHours}
+              alldata={services.data}
+              type="Horarios"
+            />
+          </div>
 
-          <ServicesProvider
-            classes={classes}
-            provider={provider}
-            data={servicesByProvider?.data}
-            alldata={services.data}
-            type="Servicios"
-          />
-          <ServicesProvider
-            classes={classes}
-            data={providerEventsHours?.eventsHours}
-            alldata={services.data}
-            type="Horarios"
-          />
+          <div className="title-background">
+            <h1>Spa-tify </h1>
+            <h2>Bienvenido {users.firstName}</h2>
+          </div>
+
+          <div className="booking-container">
+            <div className="booking-data">
+              <h1 className="h1"> MIS TURNOS</h1>
+              <h3 className="final-title-back">Proximos Turnos </h3>
+              <ActiveEvents />
+            </div>
+          </div>
+
         </div>
-
-        {users.services?.length < 1 || !users.services ? (
-          <VerticalLinearStepper data={addresses} providerID={provider?._id} />
-        ) : (
-          boughtServices.map((user) => (
-            <RecipeReviewCard data={user} key={user._id} />
-          ))
-        )}
       </div>
     </div>
   );

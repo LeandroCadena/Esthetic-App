@@ -98,23 +98,23 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [render, setRender] = React.useState('');
   const [ID, setID] = useState('');
+  const [username, setUsername] = useState(null);
   /*  const [user, setUser] = useState(""); */
   const { setUser } = useContext(UserContext);
   const { user } = useContext(UserContext);
-  console.log(user);
 
   useEffect(() => {
     if (localStorage.getItem('loggedSpatifyApp')) {
       const storageData = JSON.parse(localStorage.getItem('loggedSpatifyApp'));
       if (storageData.userFound) {
-        // console.log(storageData.userFound.roles[0].name)
-        if (storageData.userFound.roles[0]?.name === 'user') {
+        if (storageData.userFound.roles[0].name == 'user') {
           setUser('user');
-          setID(storageData.userFound?._id);
+          setID(storageData.userFound._id);
+          setUsername(storageData.userFound.firstName);
         } else {
-          console.log('esntre acaaaaaa');
           setUser('provider');
           setID(storageData.providerFound?._id);
+          setUsername(storageData.providerFound.firstName);
         }
       }
     }
@@ -125,7 +125,6 @@ export default function PrimarySearchAppBar() {
     const loggedUserJSON = window.localStorage.getItem('loggedSpatifyApp');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      console.log(user);
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);
@@ -189,7 +188,7 @@ export default function PrimarySearchAppBar() {
   let loginProvider = [
     <Avatar
       onClick={handleClick}
-      alt='Remy Sharp'
+      alt={username ? username : 'Remy Sharp'}
       src='/static/images/avatar/1.jpg'
     >
       {render && render[0]}
@@ -222,7 +221,7 @@ export default function PrimarySearchAppBar() {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Avatar
               onClick={handleClick}
-              alt='Remy Sharp'
+              alt={username ? username : 'Remy Sharp'}
               src='/static/images/avatar/1.jpg'
             />
             ,
@@ -271,7 +270,7 @@ export default function PrimarySearchAppBar() {
             <Link to={'/'} style={{ textDecoration: 'none' }}>
               <img
                 src={loto}
-                alt='img no founded'
+                alt='logo not found'
                 style={{
                   width: '4rem',
                   height: '3rem ',
@@ -285,9 +284,44 @@ export default function PrimarySearchAppBar() {
             to={'/search'}
             style={{
               textDecoration: 'none',
-            }} /* onClick={(e)=>{handleSetSearchBar(e)} */
+              fontWeight: 'bold',
+              color: 'rgb(121, 47, 111)',
+            }}
           >
-            <div style={{ marginLeft: '4rem' }}>BUSQUEDA AVANZADA</div>
+            <div style={{ marginLeft: '4rem' }}>Filtrar búsqueda</div>
+          </Link>
+
+          <Link
+            to={'/about-Spa-tify'}
+            style={{
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              color: 'rgb(121, 47, 111)',
+            }}
+          >
+            <div style={{ marginLeft: '4rem' }}>Sobre Spa-tify</div>
+          </Link>
+
+          <Link
+            to={'/about-Us'}
+            style={{
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              color: 'rgb(121, 47, 111)',
+            }}
+          >
+            <div style={{ marginLeft: '4rem' }}>About G14</div>
+          </Link>
+
+          <Link
+            to={'/covid'}
+            style={{
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              color: 'rgb(121, 47, 111)',
+            }}
+          >
+            <div style={{ marginLeft: '4rem' }}>Protocolo COVID-19</div>
           </Link>
 
           <div className={classes.grow} />

@@ -1,7 +1,11 @@
 
 import actionsTypes from "../constants/constants";
-import { editAddress, findService, updateReservation } from "../../utils/filter.js";
-
+import {
+  editAddress,
+  findService,
+  sortByDate,
+  updateReservation,
+} from "../../utils/filter.js";
 
 const initialState = {
   services: {
@@ -151,12 +155,6 @@ const appReducer = (state = initialState, action) => {
         keyword: action.payload,
       };
 
-    //GET PROVIDERS' DETAILS
-    // case actionsTypes.GET_PROVIDER_DETAILS_REQ:
-    //   return {
-    //     ...state,
-    //     providerDetails: { loading: true },
-    //   };
     case actionsTypes.GET_ALL_PROVIDERS_SUCCES:
       return {
         ...state,
@@ -182,11 +180,6 @@ const appReducer = (state = initialState, action) => {
         ...state,
         providerRating: action.payload,
       };
-    // case actionsTypes.SET_RATING_BY_USER:
-    //   return {
-    //     ...state,
-    //     providerRating: action.payload,
-    //   };
 
     //GET PROVIDERS ADDRESSES
     case actionsTypes.GET_PROVIDERS_ADDRESSES:
@@ -322,7 +315,7 @@ const appReducer = (state = initialState, action) => {
         ...state,
         allProviders: { loading: false, data: action.payload },
       };
-    ///RENDER SEARCHBAR 
+    ///RENDER SEARCHBAR
 
     case actionsTypes.RENDER_SEARCHBAR:
       return {
@@ -335,7 +328,7 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
-    //DETELE USER RESERVATIOBS  ------>> /////VER
+    //DETELE USER RESERVATIONS  ------>>
 
     case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
       return {
@@ -343,16 +336,15 @@ const appReducer = (state = initialState, action) => {
         userReservations: { ...state.userReservations, loading: true },
       };
     case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
-      console.log("Esto es reservations", state.userReservations.data)
+
+      console.log("Esto es reservations", state.userReservations.data);
       return {
         ...state,
         userReservations: {
           loading: false,
-          data: updateReservation(state.userReservations.data, action.payload)
-           /*  r._id === action.payload ? (r.isActive = false) : r */
-            ,
-          },
-         /*  console.log("estas son las reservas", state.userReservations.data) */
+          data: updateReservation(state.userReservations.data, action.payload),
+
+        },
       };
 
     case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
@@ -376,11 +368,37 @@ const appReducer = (state = initialState, action) => {
           data: [...state.userReservations.data, action.payload.data],
         },
       };
-    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
+    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_FAIL:
       return {
         ...state,
         userReservations: { loading: false, error: action.payload },
       };
+
+    ///SORT EVENTS BY DATE
+
+    case actionsTypes.SORT_EVENTS_NEW:
+      return {
+        ...state,
+        userReservations: {
+          data: sortByDate(state.userReservations.data),
+          loading: false,
+        },
+      };
+
+
+      case actionsTypes.SORT_EVENTS_OLD:
+        return {
+          ...state,
+          userReservations: {
+            data: sortByDate(state.userReservations.data).reverse(),
+            loading: false,
+          },
+        };
+
+
+
+
+
 
     default:
       return state;

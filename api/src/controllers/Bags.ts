@@ -48,6 +48,7 @@ export const getReservationsAvailability: RequestHandler = async (req, res) => {
         const user = await Users.findById(req.params.id)
         const bag = await Bags.findOne({ user: user })
 
+        // res.status(200).send(bag.reservations)
         let available: any[] = [];
         let notAvailable: any[] = [];
 

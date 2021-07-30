@@ -27,17 +27,12 @@
     background: rgba(0, 0, 0, 0.2);
     z-index: 10;
   }
-  .form-container {
-    width: 300px;
-    height: 450px;
-    border-radius: 2rem;
-    background-color: #ffffff;
-    padding: 15px;
-    color: black;
-    align-items: center;
-  }
   
   .row-element {
     display: flex;
   }
   
+  .input-form-2{
+    display: flex;
+    width: -webkit-fill-available;
+  }

@@ -26,22 +26,17 @@ function Providers({ data }) {
     }
     return 0;
   });
-  console.log(mayorAmenor)
   const keyword = useSelector((state) => state.keyword);
 
   const [state, setState] = useState("");
   const [select, setSelect] = useState("");
-  console.log(keyword);
-  console.log(state);
 
   const handleOrder = (e) => {
-    console.log(e.label)
     setState(e.label);
    
     dispatch(handleKeyword(""));
   };
   const handleSelect = (e) => {
-    console.log(e.label)
     setSelect(e.label);
   };
 
@@ -52,7 +47,7 @@ function Providers({ data }) {
 
  
   const providersOservices = [
-    { value: "Provedores", label: "Provedores" },
+    { value: "Prestadores", label: "Prestadores" },
     { value: "Servicios", label: "Servicios" },
   ];
   const precios = [
@@ -74,10 +69,10 @@ function Providers({ data }) {
     <div style={{marginTop:"1rem"}}>
       <Select
         options={providersOservices}
-        placeholder="Filtrar por Proveedor o Servicio"
+        placeholder="Filtrar por prestador o servicio"
         onChange={(e) => handleOrder(e)}
       />
-      {state === "Provedores" ? <SearchBar state={state} /> : null}
+      {state === "Prestadores" ? <SearchBar state={state} /> : null}
       {state === "Servicios" ? serviceSearch : null}
       <div
         style={{
@@ -88,11 +83,10 @@ function Providers({ data }) {
         }}
       >
        
-        {state === "Provedores" &&
+        {state === "Prestadores" &&
           allProviders.data &&
           allProviders.data
             .filter((dato) => {
-              console.log(keyword);
               return keyword?.length > 0
                 ? dato.firstName?.concat(" ", dato.lastName) == keyword ||
                     dato.addresses[0]?.state == keyword ||
@@ -108,7 +102,6 @@ function Providers({ data }) {
       
         {select == "Menor Precio"  || select == "Mayor Precio" ?
          select== "Menor Precio" ? mayorAmenor?.reverse().filter((dato) => {
-          console.log(dato);
           return keyword?.length > 0
             ? dato.name?.indexOf(keyword) !== -1
             : dato;
@@ -118,7 +111,6 @@ function Providers({ data }) {
           </>
         )):
         mayorAmenor?.filter((dato) => {
-          console.log(dato);
           return keyword?.length > 0
             ? dato.name?.indexOf(keyword) !== -1
             : dato;
@@ -132,7 +124,6 @@ function Providers({ data }) {
           services.data &&
           services.data
             .filter((dato) => {
-              console.log(dato);
               return keyword?.length > 0
                 ? dato.name?.indexOf(keyword) !== -1
                 : dato;

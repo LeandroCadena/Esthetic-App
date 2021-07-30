@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserReservations } from "../../../../Redux/actions/user.actions";
 import Event from "./Events/Event";
+import "./Section.css";
 
 function Section() {
   const [ID, setID] = useState("");
@@ -28,15 +29,14 @@ function Section() {
   }
 
   return (
-    <div
-      className="section-main
-    "
-    >
-      <div className="event-container">
-        {reservations.map((r, i) => (
-          <Event r={r} key={i} />
-        ))}
-      </div>
+    <div className="section-main">
+      {reservations.map((r, i) => (
+        <div>
+          {r.isActive === false &&
+            r.ratingAlert === false &&
+            r.condition === "finalized" && <Event r={r} key={i} />}{" "}
+        </div>
+      ))}
     </div>
   );
 }

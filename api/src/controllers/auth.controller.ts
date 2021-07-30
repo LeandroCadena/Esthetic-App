@@ -70,11 +70,16 @@ export const signUp: RequestHandler = async (req, res) => {
     const savedUser = await newUser.save();
     sendCofirmationEmail(savedUser);
     return res.status(201).json(savedUser);
+
+    const savedUser = await newUser.save();
+    sendCofirmationEmail(savedUser);
+    return res.status(201).json(savedUser);
   }
 
   if (roles === 'provider' || googleId) {
     try {
       const foundProv = await Providers.findOne({ email: req.body.email });
+
       if (foundProv)
         return res.status(301).send({
           message:
@@ -133,7 +138,6 @@ export const signUp: RequestHandler = async (req, res) => {
 //SIGNUP USERS: user / provider
 
 export const signIn: RequestHandler = async (req, res) => {
-  console.log('SIGIN__>', req.body);
   const { email, password } = req.body;
 
   if (!email || !password)

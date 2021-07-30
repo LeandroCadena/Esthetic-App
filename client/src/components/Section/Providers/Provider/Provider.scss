@@ -9,7 +9,7 @@
     display: flex;
     position: relative;
     box-shadow: 0 0 10px 2px black;
-    transition: background-color 1s ease-out 50ms;
+    transition: background-color 500ms ease-out 50ms;
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 0.5em;
     border-top-left-radius: 8em;
@@ -25,7 +25,7 @@
 .card-img {
     height: 160px;
     width: 160px;
-    border-radius: 8rem;
+    border-radius:8rem;
     box-shadow: 0 0 5px 1px black;
 }
 
@@ -47,7 +47,7 @@
     display: flex;
     color: #3800a0;
     background: #f1d0d5;
-    transition: background-color 2s ease-out 100ms;
+    transition: background-color 100ms ease-out 100ms;
     padding: 5px 15px 5px 15px;
     border-radius: 0.5em;
     box-shadow: 0 3px 3px black;
@@ -60,7 +60,7 @@
 }
 
 .card-button:hover {
-    background-color: #FF1493;
+    background-color: rgb(121, 47, 111);
     color: aliceblue;
 }
 
@@ -76,5 +76,5 @@
 
 }
 .inactive:hover {
-    background-color: red;
+    background-color: rgb(99, 99, 99);
 }

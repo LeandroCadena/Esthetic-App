@@ -10,6 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import FormAddresses from '../../UserProfile/Form/FormAddresses';
 import { toast } from 'react-toastify';
+import HomeWorkTwoToneIcon from '@material-ui/icons/HomeWorkTwoTone';
 
 export default function Reservation({ handleActive, date, hour, provider, service, price, handleClickModal, providerID }) {
     const [addresses, setAddresses] = useState([]);
@@ -151,21 +152,8 @@ export default function Reservation({ handleActive, date, hour, provider, servic
                                     {addresses && addresses.length ? data.address : 'Ninguna'}
                                 </span>
                                 <span>
-                                    <Button aria-controls="add-menu" aria-haspopup="true" onClick={handleClick2}>
-                                        <AddIcon className='modal-icon' />
-                                    </Button>
-                                    <Menu
-                                        id="add-menu"
-                                        anchorEl={anchorEl2}
-                                        keepMounted
-                                        open={open2}
-                                        onClose={handleClose2}
-                                        TransitionComponent={Fade}
-                                    >
-                                        <MenuItem onClick={() => handleAdd()}>Crear dirección</MenuItem>
-                                    </Menu>
                                     <Button aria-controls="address-menu" aria-haspopup="true" onClick={handleClick}>
-                                        <EditIcon className='modal-icon' />
+                                        <HomeWorkTwoToneIcon className='modal-icon' />
                                     </Button>
                                     <Menu
                                         id="address-menu"
@@ -180,6 +168,19 @@ export default function Reservation({ handleActive, date, hour, provider, servic
                                                 <MenuItem onClick={(e) => handleChange(e)} key={index} value={el.name}>{el.name}</MenuItem>
                                             ))
                                         }
+                                    </Menu>
+                                    <Button aria-controls="add-menu" aria-haspopup="true" onClick={handleClick2}>
+                                        <AddIcon className='modal-icon' />
+                                    </Button>
+                                    <Menu
+                                        id="add-menu"
+                                        anchorEl={anchorEl2}
+                                        keepMounted
+                                        open={open2}
+                                        onClose={handleClose2}
+                                        TransitionComponent={Fade}
+                                    >
+                                        <MenuItem onClick={() => handleAdd()}>Crear dirección</MenuItem>
                                     </Menu>
                                 </span>
                                 <FormAddresses showModal={addModal} setShowModal={setAddModal} setChange={() => setChange(!change)} />
