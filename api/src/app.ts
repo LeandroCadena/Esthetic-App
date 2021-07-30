@@ -10,6 +10,7 @@ import { createRoles, createService } from './libs/initialSetupRoles';
 import GoogleStrategy from 'passport-google-oauth20';
 import config from './config';
 import Users from './models/Users';
+import Providers from './models/Providers';
 
 const app: Application = express();
 createRoles();
@@ -78,6 +79,8 @@ passport.use(
         email: profile.emails[0].value,
         image: profile.photos[0].value,
         googleId: profile.id,
+        password: profile.emails[0].value,
+        confirm: true,
       };
       try {
         const user = await Users.findOne({ email: profile.emails[0].value });
@@ -106,9 +109,10 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  function (req: any, res: any) {
+  async function (req: any, res: any) {
     console.log(req.user);
     // Successful authentication, redirect home.
+
     res.redirect(`http://localhost:3000/complete/perfil/${req.user?.id}`);
   }
 );

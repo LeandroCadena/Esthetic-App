@@ -138,7 +138,7 @@ export default function SignIn() {
           }
 
           if (
-            user.providerFound?.roles[0].name == 'provider' &&
+            user.providerFound?.roles[0].name === 'provider' &&
             user.providerFound.confirm
           ) {
             toast.success(
