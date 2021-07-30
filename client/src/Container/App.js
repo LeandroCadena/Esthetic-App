@@ -64,9 +64,9 @@ const App = () => {
         path="/confirmation/provider/:id"
         component={ConfirmationMailProvider}
       />
-      <Route path="/" component={Footer} />
       <Route exact path="/about-Spa-tify" component={AboutSpaTify} />
       <Route exact path="/about-Us" component={AboutUs} />
+      <Route path="/" component={Footer} />
     </React.Fragment>
   );
 };
