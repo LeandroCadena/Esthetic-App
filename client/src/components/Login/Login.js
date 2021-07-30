@@ -1,15 +1,14 @@
+import React, { useEffect, useState, useContext } from 'react';
 
-import React, { useEffect, useState ,useContext} from "react";
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LoginUser } from '../../Redux/actions/user.actions';
+import { useInput } from '../../hooks/customHooks';
+import { log, success, error } from '../../utils/logs';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { LoginUser } from "../../Redux/actions/user.actions";
-import { useInput } from "../../hooks/customHooks";
-import { log, success, error } from "../../utils/logs";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import { UserContext } from "../../index";
+import { UserContext } from '../../index';
 
 //materialUI
 import Avatar from '@material-ui/core/Avatar';
@@ -68,17 +67,18 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
-  const { setUser } = useContext(UserContext);  
-  const { user } = useContext(UserContext);  
+  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   //manejo de error
   const [valid, setValid] = useState(true);
 
-  const [error, setError] = useState({ emailError: "", passwordError: "" });
+  const [error, setError] = useState({ emailError: '', passwordError: '' });
   const loginData = useSelector((state) => state.LoginData);
 
+  const email = useInput('email');
+  const password = useInput('password');
 
   // console.log('---x---', loginData);
-
 
   ///Validaciones
   const validate = () => {
@@ -88,15 +88,13 @@ export default function SignIn() {
       setValid(false);
       isValid = false;
 
-      setError({ ...error, passwordError: "Por favor ingresa tu contraseña" });
-
+      setError({ ...error, passwordError: 'Por favor ingresa tu contraseña' });
     }
     if (!email.value) {
       setValid(false);
       isValid = false;
 
-      setError({ ...error, emailError: "Por favor ingresa tu email" });
-
+      setError({ ...error, emailError: 'Por favor ingresa tu email' });
     }
 
     if (typeof email !== 'undefined') {
@@ -108,8 +106,7 @@ export default function SignIn() {
         setValid(false);
         isValid = false;
 
-        setError({ ...error, emailError: "Por favor ingresa un email válido" });
-
+        setError({ ...error, emailError: 'Por favor ingresa un email válido' });
       }
     }
     return isValid;
@@ -135,14 +132,13 @@ export default function SignIn() {
       };
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
-
-          if(user.userFound) {
-            setUser(user.userFound?.roles[0].name)
-              console.log(user)
+          if (user.userFound) {
+            setUser(user.userFound?.roles[0].name);
+            console.log(user);
           }
 
           if (
-            user.providerFound?.roles[0].name == "provider" &&
+            user.providerFound?.roles[0].name === 'provider' &&
             user.providerFound.confirm
           ) {
             toast.success(
@@ -153,10 +149,9 @@ export default function SignIn() {
               }
             );
 
-            history.push("/user/provider");
-          }
-          else if (
-            user.userFound?.roles[0].name === "user" &&
+            history.push('/user/provider');
+          } else if (
+            user.userFound?.roles[0].name === 'user' &&
             user.userFound.confirm
           ) {
             toast.success(
@@ -167,7 +162,7 @@ export default function SignIn() {
               }
             );
 
-            history.push("/"); // pendiente colocar path user
+            history.push('/'); // pendiente colocar path user
           }
         } else {
           toast.error(
@@ -182,23 +177,23 @@ export default function SignIn() {
               position: toast.POSITION.TOP_CENTER,
             }
           );
-
         }
       });
     }
   };
 
-
-  const responseGoogle = (response) => {
-    console.log(response);
-
+  const handleClick = () => {
+    window.open('http://localhost:3002/auth/google');
   };
 
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar style={{backgroundColor:"#af63a4"}}className={classes.avatar}>
+        <Avatar
+          style={{ backgroundColor: '#af63a4' }}
+          className={classes.avatar}
+        >
           <LockOutlinedIcon />
         </Avatar>
         <br />
@@ -240,12 +235,11 @@ export default function SignIn() {
             variant='contained'
             color='primary'
             className={classes.submit}
-            style={{backgroundColor:"#af63a4"}}
+            style={{ backgroundColor: '#af63a4' }}
           >
             Entrar
           </Button>
           <Grid container>
-
             <Grid item>
               <Link to={'/userRegister'} variant='body2'>
                 {'No tienes cuenta? Registrate'}
