@@ -70,10 +70,6 @@ export const signUp: RequestHandler = async (req, res) => {
     const savedUser = await newUser.save();
     sendCofirmationEmail(savedUser);
     return res.status(201).json(savedUser);
-
-    const savedUser = await newUser.save();
-    sendCofirmationEmail(savedUser);
-    return res.status(201).json(savedUser);
   }
 
   if (roles === 'provider' || googleId) {
