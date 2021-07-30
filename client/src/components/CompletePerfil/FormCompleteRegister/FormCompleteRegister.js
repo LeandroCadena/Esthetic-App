@@ -74,6 +74,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
   const roles = useInput('roles');
 
   //comentario para hacer push
+  console.log(userGoogle);
 
   const [valid, setValid] = useState(true);
   const [error, setError] = useState({
