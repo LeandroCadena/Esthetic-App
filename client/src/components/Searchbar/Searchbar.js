@@ -86,7 +86,6 @@ const SearchBar = (props) => {
     .map((a) => a.join(" "));
 
   const searchProvider = nameAndLastName.concat(places);
-    console.log(searchProvider)
 /// Servicios 
   const nameServices = services?.map((x) => x.name);
 console.log(nameServices)
@@ -94,9 +93,7 @@ console.log(nameServices)
    
 
   const [keyword, setKeyword] = useState("");
-console.log(keyword)
   const handleChange = (e, value) => {
-    console.log(value)
     setKeyword(value);
     dispatch(handleKeyword(keyword));
     
@@ -109,9 +106,7 @@ console.log(keyword)
   };
 
   const onFormSubmit = (e) => {
-    console.log("entre aca");
     e.preventDefault();
-    console.log(keyword)
     dispatch(handleKeyword(keyword));
     reset()
    };
@@ -122,9 +117,6 @@ console.log(keyword)
     
     /* dispatch(handleSearchBar()) */
   }, [/* dispatch */, keyword /* renderSearchBar */]);
-
- 
-
 
   return (
 
@@ -145,7 +137,7 @@ console.log(keyword)
         <div className={classes.searchIcon}>
           <SearchIcon style={{ color: "rgb(121, 47, 111)" }} />
         </div>
-        {props?.state == "Provedores" ?
+        {props?.state == "Prestadores" ?
         <Autocomplete
         
           id="custom-input-demo"
@@ -162,7 +154,7 @@ console.log(keyword)
             <div ref={params.InputProps.ref}>
               <input
                 style={{ width: "200%", marginRight: "1rem", height: "4rem" }}
-                placeholder={ "Buscar proveedor por nombre o zona..."}
+                placeholder={ "Buscar prestador por nombre o por zona..."}
                 type="text"
                 {...params.inputProps}
               />
