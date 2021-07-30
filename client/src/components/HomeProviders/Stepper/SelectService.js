@@ -43,7 +43,7 @@ function getSteps() {
   ];
 }
 
-function getStepContent(step, services) {
+function getStepContent(step, services, adresses) {
   switch (step) {
     case 0:
       return (
@@ -63,7 +63,7 @@ function getStepContent(step, services) {
     case 2:
       return (
         <>
-          <FormAdresses type='addresses' />
+          <FormAdresses type='addresses' data={adresses} />
         </>
       );
     case 3:
@@ -76,7 +76,8 @@ function getStepContent(step, services) {
       return 'Unknown step';
   }
 }
-export default function VerticalLinearStepper() {
+
+export default function VerticalLinearStepper({ data, providerID }) {
   const services = useSelector((state) => state.services);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -108,7 +109,7 @@ export default function VerticalLinearStepper() {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index, services)}</Typography>
+              <Typography>{getStepContent(index, services, data)}</Typography>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
@@ -141,7 +142,7 @@ export default function VerticalLinearStepper() {
             ¡Haz completado todos los pasos!
             <br /> 🎉 Felicitaciones 🎉
           </Typography>
-          <DialogFinalRegister nameBoton={'Terminar'} />
+          <DialogFinalRegister nameBoton={'Terminar'} providerID={providerID} />
           {/* <Button onClick={handleReset} className={classes.button}>
             Reiniciar
           </Button> */}

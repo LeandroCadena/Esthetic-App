@@ -68,7 +68,7 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-function About() {
+function AboutSpaTify() {
     const classes = useStyles();
 
     return (
@@ -80,10 +80,10 @@ function About() {
                         <Grid item container direction='row'>
                             <div className={classes.bannerContainer}>
                                 <img className={classes.bannerImg} src={Image}/>
-                                <Typography className={classes.bannerText} variant='h3'>Sobre Nosotros</Typography>
+                                <Typography className={classes.bannerText} variant='h3'>Sobre Spa-tify</Typography>
                                 <Typography className={classes.bannerSubtitle}>
                                 <strong>Spa-tify</strong> es un sitio online que te permite reservar citas con los mejores profesionales de belleza y bienestar 
-                                de manera fácil, rápida y gratis.<br/>
+                                de manera fácil, rápida y desde la comodidad de donde te encuentres.<br/>
                                 <strong>Spa-tify</strong> conecta profesionales con clientes, simplificando el proceso de reserva de turnos.
                                 </Typography>
                             </div>
@@ -110,7 +110,7 @@ function About() {
                             </Typography>
                             <Typography className={classes.subtitle}>
                                 ¿Días y horas libres? ¿Tus clientes se pierden? ¿Promociones sin resultados?<br/>
-                                Es hora de ser el profesional del bienestar de una manera única y especial.
+                                Es hora de ser un profesional de la belleza y el cuidado personal de una manera única y especial.
                                 <br/><strong className={classes.strong}>Spa-tify</strong> es tu solución.
                             </Typography>
                         </Grid>
@@ -145,4 +145,4 @@ function About() {
     )
 }
 
-export default About
+export default AboutSpaTify

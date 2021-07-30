@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,8 +15,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Fade from "@material-ui/core/Fade";
 import { logout } from "../../Redux/actions/user.actions";
 import "./Header.scss";
-import handleSetSearchBar from '../../Redux/actions/actions'
-
+import { UserContext } from "../../index";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    font: 16
+    font: 16,
   },
   title: {
     display: "none",
@@ -89,8 +88,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -99,32 +96,35 @@ export default function PrimarySearchAppBar() {
   const loginData = useSelector((state) => state.loginData);
   const userActive = useSelector((state) => state.userActive);
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const [render, setRender] = React.useState("");
-  const [ID, setID] = useState('');
-  const [user, setUser] = useState('');
+  const [ID, setID] = useState("");
+  /*  const [user, setUser] = useState(""); */
+  const { setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  console.log(user);
 
   useEffect(() => {
-    if (localStorage.getItem('loggedSpatifyApp')) {
-      const storageData = JSON.parse(localStorage.getItem('loggedSpatifyApp'))
+    if (localStorage.getItem("loggedSpatifyApp")) {
+      const storageData = JSON.parse(localStorage.getItem("loggedSpatifyApp"));
       if (storageData.userFound) {
-        if (storageData.userFound.roles[0].name === "user") {
-          setUser('user');
-          setID(storageData.userFound._id);
+        console.log(storageData.userFound.roles[0].name);
+        if (storageData.userFound.roles[0].name == "user") {
+          setUser("user");
+          setID(storageData.userFound?._id);
         } else {
-          setUser('provider');
-          setID(storageData.providerFound._id);
+          setUser("provider");
+          setID(storageData.providerFound?._id);
         }
       }
     }
-  }, [])
-
+  }, [user]);
   const open = Boolean(anchorEl);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedSpatifyApp");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
+      console.log(user);
       user.userFound
         ? setRender(user.userFound?.firstName)
         : setRender(user.providerFound?.firstName);
@@ -142,9 +142,9 @@ export default function PrimarySearchAppBar() {
   };
 
   const handleRedirect = (e) => {
-    if (user === 'user') {
+    if (user === "user") {
       history.push(`/profile/${ID}`);
-    } else if (user === 'provider') {
+    } else if (user === "provider") {
       history.push(`/providers/${ID}/profile`);
     }
     setAnchorEl(null);
@@ -152,8 +152,11 @@ export default function PrimarySearchAppBar() {
 
   const handleCloseLogin = () => {
     dispatch(logout());
+
     setRender("");
+    setUser("");
     history.push("/");
+
     handleClose();
     setAnchorEl(null);
   };
@@ -163,23 +166,32 @@ export default function PrimarySearchAppBar() {
       to={"/login"}
       style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
     >
-      <Button style={{ fontSize: "16px" }} color="inherit">INGRESAR</Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        INGRESAR
+      </Button>
     </Link>,
     "|",
     <Link
       to={"/userRegister"}
-      style={{ color: "rgb(121, 47, 111)", textDecoration: "none", font: "16px" }}
+      style={{
+        color: "rgb(121, 47, 111)",
+        textDecoration: "none",
+        font: "16px",
+      }}
     >
-      <Button style={{ fontSize: "16px" }} color="inherit">REGISTRARSE </Button>
+      <Button style={{ fontSize: "16px" }} color="inherit">
+        REGISTRARSE{" "}
+      </Button>
     </Link>,
   ];
+
   let loginProvider = [
     <Avatar
       onClick={handleClick}
       alt="Remy Sharp"
       src="/static/images/avatar/1.jpg"
     >
-      {render[0]}
+      {render && render[0]}
     </Avatar>,
     <Menu
       id="fade-menu"
@@ -203,60 +215,62 @@ export default function PrimarySearchAppBar() {
     </Menu>,
   ];
 
-  let loginProfile = user === 'user'
-    ? [
-      <Avatar
-        onClick={handleClick}
-        alt="Remy Sharp"
-        src="/static/images/avatar/1.jpg"
-      />,
-      <Menu
-        id="fade-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Fade}
-      >
-        {/* <Link
-        to={`/user/profile/`}
-        
-        <Link
-        to={'/provider/profile'}
-        
-        style={{ color: 'rgb(121, 47, 111)', textDecoration: 'none' }}
-      >  */}
-        <MenuItem
-            /* onClick={handleClose} */ onClick={(e) => handleRedirect(e)}
-        >
-          Perfil
-        </MenuItem>
-        {/*   </Link> */}
-        <Link
-          to={"/perfil/historial"}
-          style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
-        >
-          <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
-        </Link>
-        <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
-      </Menu>,
-    ]
-    : loginProvider;
-
-
+  let loginProfile =
+    user === "user"
+      ? [
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              onClick={handleClick}
+              alt="Remy Sharp"
+              src="/static/images/avatar/1.jpg"
+            />
+            ,
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+            >
+              <MenuItem onClick={(e) => handleRedirect(e)}>Perfil</MenuItem>
+              {/*   </Link> */}
+              <Link
+                to={"/perfil/historial"}
+                style={{ color: "rgb(121, 47, 111)", textDecoration: "none" }}
+              >
+                <MenuItem onClick={handleClose}>Historial De Compras</MenuItem>
+              </Link>
+              <MenuItem onClick={handleCloseLogin}>Cerrar Sesión</MenuItem>
+            </Menu>
+            ,
+            <Link
+              to={"/cart"}
+              style={{
+                color: "rgb(121, 47, 111)",
+                textDecoration: "none",
+                borderRadius: 50,
+                marginLeft: "1rem",
+              }}
+            >
+              <Button color="inherit">
+                <BiShoppingBag />
+              </Button>
+            </Link>
+            ,
+          </div>,
+        ]
+      : loginProvider;
 
   return (
     <div className={`${classes.grow} header`}>
-      <AppBar
-        position="static"
-        style={{ backgroundColor: "white" }}
-      >
+      <AppBar position="static" style={{ backgroundColor: "white" }}>
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             <Link to={"/"} style={{ textDecoration: "none" }}>
               <img
                 src={loto}
-                alt="img no founded"
+                alt="logo not found"
                 style={{
                   width: "4rem",
                   height: "3rem ",
@@ -265,33 +279,56 @@ export default function PrimarySearchAppBar() {
               />
             </Link>
           </Typography>
-          <Link to={"/search"} style={{ textDecoration: "none" }}  /* onClick={(e)=>{handleSetSearchBar(e)} */>
-            <div style={{ marginLeft: "4rem" }}>BUSQUEDA AVANZADA</div>
+
+          <Link
+            to={"/search"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>Filtrar búsqueda</div>
           </Link>
 
+          <Link
+            to={"/about-Spa-tify"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>Sobre Spa-tify</div>
+          </Link>
+
+          <Link
+            to={"/about-Us"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>About G14</div>
+          </Link>
+
+          <Link
+            to={"/covid"}
+            style={{
+              textDecoration: "none",
+              fontWeight: "bold",
+              color: "rgb(121, 47, 111)",
+            }}
+          >
+            <div style={{ marginLeft: "4rem" }}>Protocolo COVID-19</div>
+          </Link>
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}></div>
-          <div style={{ display: "flex", marginRight: "2rem" }}>
-
-          </div>
+          <div style={{ display: "flex", marginRight: "2rem" }}></div>
 
           <b>{render === "" ? loginAndRegister : loginProfile}</b>
-
-
-          <Link
-            to={"/cart"}
-            style={{
-              color: "rgb(121, 47, 111)",
-              textDecoration: "none",
-              borderRadius: 50,
-              marginLeft: "1rem",
-            }}
-          >
-            <Button color="inherit">
-              <BiShoppingBag />
-            </Button>
-          </Link>
         </Toolbar>
       </AppBar>
     </div>

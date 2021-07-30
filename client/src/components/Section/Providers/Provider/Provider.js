@@ -1,16 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
 import defaultImg from "../../../../img/spa_default_1.jpg";
 import "./Provider.scss";
 
 function Provider({ provider, service }) {
+  let avgAssessment = 3.5;
   return (
     <div className="provider-container">
-      <NavLink
-        className="navLink"
-        to={`/services/providers/${service}/${provider._id}`}
-      >
+      <NavLink className="navLink" to={`/providers/${provider._id}`}>
         <div className="provider-card">
           <div className="card-left">
             {provider.img ? (
@@ -28,7 +25,20 @@ function Provider({ provider, service }) {
             )}
             <div className="card-title">
               <h2 className="">{`${provider.firstName} ${provider.lastName}`}</h2>
-              <h4>{`Calificación: ${provider.rating}`}</h4>
+              <h4>{`Calificación: ${
+                provider.rating?.length
+                  ? (
+                      (provider.rating.reduce(
+                        (prev, next) => prev.assessment + next.assessment
+                      ) +
+                        avgAssessment) /
+                      (provider.rating.length + 1)
+                    ).toFixed(2)
+                  : avgAssessment
+              }⭐`}</h4>
+              <h4>{`* ${
+                provider.rating?.length ? provider.rating.length : 0
+              } reseñas`}</h4>
             </div>
           </div>
           <div className="card-options">
@@ -53,10 +63,18 @@ function Provider({ provider, service }) {
               {provider.hasCalendar ? "Ver Agenda" : "Sin Agenda"}
             </NavLink>
             <NavLink
-              className="navLink card-button"
-              to={`/providers/${provider._id}/rating`}
+              className={
+                provider.rating?.length
+                  ? "navLink card-button"
+                  : "navlink card-button inactive"
+              }
+              to={
+                provider.rating?.length
+                  ? `/providers/review/${provider._id}`
+                  : `/services/providers/${service}`
+              }
             >
-              Ver Reseñas
+              {provider.rating?.length ? "Ver Reseñas" : "Sin Reseñas"}
             </NavLink>
           </div>
         </div>

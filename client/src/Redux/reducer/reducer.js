@@ -1,3 +1,4 @@
+
 import actionsTypes from "../constants/constants";
 import {
   editAddress,
@@ -25,12 +26,11 @@ const initialState = {
   servicesByProvider: [],
   providerEventsHours: {},
   providersAddresses: [],
-  providersRating: {},
+  providerRating: {},
   provider_address_status: {},
   provider_address_update_status: {},
   provider_update_status: {},
   reservation_status: {},
-
   setStateSearch: "",
   renderSearchBar: "",
   userActive: "",
@@ -68,6 +68,8 @@ const appReducer = (state = initialState, action) => {
         services: { loading: false, error: action.payload },
         allServices: { loading: false, error: action.payload },
       };
+
+    //USERS LOGIN
     case actionsTypes.LOGIN_SUCCESSFUL:
       window.localStorage.setItem(
         "loggedSpatifyApp",
@@ -81,12 +83,7 @@ const appReducer = (state = initialState, action) => {
           : action.payload.providerFound.firstName,
       };
 
-    case actionsTypes.LOGIN_FAIL:
-      // window.localStorage.setItem('token', action.payload.token);
-      return {
-        ...state,
-        //error: action.payload.userActive,
-      };
+    //LOGOUT USERS
     case actionsTypes.LOGOUT:
       window.localStorage.setItem("loggedSpatifyApp", "");
       // window.localStorage.setItem('token', action.payload.token);
@@ -101,6 +98,19 @@ const appReducer = (state = initialState, action) => {
         ...state,
         userActive: action.payload,
       };
+
+    //UPDATE USERS AFTER LOGIN GOOGLE
+    // case actionsTypes.UPDATE_USERS_AFTER_GOOGLE:
+    //   window.localStorage.setItem(
+    //     'loggedSpatifyApp',
+    //     JSON.stringify(action.payload)
+    //   );
+    //   return {
+    //     loginData: action.payload,
+    //     userActive: action.payload.userFound
+    //       ? action.payload.userFound.firstName
+    //       : action.payload.providerFound.firstName,
+    //   };
 
     //GET SERVICES --> DETAILS
     case actionsTypes.GET_SERVICES_DETAILS_REQUEST:
@@ -145,12 +155,6 @@ const appReducer = (state = initialState, action) => {
         keyword: action.payload,
       };
 
-    //GET PROVIDERS' DETAILS
-    // case actionsTypes.GET_PROVIDER_DETAILS_REQ:
-    //   return {
-    //     ...state,
-    //     providerDetails: { loading: true },
-    //   };
     case actionsTypes.GET_ALL_PROVIDERS_SUCCES:
       return {
         ...state,
@@ -174,12 +178,7 @@ const appReducer = (state = initialState, action) => {
     case actionsTypes.GET_ALL_RATING_BY_PROVIDER:
       return {
         ...state,
-        providersRating: action.payload,
-      };
-    case actionsTypes.SET_RATING_BY_USER:
-      return {
-        ...state,
-        providersRating: action.payload,
+        providerRating: action.payload,
       };
 
     //GET PROVIDERS ADDRESSES
@@ -270,27 +269,6 @@ const appReducer = (state = initialState, action) => {
         userAddresses: { loading: false, error: action.payload },
       };
 
-    //CREATE USER ADDRESS
-
-    case actionsTypes.ADD_USER_ADDRESS_REQUEST:
-      return {
-        ...state,
-        userAddresses: { ...state.userAddresses, loading: true },
-      };
-    case actionsTypes.ADD_USER_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        userAddresses: {
-          loading: false,
-          data: [...state.userAddresses.data, action.payload.data],
-        },
-      };
-    case actionsTypes.ADD_USER_ADDRESS_FAIL:
-      return {
-        ...state,
-        userAddresses: { loading: false, error: action.payload },
-      };
-
     //DETELE USER ADDRESS
 
     case actionsTypes.DELETE_USER_ADDRESS_REQUEST:
@@ -309,31 +287,6 @@ const appReducer = (state = initialState, action) => {
         },
       };
     case actionsTypes.DELETE_USER_ADDRESS_FAIL:
-      return {
-        ...state,
-        userAddresses: { loading: false, error: action.payload },
-      };
-
-    //EDIT USER ADDRESS
-
-    case actionsTypes.EDIT_USER_ADDRESS_REQUEST:
-      return {
-        ...state,
-        userAddresses: { ...state.userAddresses, loading: true },
-      };
-    case actionsTypes.EDIT_USER_ADDRESS_SUCCESS:
-      return {
-        ...state,
-        userAddresses: {
-          loading: false,
-          data: editAddress(
-            state.userAddresses.data,
-            action.payload.addressId,
-            action.payload.data.data
-          ),
-        },
-      };
-    case actionsTypes.EDIT_USER_ADDRESS_FAIL:
       return {
         ...state,
         userAddresses: { loading: false, error: action.payload },
@@ -362,8 +315,8 @@ const appReducer = (state = initialState, action) => {
         ...state,
         allProviders: { loading: false, data: action.payload },
       };
-
     ///RENDER SEARCHBAR
+
     case actionsTypes.RENDER_SEARCHBAR:
       return {
         ...state,
@@ -375,7 +328,7 @@ const appReducer = (state = initialState, action) => {
         setStateSearch: action.payload,
       };
 
-    //DETELE USER RESERVATIOBS  ------>> /////VER
+    //DETELE USER RESERVATIONS  ------>>
 
     case actionsTypes.DELETE_USER_RESERVATIONS_REQUEST:
       return {
@@ -383,15 +336,15 @@ const appReducer = (state = initialState, action) => {
         userReservations: { ...state.userReservations, loading: true },
       };
     case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
+
       console.log("Esto es reservations", state.userReservations.data);
       return {
         ...state,
         userReservations: {
           loading: false,
           data: updateReservation(state.userReservations.data, action.payload),
-          /*  r._id === action.payload ? (r.isActive = false) : r */
+
         },
-        /*  console.log("estas son las reservas", state.userReservations.data) */
       };
 
     case actionsTypes.DELETE_USER_RESERVATIONS_FAIL:
@@ -415,7 +368,7 @@ const appReducer = (state = initialState, action) => {
           data: [...state.userReservations.data, action.payload.data],
         },
       };
-    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_SUCCES:
+    case actionsTypes.POST_USER_RESERVATIONS_REVIEW_FAIL:
       return {
         ...state,
         userReservations: { loading: false, error: action.payload },

@@ -10,11 +10,13 @@ export interface IProvider extends Document {
   phone: number;
   password: string;
   bio: string;
+  googleId: string;
   roles: any[];
   hasCalendar: any;
   addresses: any[];
   services: any[];
   rating: any[];
+  confirm:any;
   setImage(filename: any): void;
   comparePassword(password: string): Promise<boolean>;
 }
@@ -49,12 +51,18 @@ const ProvidersSchema = new Schema<IProvider>(
     },
     password: {
       type: String,
-      required: true,
       trim: true,
     },
+    confirm:{
+      type: Boolean, 
+      default: false,
+        },
     bio: {
       type: String,
       trim: true,
+    },
+    googleId: {
+      type: String,
     },
     roles: [
       {
@@ -85,6 +93,7 @@ const ProvidersSchema = new Schema<IProvider>(
       {
         type: Schema.Types.ObjectId,
         ref: "Rating",
+        autopopulate: true,
       },
     ],
   },
