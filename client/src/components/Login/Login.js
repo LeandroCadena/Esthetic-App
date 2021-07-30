@@ -131,7 +131,7 @@ export default function SignIn() {
       dispatch(LoginUser(data)).then((user) => {
         if (user) {
           if (user.userFound) {
-            setUser(user.userFound?.roles[0].name);
+            setUser(user.userFound?.roles[0]?.name);
             console.log(user);
           }
 

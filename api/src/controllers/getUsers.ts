@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import Users from '../models/Users';
 import path from 'path';
 import fs from 'fs-extra';
+import Providers from '../models/Providers';
 
 export const getUsers: RequestHandler = async (req, res) => {
   try {
@@ -16,10 +17,14 @@ export const getUser: RequestHandler = async (req, res) => {
   // para traer un solo usuario
   try {
     const userFound = await Users.findById(req.params.id);
-    if (!userFound)
-      return res
-        .json(404)
-        .json({ message: 'No encontramos el usuario solicitado' });
+    if (!userFound) {
+      const provider = await Providers.findById(req.params.id);
+      if (provider) return res.json(provider);
+      else
+        return res
+          .json(404)
+          .json({ message: 'No encontramos el usuario solicitado' });
+    }
     return res.json(userFound);
   } catch (error) {
     res.json(error);
