@@ -93,8 +93,6 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
     });
   }, [phone.value, gender.value, roles.value]);
 
-  // console.log('google--->', userGoogle);
-
   const validatePhone = () => {
     let isValid = true;
     if (!phone.value) {

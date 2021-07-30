@@ -75,8 +75,8 @@ export default function SignIn() {
   const [error, setError] = useState({ emailError: "", passwordError: "" });
   const loginData = useSelector((state) => state.LoginData);
 
-  const email = useInput("email");
-  const password = useInput("password");
+  const email = useInput('email');
+  const password = useInput('password');
 
   ///Validaciones
   const validate = () => {

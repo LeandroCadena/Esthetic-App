@@ -7,17 +7,17 @@ import {
   getUserReservations,
 } from "../../../Redux/actions/user.actions";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { HiOutlinePencilAlt } from "react-icons/hi";
 import "./AccordionReservations.css";
-import { MdRateReview } from "react-icons/md";
-import useReactRouter from "use-react-router";
+import RateReviewIcon from '@material-ui/icons/RateReview';
 import FormReview from "../Form/FormReview";
 import "./ReservationsToRate.css";
 
 function ReservationsToRate() {
   const [ID, setID] = useState("");
+  const [change, setChange] = useState(false);
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState({});
+  const [reservations, setReservations] = useState([]);
 
 
   useEffect(() => {
@@ -33,23 +33,15 @@ function ReservationsToRate() {
     if (ID) {
       dispatch(getUserReservations(ID));
     }
-  }, [ID]);
+  }, [ID, change]);
 
   const data = useSelector((state) => state.userReservations.data);
 
-  let reservations = [];
-  if (data && data.length) {
-    reservations = data;
-  }
-
-  /* const deleteAddress = (addressId) => {
-    const userId = ID.userFound._id;
-    dispatch(deleteUserAddresses({ userId, addressId }));
-  }; */
-
-  /* const editAddress = () => {
-      setEditAddressModal(prev => !prev)
-  } */
+  useEffect(() => {
+    if (data) {
+      setReservations(data)
+    }
+  }, [data]);
 
   const toggle = (i) => {
     if (selected === i) {
@@ -62,13 +54,11 @@ function ReservationsToRate() {
   return (
     <div className="accordion-wrapper">
       <div className="accordion">
-        {console.log(reservations)}
         {reservations.map((r, i) => (
           <>
             {r.isActive === false && r.ratingAlert === true && (
-              <div className="accordion-item" onClick={() => toggle(i)}>
-                {console.log()}
-                <div className="accordion-title">
+              <div className="accordion-item pending-turn" onClick={() => toggle(i)}>
+                <div className="accordion-title ">
                   <p>
                     <b>Servicio Contratado:</b> {r.service.name}
                   </p>
@@ -78,7 +68,7 @@ function ReservationsToRate() {
                 </div>
                 <div
                   className={
-                    
+
                     selected == i
                       ? `accordion-description-show`
                       : `accordion-description`
@@ -92,22 +82,26 @@ function ReservationsToRate() {
                       <p className="p">
                         Prestador: {r.provider.firstName} {r.provider.lastName}
                       </p>
-
-                      <button className="review-button" onClick={setShowModal}>
-                        Calificar al Prestador
-                        <i className="review-icon">
-                          <MdRateReview />
-                        </i>
-                      </button>
+                      <p className="p">{`Dirección: ${r.address.address_1}, ${r.address.city}, ${r.address.state}
+                                            , ${r.address.country}`}
+                                            </p>
+                                            <p className="p">Detalles: {r.address.address_details}</p>
+                      <div className='center-target-button'>
+                        <button className="review-button" onClick={() => setShowModal({ [i]: true })}>
+                          Calificar al Prestador
+                          <RateReviewIcon />
+                        </button>
+                      </div>
 
                       <FormReview
-                      eventId={r._id}
+                        ind={i}
+                        eventId={r._id}
                         showModal={showModal}
-                        setShowModal={setShowModal}
+                        setShowModal={() => setShowModal({})}
+                        setChange={() => setChange(!change)}
 
                       />
 
-                      {/* /* onClick={() => deleteAddress(a._id)} */}
                     </div>
                   )}
                 </div>

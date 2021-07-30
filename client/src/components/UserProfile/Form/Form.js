@@ -21,7 +21,7 @@ function Form({ showModal, setShowModal }) {
     firstName: "",
     lastName: "",
     phone: null,
-   
+
   });
 
   const [userId, setUserId] = useState("");
@@ -77,6 +77,8 @@ function Form({ showModal, setShowModal }) {
         <div className="wrapper" ref={modalRef} onClick={closeModal}>
           <div className="form-container">
             <form>
+              <h3 className='modal-title'>EDITAR PERFIL</h3>
+
               <div className="form-element-1">
                 <label>Nombre  </label>
                 <input
@@ -118,13 +120,15 @@ function Form({ showModal, setShowModal }) {
                 {errors.phone && <p className="danger">{errors.phone}</p>}
               </div>
 
-              <button
-                className="button"
-                type="submit"
-                onClick={(e) => onSubmitHandler(e)}
-              >
-                ACTUALIZAR
-              </button>
+              <div className='center-modal-test'>
+                <button
+                  className="button"
+                  type="submit"
+                  onClick={(e) => onSubmitHandler(e)}
+                >
+                  ACTUALIZAR
+                </button>
+              </div>
             </form>
           </div>
         </div>

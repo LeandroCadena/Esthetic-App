@@ -66,6 +66,8 @@ const CompletePerfil = () => {
     image: data?.image,
     googleId: data?.googleId,
     email: data?.email,
+    confirm: data?.confirm,
+    password: data?.email,
   };
 
   return (

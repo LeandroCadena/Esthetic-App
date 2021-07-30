@@ -9,15 +9,6 @@
   width: 500px;
 }
 
-.accordion-item {
-  margin-bottom: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 15px;
-  box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
-    0 12.5px 10px rgb(0 0 0 / 6%);
-}
-
 .accordion-title {
   display: flex;
   justify-content: space-between;
@@ -39,19 +30,23 @@
 }
 
 .accordion-item-options {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
+  margin: 10px;
+  justify-content: flex-end;
+  display: flex;
   
 }
 .review-button{
-  margin-top: 15px;
-  margin-left: 55px;
-  height: 30px
-  
-}
-.review-icon{
-margin: 0 5px;
-
+  height: 30px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 1em;
+  padding: 5px 10px 5px 10px;
 }
 
+.review-button:hover {
+  background-color: rgb(174, 236, 255);
+}
+ .pending-turn {
+  background-color: rgba(255, 250, 200, 0.8);
+ }

@@ -95,7 +95,6 @@ passport.use(
         cb(error, null);
       }
 
-      // console.log(profile);
       cb(null, profile);
     }
   )

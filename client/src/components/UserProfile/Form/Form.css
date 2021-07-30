@@ -46,6 +46,7 @@
 
 .input-form{
   height: 25px;
+  width: -webkit-fill-available;
 }
 .button {
   justify-content: center;
@@ -77,4 +78,10 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+.center-modal-test{
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
 }

@@ -15,14 +15,7 @@ import Image from '../../../img/Barberia.jpg';
 import FormAdresses from '../../HomeProviders/FormAdresses/FormAdress';
 
 function ProviderProfileData({ provider, classes, data }) {
-  // const dispatch = useDispatch();
-  // const addresses = useSelector((state) => state.providersAddresses);
 
-  // useEffect(async () => {
-  //   dispatch(getAllProvidersAddresses(provider._id));
-  // }, [dispatch]);
-  console.log('---.', provider);
-  console.log('DATA', data);
   return (
     <Grid item className={classes.gridProfile}>
       <Paper className={classes.paper} elevation={3}>
@@ -104,8 +97,7 @@ function ProviderProfileData({ provider, classes, data }) {
                 direction='column'
               >
                 {data.length > 0 ? (
-                  data
-                    .filter((address) => address.is_main === true)
+                  data.filter((address) => address.is_main === true)
                     .map((a) => {
                       return (
                         <>
