@@ -163,12 +163,13 @@ export const signIn: RequestHandler = async (req, res) => {
 
     // return res.status(400).json({ message: 'The user does not exist' });
   }
+  if (userFound) {
+    const isMatch = await userFound?.comparePassword(password);
 
-  // const isMatch = await userFound.comparePassword(password);
-
-  // if (isMatch) return res.json({ userFound, token: createToken(userFound) });
-  // else
-  //   return res
-  //     .status(400)
-  //     .json({ message: 'The email or password are incorrect' });
+    if (isMatch) return res.json({ userFound, token: createToken(userFound) });
+    else
+      return res
+        .status(400)
+        .json({ message: 'The email or password are incorrect' });
+  }
 };
