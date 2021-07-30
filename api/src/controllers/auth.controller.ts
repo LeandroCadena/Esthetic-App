@@ -148,28 +148,23 @@ export const signIn: RequestHandler = async (req, res) => {
   }
   if (!userFound) {
     const providerFound = await Providers.findOne({ email: email });
-    if (providerFound)
-      return res
-        .status(200)
-        .json({ providerFound, token: createToken(providerFound) });
     if (!providerFound)
       return res.status(400).json({ message: 'The user does not exist' });
-    // if (providerFound && !providerFound.confirm) {
-    //   return res.status(400).json({ message: 'Have to validate mail' });
-    // }
-    // const isMatchProvider = await providerFound.comparePassword(password);
-    // if (isMatchProvider)
-    //   return res.json({ providerFound, token: createToken(providerFound) });
+    if (providerFound && !providerFound.confirm) {
+      return res.status(400).json({ message: 'Have to validate mail' });
+    }
+    const isMatchProvider = await providerFound.comparePassword(password);
+    if (isMatchProvider)
+      return res.json({ providerFound, token: createToken(providerFound) });
 
-    // return res.status(400).json({ message: 'The user does not exist' });
+    return res.status(400).json({ message: 'The user does not exist' });
   }
-  if (userFound) {
-    const isMatch = await userFound?.comparePassword(password);
 
-    if (isMatch) return res.json({ userFound, token: createToken(userFound) });
-    else
-      return res
-        .status(400)
-        .json({ message: 'The email or password are incorrect' });
-  }
+  const isMatch = await userFound.comparePassword(password);
+
+  if (isMatch) return res.json({ userFound, token: createToken(userFound) });
+  else
+    return res
+      .status(400)
+      .json({ message: 'The email or password are incorrect' });
 };
