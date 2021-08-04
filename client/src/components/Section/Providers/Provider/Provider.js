@@ -5,6 +5,7 @@ import "./Provider.scss";
 
 function Provider({ provider, service }) {
   let avgAssessment = 3.5;
+  console.log("PROVIDER: ", provider);
   return (
     <div className="provider-container">
       <NavLink className="navLink" to={`/providers/${provider._id}`}>
