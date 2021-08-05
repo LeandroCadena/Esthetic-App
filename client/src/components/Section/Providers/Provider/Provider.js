@@ -2,10 +2,13 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import defaultImg from "../../../../img/spa_default_1.jpg";
 import "./Provider.scss";
+import { ratingPr } from "../../../../utils/RatingAverage";
 
 function Provider({ provider, service }) {
-  let avgAssessment = 3.5;
-  console.log("PROVIDER: ", provider);
+  const reviews = provider.rating;
+  const average = 3.5;
+  const ratingProvider = ratingPr(reviews, average);
+
   return (
     <div className="provider-container">
       <NavLink className="navLink" to={`/providers/${provider._id}`}>
@@ -26,20 +29,7 @@ function Provider({ provider, service }) {
             )}
             <div className="card-title">
               <h2 className="">{`${provider.firstName} ${provider.lastName}`}</h2>
-              <h4>{`Calificación: ${
-                provider.rating?.length
-                  ? (
-                      (provider.rating.reduce(
-                        (prev, next) => prev.assessment + next.assessment
-                      ) +
-                        avgAssessment) /
-                      (provider.rating.length + 1)
-                    ).toFixed(2)
-                  : avgAssessment
-              }⭐`}</h4>
-              <h4>{`* ${
-                provider.rating?.length ? provider.rating.length : 0
-              } reseñas`}</h4>
+              <h4>{`Calificación: ${ratingProvider}⭐`}</h4>
             </div>
           </div>
           <div className="card-options">
