@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import FormCompleteRegister from './FormCompleteRegister/FormCompleteRegister';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,9 +6,11 @@ import { getUserProfile, LoginUser } from '../../Redux/actions/user.actions';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import gif from '../../giff/loading.gif';
+import { UserContext } from '../../index';
 import './CompletePerfil.scss';
 
 const CompletePerfil = () => {
+  const { setUser } = useContext(UserContext);
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -24,9 +26,10 @@ const CompletePerfil = () => {
       if (data.roles) {
         if (data.roles[0]?.name === 'user') {
           dispatch(LoginUser({ email: data.email, password: data.email })).then(
-            (user) => {
+            (response) => {
+              setUser(response?.data ?? data);
               toast.success(
-                `👍 Bienvenido ${data.name}. Un gran día te espera!`,
+                `👍 Bienvenido ${data.firstName}. Un gran día te espera!`,
                 {
                   position: toast.POSITION.TOP_CENTER,
                 }
@@ -37,15 +40,15 @@ const CompletePerfil = () => {
           );
         } else if (data.roles[0]?.name === 'provider') {
           dispatch(LoginUser({ email: data.email, password: data.email })).then(
-            (user) => {
+            (response) => {
+              setUser(response?.data ?? data);
               toast.success(
-                `👍 Bienvenido ${data.name}. Un gran día te espera!`,
+                `👍 Bienvenido ${data.firstName}. Un gran día te espera!`,
                 {
                   position: toast.POSITION.TOP_CENTER,
                 }
               );
               history.push('/user/provider');
-              window.location.reload(true);
             }
           );
         }
@@ -58,7 +61,7 @@ const CompletePerfil = () => {
       setCheck(true);
     }, 4000);
   }, []);
-  console.log('Data en complete--->', data);
+
   const userGoogle = {
     firstName: data?.firstName,
     lastName: data?.lastName,
@@ -66,9 +69,9 @@ const CompletePerfil = () => {
     googleId: data?.googleId,
     email: data?.email,
     confirm: true,
-    password: data?.password,
+    password: data?.email,
   };
-
+  console.log('DATA COMPLETE PROFILE', data);
   return (
     <div>
       {!check ? (

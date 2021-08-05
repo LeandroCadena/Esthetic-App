@@ -21,31 +21,6 @@ import ActiveEvents from './Events/ActiveEvents';
 
 //
 
-const boughtServices = [
-  {
-    image: 'https://pymstatic.com/44253/conversions/xavier-molina-medium.jpg',
-    firstName: 'Mario',
-    lastName: 'Martinez',
-    _id: '60f1bfde1497da2570de1a3a',
-    gender: 'Male',
-    email: 'lau@gmail.com',
-    phone: 3152964865,
-    services: ['Corte y peinado - Caballero'],
-    addresses: ['calle 15 # 4a - 55'],
-  },
-  {
-    image: 'https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg',
-    firstName: 'Euge',
-    _id: '60f1bfde1497da2570de1a3e',
-    lastName: 'Butazzoni',
-    gender: 'Male',
-    email: 'Dani@gmail.com',
-    phone: 1344560987,
-    services: ['Corte y peinado - Niño'],
-    addresses: ['calle 15 # 4a - 55'],
-  },
-];
-
 //STYLES
 const useStyles = makeStyles(() => ({
   providerProfile: {
@@ -190,6 +165,14 @@ const HomeProvider = () => {
   return (
     <div className='container-main'>
       <div className='container'>
+        {users.services?.length < 1 && (
+          <div className='asdf'>
+            <VerticalLinearStepper
+              dada={addresses}
+              providerID={provider?._id}
+            />
+          </div>
+        )}
         <div className='user-profile-container'>
           <div className='info-provider'>
             <ProviderProfileData

@@ -153,6 +153,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
                 password: userGoogle.email,
               })
             ).then((user) => {
+              setUser(response.data);
               toast.success(
                 `👍 Bienvenido ${userGoogle.firstName}. Un gran día te espera!`,
                 {
@@ -160,10 +161,11 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
                 }
               );
               history.push('/');
-              window.location.reload(true);
+              // window.location.reload(true);
             });
           });
       }
+
       if (roles.value === '60f8b6d9d525721260545f81') {
         //provider
 
@@ -176,10 +178,11 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
           })
           .then((response) => {
             dispatch(deleteUser(id));
+            setUser(response.data);
             dispatch(
               LoginUser({
                 email: userGoogle.email,
-                password: userGoogle.password,
+                password: userGoogle.email,
               })
             ).then((user) => {
               toast.success(
@@ -189,12 +192,10 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
                 }
               );
               history.push('/user/provider');
-              window.location.reload(true);
+              // window.location.reload(true);
             });
-            // setUser(response.data);
           })
           .catch((error) => {
-            // console.log(error);
             if (error.response?.status !== 404 || 422)
               toast.error(
                 `Lo sentimos. Este email ya tiene una cuenta vinculada.`,

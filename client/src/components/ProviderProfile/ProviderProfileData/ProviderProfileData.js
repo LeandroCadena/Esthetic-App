@@ -16,15 +16,14 @@ import FormAdresses from '../../HomeProviders/FormAdresses/FormAdress';
 import image_profileII from '../../../img/image_profileII.jpg';
 
 function ProviderProfileData({ provider, classes, data }) {
-
   return (
     <Grid item className={classes.gridProfile}>
       <Paper className={classes.paper} elevation={3}>
         <Box className={classes.image}>
           <img
             className={classes.profileImg}
-            src={image_profileII}
-            alt={provider?.image}
+            src={provider?.image ?? image_profileII}
+            alt={image_profileII}
           />
         </Box>
         <Divider className={classes.divider} />
@@ -98,7 +97,8 @@ function ProviderProfileData({ provider, classes, data }) {
                 direction='column'
               >
                 {data.length > 0 ? (
-                  data.filter((address) => address.is_main === true)
+                  data
+                    .filter((address) => address.is_main === true)
                     .map((a) => {
                       return (
                         <>
