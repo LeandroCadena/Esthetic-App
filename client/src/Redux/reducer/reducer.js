@@ -1,4 +1,3 @@
-
 import actionsTypes from "../constants/constants";
 import {
   editAddress,
@@ -6,6 +5,7 @@ import {
   sortByDate,
   updateReservation,
 } from "../../utils/filter.js";
+import sortRatingCB from "../../utils/sortRatingCB";
 
 const initialState = {
   services: {
@@ -41,9 +41,10 @@ const initialState = {
   },
   userAddresses: { loading: true, data: [] },
   userReservations: { loading: true, data: [] },
-
   allUsers: [],
   keyword: "",
+  sortType: "default",
+  sortRating: [],
 };
 
 const appReducer = (state = initialState, action) => {
@@ -179,6 +180,15 @@ const appReducer = (state = initialState, action) => {
       return {
         ...state,
         providerRating: action.payload,
+      };
+    case actionsTypes.SORT_BY_RATING:
+      return {
+        ...state,
+        sortType: action.payload,
+        sortRating: sortRatingCB(
+          state.providersByService.data,
+          action.payload
+        ),
       };
 
     //GET PROVIDERS ADDRESSES
@@ -336,14 +346,12 @@ const appReducer = (state = initialState, action) => {
         userReservations: { ...state.userReservations, loading: true },
       };
     case actionsTypes.DELETE_USER_RESERVATIONS_SUCCESS:
-
       console.log("Esto es reservations", state.userReservations.data);
       return {
         ...state,
         userReservations: {
           loading: false,
           data: updateReservation(state.userReservations.data, action.payload),
-
         },
       };
 
@@ -385,7 +393,6 @@ const appReducer = (state = initialState, action) => {
         },
       };
 
-
     case actionsTypes.SORT_EVENTS_OLD:
       return {
         ...state,
@@ -394,11 +401,6 @@ const appReducer = (state = initialState, action) => {
           loading: false,
         },
       };
-
-
-
-
-
 
     default:
       return state;

@@ -14,7 +14,7 @@ const ProviderDetails = () => {
   useEffect(() => {
     dispatch(getProviderDetails(id));
   }, [dispatch]);
-
+  console.log("DETALLES: ", providerDetails);
   return (
     <div className="container-main">
       <div className="container">
@@ -43,16 +43,38 @@ const ProviderDetails = () => {
                 <p>{providerDetails.data.bio}</p>
               ) : (
                 <p>
-                  <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing
-                  elit. Corporis dolor, ea reprehenderit adipisci, maxime
-                  suscipit magnam inventore voluptatem animi veniam ratione
-                  quasi quae fuga perferendis, architecto modi ab dolorum
-                  facere. Lorem ipsum dolor sit, amet consectetur adipisicing
-                  elit. At nesciunt ducimus amet commodi dolor doloremque
-                  praesentium omnis. Voluptatem doloremque suscipit ad natus
-                  dignissimos qui omnis! Voluptas explicabo dolor voluptatum
-                  distinctio incidunt atque quas rerum neque, aspernatur soluta
-                  debitis quaerat iusto.
+                  Hola! Mi nombre es{" "}
+                  <b>
+                    {`${providerDetails.data?.firstName} ${providerDetails.data?.lastName}`}
+                    .
+                  </b>
+                  Tengo <b>{`${providerDetails.data?.age}`}.</b> años y soy de{" "}
+                  {/* {(providerDetails.data?.addresses =
+                    providerDetails.data?.addresses.filter(
+                      (add) => add.is_main === true
+                    )) */}
+                  .<br />
+                  <br />
+                  Llevo ya 12 años de experiencia en el rubro, de los cuales 2
+                  han sido por mi cuenta y los demás han sido en hoteles y spa
+                  de gran renombre tales como:
+                  <ul>Hotel Sheraton Pilar</ul>
+                  <ul>Hotel Marriot (múltiples hoteles de la cadena)</ul>
+                  <ul>Hotel Whindham Bs As</ul>
+                  <ul>Hotel 4 Seasons Bs As</ul>
+                  <ul>Hyatt Park Hotel</ul>
+                  <ul>Spa de Mar - Viña del Mar</ul>
+                  <br />
+                  En esta ocasión, elegí asociarme al equipo de excelentes
+                  profesionales de Spa-tify, porque conozco a sus fundadores y
+                  el tipo de labor que todos ellos han realizado durante sus
+                  carreras profesionales y conozco también el empeño y
+                  dedicación que todos ellos le ponen a cada uno de sus
+                  clientes/pacientes y a cada uno de los servicios que ofrecen.
+                  <br />
+                  Te invito a spa-tifarte conmigo en esta inolvidable
+                  experiencia desde la comodidad de tu hogar, tu trabajo o el
+                  lugar que prefieras.
                 </p>
               )}
             </div>

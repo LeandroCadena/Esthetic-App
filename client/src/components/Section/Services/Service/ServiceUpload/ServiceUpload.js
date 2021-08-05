@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   createProviderAddress,
   updateProvider,
   updateProviderAddress,
-} from '../../../../../Redux/actions/actions.js';
+} from "../../../../../Redux/actions/actions.js";
 import {
   Grid,
   Paper,
@@ -21,92 +20,92 @@ import {
   InputLabel,
   Select,
   Snackbar,
-} from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
-import { Validate } from '../../../../../utils/validate';
+} from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import { Validate } from "../../../../../utils/validate";
 
 function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles(() => ({
   providerProfile: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: "flex",
+    justifyContent: "space-around",
     marginTop: 30,
   },
   gridItem: {
-    width: '70%',
-    height: 'auto',
+    width: "70%",
+    height: "auto",
   },
   gridBanner: {
-    width: '100%',
-    height: 'auto',
-    alignSelf: 'flex-start',
+    width: "100%",
+    height: "auto",
+    alignSelf: "flex-start",
   },
   gridProfile: {
-    height: 'auto',
-    width: 'auto',
+    height: "auto",
+    width: "auto",
   },
   gridForm: {
-    height: 'auto',
-    width: '80%',
+    height: "auto",
+    width: "80%",
   },
   paper: {
-    margin: 'auto 10px',
+    margin: "auto 10px",
     padding: 15,
   },
   containerBanner: {
-    position: 'relative',
-    textAlign: 'center',
-    boxShadow: '0px 2px 2px #888888',
+    position: "relative",
+    textAlign: "center",
+    boxShadow: "0px 2px 2px #888888",
     marginBottom: 30,
     borderRadius: 3,
   },
   bannerText: {
-    position: 'absolute',
-    top: '20%',
+    position: "absolute",
+    top: "20%",
     left: 16,
   },
   bannerTextSubt: {
-    position: 'absolute',
-    top: '40%',
+    position: "absolute",
+    top: "40%",
     left: 16,
   },
   image: {
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
   },
   profileImg: {
-    borderRadius: '50%',
+    borderRadius: "50%",
     width: 300,
     height: 300,
   },
   bannerImg: {
-    width: '100%',
-    height: 'auto',
+    width: "100%",
+    height: "auto",
   },
   data: {
     marginTop: 20,
   },
   dataItems: {
-    margin: '10px auto',
+    margin: "10px auto",
   },
   dataSubtitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   dirItems: {
-    margin: '5px auto',
+    margin: "5px auto",
   },
   divider: {
-    margin: '20px auto',
+    margin: "20px auto",
   },
   buttonContainer: {
-    margin: '30px auto 5px auto',
+    margin: "30px auto 5px auto",
     width: 200,
   },
   select: {
-    width: '100%',
+    width: "100%",
   },
 }));
 
@@ -117,25 +116,25 @@ function ServiceUpload({ provider }) {
   const addresses = useSelector((state) => state.providersAddresses);
 
   const [providerData, setProviderData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
   });
 
   const [address, setAddress] = useState({
-    name: '',
-    address_1: '',
-    address_details: '',
-    zip_code: '',
-    country: '',
-    state: '',
-    city: '',
+    name: "",
+    address_1: "",
+    address_details: "",
+    zip_code: "",
+    country: "",
+    state: "",
+    city: "",
   });
 
   const [errors, setErrors] = useState({});
   const [check, setCheck] = useState({ checked: true });
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
 
   const handleCheck = (e) => {
@@ -147,14 +146,14 @@ function ServiceUpload({ provider }) {
   };
 
   const handleClose = (e, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       setOpen(false);
     }
     setOpen(false);
   };
 
   const handleChange = (e) => {
-    if (e.target.id === 'address_input') {
+    if (e.target.id === "address_input") {
       const validate = Validate({
         ...providerData,
         ...address,
@@ -175,9 +174,9 @@ function ServiceUpload({ provider }) {
 
   const formIsValid = () => {
     return (
-      Object.values(address).some((value) => value !== '') &&
-      Object.values(providerData).every((value) => value !== '') &&
-      Object.values(errors).every((value) => value === '')
+      Object.values(address).some((value) => value !== "") &&
+      Object.values(providerData).every((value) => value !== "") &&
+      Object.values(errors).every((value) => value === "")
     );
   };
 
@@ -206,25 +205,25 @@ function ServiceUpload({ provider }) {
   return (
     <Grid item className={classes.gridForm}>
       <Paper className={classes.paper} elevation={3}>
-        <Grid container direction='column' spacing={2}>
-          <Grid item container direction='row'>
-            <Typography variant='h5'>Actualiza el servicio 🖊 :</Typography>
+        <Grid container direction="column" spacing={2}>
+          <Grid item container direction="row">
+            <Typography variant="h5">Actualiza el servicio 🖊 :</Typography>
           </Grid>
 
-          <Divider variant='inset' />
+          <Divider variant="inset" />
 
           <form onSubmit={(e) => handleSubmit(e)}>
-            <Grid item container direction='row' spacing={2}>
+            <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   value={providerData.firstName}
-                  name='firstName'
-                  label='Nombre'
-                  type='text'
-                  autoComplete='current-firstName'
-                  variant='outlined'
+                  name="firstName"
+                  label="Nombre"
+                  type="text"
+                  autoComplete="current-firstName"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   required
                   onChange={(e) => handleChange(e)}
                   error={errors.firstName ? true : false}
@@ -234,13 +233,13 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   value={providerData.lastName}
-                  name='lastName'
-                  label='Apellido'
-                  type='text'
-                  autoComplete='current-lastName'
-                  variant='outlined'
+                  name="lastName"
+                  label="Apellido"
+                  type="text"
+                  autoComplete="current-lastName"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.lastName ? true : false}
@@ -250,13 +249,13 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   value={providerData.email}
-                  name='email'
-                  label='Email'
-                  type='text'
-                  autoComplete='current-email'
-                  variant='outlined'
+                  name="email"
+                  label="Email"
+                  type="text"
+                  autoComplete="current-email"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.email ? true : false}
@@ -266,13 +265,13 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   value={providerData.phone}
-                  name='phone'
-                  label='Teléfono'
-                  type='number'
-                  autoComplete='current-phone'
-                  variant='outlined'
+                  name="phone"
+                  label="Teléfono"
+                  type="number"
+                  autoComplete="current-phone"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.phone ? true : false}
@@ -281,24 +280,24 @@ function ServiceUpload({ provider }) {
               </Grid>
             </Grid>
 
-            <Grid item container direction='row'>
-              <Typography variant='h6'>Dirección</Typography>
+            <Grid item container direction="row">
+              <Typography variant="h6">Dirección</Typography>
             </Grid>
 
-            <Divider variant='inset' />
+            <Divider variant="inset" />
 
-            <Grid item container direction='row' spacing={2}>
+            <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={3}>
                 <TextField
-                  id='address_input'
+                  id="address_input"
                   value={address.name}
-                  name='name'
-                  label='Lugar'
-                  type='text'
-                  autoComplete='current-name'
-                  variant='outlined'
+                  name="name"
+                  label="Lugar"
+                  type="text"
+                  autoComplete="current-name"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.name ? true : false}
@@ -308,14 +307,14 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={3}>
                 <TextField
                   value={address.address_1}
-                  id='address_input'
-                  name='address_1'
-                  label='Dirección'
-                  type='text'
-                  autoComplete='current-address_1'
-                  variant='outlined'
+                  id="address_input"
+                  name="address_1"
+                  label="Dirección"
+                  type="text"
+                  autoComplete="current-address_1"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.address_1 ? true : false}
@@ -325,28 +324,28 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={3}>
                 <TextField
                   value={address.address_details}
-                  id='address_input'
-                  name='address_details'
-                  label='Piso/Dpto'
-                  type='text'
-                  autoComplete='current-address_details'
-                  variant='outlined'
+                  id="address_input"
+                  name="address_details"
+                  label="Piso/Dpto"
+                  type="text"
+                  autoComplete="current-address_details"
+                  variant="outlined"
                   fullWidth
                   onChange={(e) => handleChange(e)}
-                  size='small'
+                  size="small"
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
                 <TextField
                   value={address.zip_code}
-                  id='address_input'
-                  name='zip_code'
-                  label='Código Postal'
-                  type='number'
-                  autoComplete='current-zip_code'
-                  variant='outlined'
+                  id="address_input"
+                  name="zip_code"
+                  label="Código Postal"
+                  type="number"
+                  autoComplete="current-zip_code"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.zip_code ? true : false}
@@ -355,18 +354,18 @@ function ServiceUpload({ provider }) {
               </Grid>
             </Grid>
 
-            <Grid item container direction='row' spacing={2}>
+            <Grid item container direction="row" spacing={2}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   value={address.country}
-                  id='address_input'
-                  name='country'
-                  label='País'
-                  type='text'
-                  autoComplete='current-country'
-                  variant='outlined'
+                  id="address_input"
+                  name="country"
+                  label="País"
+                  type="text"
+                  autoComplete="current-country"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.country ? true : false}
@@ -376,14 +375,14 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={4}>
                 <TextField
                   value={address.state}
-                  id='address_input'
-                  name='state'
-                  label='Provincia'
-                  type='text'
-                  autoComplete='current-state'
-                  variant='outlined'
+                  id="address_input"
+                  name="state"
+                  label="Provincia"
+                  type="text"
+                  autoComplete="current-state"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.state ? true : false}
@@ -393,14 +392,14 @@ function ServiceUpload({ provider }) {
               <Grid item xs={12} sm={4}>
                 <TextField
                   value={address.city}
-                  id='address_input'
-                  name='city'
-                  label='Ciudad'
-                  type='text'
-                  autoComplete='current-city'
-                  variant='outlined'
+                  id="address_input"
+                  name="city"
+                  label="Ciudad"
+                  type="text"
+                  autoComplete="current-city"
+                  variant="outlined"
                   fullWidth
-                  size='small'
+                  size="small"
                   onChange={(e) => handleChange(e)}
                   required
                   error={errors.city ? true : false}
@@ -412,30 +411,30 @@ function ServiceUpload({ provider }) {
                   control={
                     <Switch
                       checked={check.checked}
-                      name='checked'
+                      name="checked"
                       onChange={handleCheck}
-                      color='primary'
+                      color="primary"
                       disabled={addresses.length > 0}
                     />
                   }
-                  label='Dirección principal'
+                  label="Dirección principal"
                 />
               </Grid>
               {addresses.length > 0 && (
                 <Grid item xs={12} sm={4}>
-                  <FormControl variant='outlined' className={classes.select}>
-                    <InputLabel id='address'>
+                  <FormControl variant="outlined" className={classes.select}>
+                    <InputLabel id="address">
                       Dirección para actualizar
                     </InputLabel>
                     <Select
-                      labelId='address_input_label'
-                      id='address_input'
+                      labelId="address_input_label"
+                      id="address_input"
                       value={selected}
                       onChange={handleSelected}
-                      label='Address'
+                      label="Address"
                       className={classes.select}
                     >
-                      <MenuItem value=''>
+                      <MenuItem value="">
                         <em>Selecciona una dirección</em>
                       </MenuItem>
                       {addresses.map((address, i) => {
@@ -456,17 +455,17 @@ function ServiceUpload({ provider }) {
                 autoHideDuration={6000}
                 onClose={handleClose}
               >
-                <Alert onClose={handleClose} severity='success'>
+                <Alert onClose={handleClose} severity="success">
                   Perfil actualizado con éxito!
                 </Alert>
               </Snackbar>
             </>
             <Grid item className={classes.buttonContainer}>
               <Button
-                type='submit'
+                type="submit"
                 fullWidth
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 className={classes.submit}
                 disabled={!formIsValid()}
               >
