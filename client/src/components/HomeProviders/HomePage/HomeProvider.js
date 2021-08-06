@@ -16,6 +16,8 @@ import {
 } from "../../../Redux/actions/actions";
 import ActiveEvents from "./Events/ActiveEvents";
 
+//
+
 //STYLES
 const useStyles = makeStyles(() => ({
   providerProfile: {
@@ -75,7 +77,7 @@ const useStyles = makeStyles(() => ({
     height: "auto",
   },
   data: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   dataItems: {
     margin: "10px auto",
@@ -127,7 +129,6 @@ const HomeProvider = () => {
   });
 
   useEffect(() => {
-    console.log(users);
     const user = JSON.parse(window.localStorage.getItem("loggedSpatifyApp"));
     if (user) {
       user.userFound
@@ -158,37 +159,44 @@ const HomeProvider = () => {
   return (
     <div className="container-main">
       <div className="container">
-        {users.services.length > 1 ? (
-          <div className="user-profile-container">
-            <div className="info-provider">
-              <ProviderProfileData
-                className="prov-detail"
-                classes={classes}
-                provider={providerDetails?.data}
-                data={addresses}
-              />
+        {users.services?.length < 1 && (
+          <div className="asdf">
+            <VerticalLinearStepper
+              dada={addresses}
+              providerID={provider?._id}
+            />
+          </div>
+        )}
+        <div className="user-profile-container">
+          <div className="info-provider">
+            <ProviderProfileData
+              classes={classes}
+              provider={providerDetails?.data}
+              data={addresses}
+            />
 
-              <ProviderProfileAddresses
-                classes={classes}
-                provider={provider}
-                data={addresses}
-              />
+            <ProviderProfileAddresses
+              classes={classes}
+              provider={provider}
+              data={addresses}
+            />
 
-              <ServicesProvider
-                classes={classes}
-                provider={provider}
-                data={servicesByProvider?.data}
-                alldata={services.data}
-                type="Servicios"
-              />
-              <ServicesProvider
-                classes={classes}
-                data={providerEventsHours?.eventsHours}
-                alldata={services.data}
-                type="Horarios"
-              />
-            </div>
+            <ServicesProvider
+              classes={classes}
+              provider={provider}
+              data={servicesByProvider?.data}
+              alldata={services.data}
+              type="Servicios"
+            />
+            <ServicesProvider
+              classes={classes}
+              data={providerEventsHours?.eventsHours}
+              alldata={services.data}
+              type="Horarios"
+            />
+          </div>
 
+          <div className="container-banner-misturnos">
             <div className="title-background">
               <h1>Spa-tify</h1>
               <h2>Bienvenid@ {users.firstName}</h2>
@@ -197,20 +205,12 @@ const HomeProvider = () => {
             <div className="booking-container">
               <div className="booking-data">
                 <h1 className="h1">MIS TURNOS</h1>
-                <h3 className="final-title-back">Proximos Turnos</h3>
+                <h3 className="final-title-back">Próximos Turnos</h3>
                 <ActiveEvents />
               </div>
             </div>
           </div>
-        ) : null}
-        {users.services.length < 1 ? (
-          <div className="asdf">
-            <VerticalLinearStepper
-              data={addresses}
-              providerID={provider?._id}
-            />
-          </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );

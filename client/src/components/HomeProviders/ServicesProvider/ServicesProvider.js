@@ -16,64 +16,68 @@ import FormAdresses from '../FormAdresses/FormAdress';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import MaterialUIPickers from '../SelectHour/SelectorHour';
+import './ServicesProvider.scss';
 
 function ServicesProvider({ provider, classes, data, alldata, type }) {
   return (
-    <Grid item className={classes.gridProfile}>
-      <Paper className={classes.paper} elevation={3}>
-        <Box className={classes.data}>
-          <Grid
-            container
-            justifyContent='center'
-            alignItems='center'
-            direction='column'
-          >
+    <div className='container-servicesProvider'>
+      <Grid item className={classes.gridProfile}>
+        <Paper className={classes.paper} elevation={3}>
+          <Box className={classes.data}>
             <Grid
-              item
               container
-              justifyContent='space-between'
+              justifyContent='center'
+              alignItems='center'
               direction='column'
             >
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant='h6'>
-                    {type === 'Servicios' ? 'Servicios 💇‍♂️💅' : 'Horarios 🕚'}
-                  </Typography>
-                </AccordionSummary>
-                <hr />
-                {data?.map((service) => (
-                  <AccordionDetails key={service.name}>
-                    <>
-                      {service.name ? (
-                        <>
-                          <ArrowRightIcon color='secondary' />
-                          {service.name}
-                        </>
-                      ) : (
-                        <>
-                          <AccessTimeIcon color='secondary' /> {service}:00 hrs`
-                        </>
-                      )}
-                    </>
-                  </AccordionDetails>
-                ))}
-                {type === 'Horarios' ? (
-                  <MaterialUIPickers type='Horarios' />
-                ) : (
-                  <AccordionActions>
-                    <Avatar>
-                      <IconButton className={classes.icon}>
-                        <FormAdresses type='service' alldata={alldata} />
-                      </IconButton>
-                    </Avatar>
-                  </AccordionActions>
-                )}
-              </Accordion>
+              <Grid
+                item
+                container
+                justifyContent='space-between'
+                direction='column'
+              >
+                <Accordion>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant='h6'>
+                      {type === 'Servicios' ? 'Servicios 💇‍♂️💅' : 'Horarios 🕚'}
+                    </Typography>
+                  </AccordionSummary>
+                  <hr />
+                  {data?.map((service) => (
+                    <AccordionDetails key={service.name}>
+                      <>
+                        {service.name ? (
+                          <>
+                            <ArrowRightIcon color='secondary' />
+                            {service.name}
+                          </>
+                        ) : (
+                          <>
+                            <AccessTimeIcon color='secondary' /> {service}:00
+                            hrs`
+                          </>
+                        )}
+                      </>
+                    </AccordionDetails>
+                  ))}
+                  {type === 'Horarios' ? (
+                    <MaterialUIPickers type='Horarios' />
+                  ) : (
+                    <AccordionActions>
+                      <Avatar>
+                        <IconButton className={classes.icon}>
+                          <FormAdresses type='service' alldata={alldata} />
+                        </IconButton>
+                      </Avatar>
+                    </AccordionActions>
+                  )}
+                </Accordion>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </Paper>
-    </Grid>
+          </Box>
+        </Paper>
+      </Grid>
+    </div>
   );
 }
 
