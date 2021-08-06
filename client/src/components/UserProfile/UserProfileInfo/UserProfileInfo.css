@@ -1,39 +1,41 @@
-.user-profile-info-container{
-    background-color: #ffffff;
-    width: 500px;
-    
-    padding: 25px;
-    margin: 25px;
-    box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
-      0 12.5px 10px rgb(0 0 0 / 6%);
-    z-index: 20;
+.container-userProfile {
+  display: flex;
+}
+.user-profile-info-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  width: fit-content;
+
+  padding: 25px;
+  margin: 25px;
+  box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%),
+    0 12.5px 10px rgb(0 0 0 / 6%);
+  z-index: 20;
 }
 
-.profile-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.profile-icon{
-cursor: pointer;
-font-size: 20px;
-
-
+.profile-icon {
+  cursor: pointer;
+  font-size: 20px;
 }
 
-.profile-img{
+.profile-img {
   border-radius: 100px;
   width: 250px;
 }
-.img{
-  border-radius: 100px;
+.userImage {
+  border-radius: 100%;
   width: 250px;
+  height: 250px;
 }
 
-.acordion-container{
-  
+.acordion-container {
   padding-top: 30px;
   padding-left: 20px;
-
 }

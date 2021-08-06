@@ -13,7 +13,7 @@ import {
 import Image from '../../../img/Barberia.jpg';
 // import EditIcon from '@material-ui/icons/Edit';
 import FormAdresses from '../../HomeProviders/FormAdresses/FormAdress';
-import image_profileII from '../../../img/image_profileII.jpg';
+import imgProfile from '../../../img/imgProfile.png';
 import './ProviderProfileData.scss';
 
 function ProviderProfileData({ provider, classes, data }) {
@@ -24,8 +24,8 @@ function ProviderProfileData({ provider, classes, data }) {
           <Box className={classes.image}>
             <img
               className={classes.profileImg}
-              src={provider?.image ?? image_profileII}
-              alt={image_profileII}
+              src={provider?.image ?? imgProfile}
+              alt={imgProfile}
             />
           </Box>
           <Divider className={classes.divider} />
