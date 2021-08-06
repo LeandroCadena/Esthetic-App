@@ -80,7 +80,7 @@ const useStyles = makeStyles(() => ({
     height: 'auto',
   },
   data: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   dataItems: {
     margin: '10px auto',
@@ -176,7 +176,6 @@ const HomeProvider = () => {
         <div className='user-profile-container'>
           <div className='info-provider'>
             <ProviderProfileData
-              className='prov-detail'
               classes={classes}
               provider={providerDetails?.data}
               data={addresses}
@@ -203,16 +202,18 @@ const HomeProvider = () => {
             />
           </div>
 
-          <div className='title-background'>
-            <h1>Spa-tify </h1>
-            <h2>Bienvenido {users.firstName}</h2>
-          </div>
+          <div className='container-banner-misturnos'>
+            <div className='title-background'>
+              <h1>Spa-tify </h1>
+              <h2>Bienvenido {users.firstName}</h2>
+            </div>
 
-          <div className='booking-container'>
-            <div className='booking-data'>
-              <h1 className='h1'> MIS TURNOS</h1>
-              <h3 className='final-title-back'>Proximos Turnos </h3>
-              <ActiveEvents />
+            <div className='booking-container'>
+              <div className='booking-data'>
+                <h1 className='h1'> MIS TURNOS</h1>
+                <h3 className='final-title-back'>Proximos Turnos </h3>
+                <ActiveEvents />
+              </div>
             </div>
           </div>
         </div>
