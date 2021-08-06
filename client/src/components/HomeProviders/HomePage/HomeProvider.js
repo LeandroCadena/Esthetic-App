@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./HomeProviders.scss";
-import banner from "../../../img/banner.jpg";
 import VerticalLinearStepper from "../Stepper/SelectService";
-import RecipeReviewCard from "../PendingServices/PendingServices";
 import { useDispatch, useSelector } from "react-redux";
-
 import { makeStyles } from "@material-ui/core/styles";
 import ProviderProfileData from "../../ProviderProfile/ProviderProfileData/ProviderProfileData";
 import { red, green, orange } from "@material-ui/core/colors";
@@ -18,31 +15,6 @@ import {
   getServices,
 } from "../../../Redux/actions/actions";
 import ActiveEvents from "./Events/ActiveEvents";
-
-const boughtServices = [
-  {
-    image: "https://pymstatic.com/44253/conversions/xavier-molina-medium.jpg",
-    firstName: "Mario",
-    lastName: "Martinez",
-    _id: "60f1bfde1497da2570de1a3a",
-    gender: "Male",
-    email: "lau@gmail.com",
-    phone: 3152964865,
-    services: ["Corte y peinado - Caballero"],
-    addresses: ["calle 15 # 4a - 55"],
-  },
-  {
-    image: "https://muhimu.es/wp-content/uploads/2017/04/FRENTE-NITIDA.jpg",
-    firstName: "Euge",
-    _id: "60f1bfde1497da2570de1a3e",
-    lastName: "Butazzoni",
-    gender: "Male",
-    email: "Dani@gmail.com",
-    phone: 1344560987,
-    services: ["Corte y peinado - Niño"],
-    addresses: ["calle 15 # 4a - 55"],
-  },
-];
 
 //STYLES
 const useStyles = makeStyles(() => ({
@@ -125,20 +97,15 @@ const useStyles = makeStyles(() => ({
     width: "100%",
   },
   icon: {
-
-    transform: 'scale(1.0, 1.0) rotate(0deg)',
-    transition: '',
-    '&:hover': {
-      transform: 'scale(1.2, 1.2) rotate(340deg)',
-      transition: 'transform 0.5s ease-in-out',
-
+    transform: "scale(1.0, 1.0) rotate(0deg)",
+    transition: "",
+    "&:hover": {
+      transform: "scale(1.2, 1.2) rotate(340deg)",
+      transition: "transform 0.5s ease-in-out",
     },
     color: red[500],
   },
 }));
-
-//
-//function isRendin
 
 const HomeProvider = () => {
   const classes = useStyles();
@@ -160,20 +127,20 @@ const HomeProvider = () => {
   });
 
   useEffect(() => {
-    console.log(users)
+    console.log(users);
     const user = JSON.parse(window.localStorage.getItem("loggedSpatifyApp"));
     if (user) {
       user.userFound
         ? setUsers({
-          ...users,
-          firstName: user.userFound?.firstName,
-          services: user.userFound?.services,
-        })
+            ...users,
+            firstName: user.userFound?.firstName,
+            services: user.userFound?.services,
+          })
         : setUsers({
-          ...users,
-          firstName: user.providerFound?.firstName,
-          services: user.providerFound?.services,
-        });
+            ...users,
+            firstName: user.providerFound?.firstName,
+            services: user.providerFound?.services,
+          });
     }
 
     dispatch(getServices());
@@ -189,14 +156,10 @@ const HomeProvider = () => {
   }, [dispatch]);
 
   return (
-    <div className='container-main'>
-      <div className='container'>
-
+    <div className="container-main">
+      <div className="container">
         {users.services.length > 1 ? (
-
-
-          <div className='user-profile-container'>
-
+          <div className="user-profile-container">
             <div className="info-provider">
               <ProviderProfileData
                 className="prov-detail"
@@ -227,25 +190,27 @@ const HomeProvider = () => {
             </div>
 
             <div className="title-background">
-              <h1>Spa-tify </h1>
-              <h2>Bienvenido {users.firstName}</h2>
+              <h1>Spa-tify</h1>
+              <h2>Bienvenid@ {users.firstName}</h2>
             </div>
 
             <div className="booking-container">
               <div className="booking-data">
-                <h1 className="h1"> MIS TURNOS</h1>
-                <h3 className="final-title-back">Proximos Turnos </h3>
+                <h1 className="h1">MIS TURNOS</h1>
+                <h3 className="final-title-back">Proximos Turnos</h3>
                 <ActiveEvents />
               </div>
             </div>
-
-          </div>) : null}
-        {users.services.length < 1 ? (
-          <div className='asdf'>
-            <VerticalLinearStepper  data={addresses} providerID={provider?._id} />
           </div>
-        ) : null
-        }
+        ) : null}
+        {users.services.length < 1 ? (
+          <div className="asdf">
+            <VerticalLinearStepper
+              data={addresses}
+              providerID={provider?._id}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );

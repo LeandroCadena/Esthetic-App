@@ -98,7 +98,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
     if (!phone.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, phoneError: 'Por favor ingrese telefono' });
+      setError({ ...error, phoneError: 'Por favor ingresa tu teléfono' });
     }
 
     if (phone.value.length < 10) {
@@ -106,7 +106,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
       isValid = false;
       setError({
         ...error,
-        phoneError: 'La telefono debe tener 10 digitos ',
+        phoneError: 'El teléfono debe tener 10 dígitos ',
       });
     }
     return isValid;
@@ -117,7 +117,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
     if (!gender.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, genderError: 'Por favor seleccione un genero' });
+      setError({ ...error, genderError: 'Por favor selecciona tu género' });
     }
     return isValid;
   };
@@ -127,7 +127,7 @@ const FormCompleteRegister = ({ id, userGoogle }) => {
     if (!roles.value) {
       setValid(false);
       isValid = false;
-      setError({ ...error, rolesError: 'Por favor seleccione un rol' });
+      setError({ ...error, rolesError: 'Por favor indica si eres usuario o prestador' });
     }
     return isValid;
   };
