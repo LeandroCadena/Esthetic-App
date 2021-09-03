@@ -14,7 +14,7 @@ The group members of this project are:
 We intend to make this app scalable but with the main goal of presenting it as a non-traditional e-commerce site with its typical features, a login/logout, a shopping cart and different ways to sort/filter products/services.
 
 Some of the technologies used for this app are:
-Programming:
+**Programming:**
 * JavaScript
 * TypeScript
 * React
@@ -25,7 +25,7 @@ Programming:
 * Node.js
 * Material-UI
 
-Project Management:
+**Project Management:**
 * Trello
 * Google Drive
 * Slack
